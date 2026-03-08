@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { submitMetrics } from '../../services/firestoreService';
 import type { PerformanceMetrics, ActivitySegment } from '../../types';
-import { Plus, Play, Square, Clock, X } from 'lucide-react';
+import { X } from 'lucide-react';
 
 interface ManualTimeEntryProps {
   onEntryAdded?: () => void;
@@ -171,7 +171,6 @@ export default function ManualTimeEntry({ onEntryAdded }: ManualTimeEntryProps) 
     <div className="card space-y-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Clock className="w-5 h-5 text-brand-500" />
           <h3 className="section-title">수동 업무 추적</h3>
         </div>
         {entries.length > 0 && (
@@ -205,7 +204,6 @@ export default function ManualTimeEntry({ onEntryAdded }: ManualTimeEntryProps) 
               onClick={handleTimerStart}
               className="flex items-center gap-2 px-4 py-2.5 bg-green-500 hover:bg-green-600 text-white text-sm font-semibold rounded-xl transition-colors flex-shrink-0"
             >
-              <Play className="w-4 h-4 fill-white" />
               시작
             </button>
           </div>
@@ -224,7 +222,6 @@ export default function ManualTimeEntry({ onEntryAdded }: ManualTimeEntryProps) 
               onClick={handleTimerStop}
               className="flex items-center gap-2 px-4 py-2.5 bg-red-500 hover:bg-red-600 text-white text-sm font-semibold rounded-xl transition-colors flex-shrink-0"
             >
-              <Square className="w-4 h-4 fill-white" />
               종료
             </button>
           </div>
@@ -237,7 +234,6 @@ export default function ManualTimeEntry({ onEntryAdded }: ManualTimeEntryProps) 
           onClick={() => setShowForm(true)}
           className="btn-ghost flex items-center gap-1 text-xs w-full justify-center"
         >
-          <Plus className="w-3.5 h-3.5" />
           시간 직접 입력
         </button>
       )}
@@ -272,7 +268,6 @@ export default function ManualTimeEntry({ onEntryAdded }: ManualTimeEntryProps) 
               disabled={!formStart || !formEnd || !formDesc}
               className="btn-primary flex items-center gap-1 disabled:opacity-40"
             >
-              <Plus className="w-4 h-4" />
               추가
             </button>
             <button onClick={() => setShowForm(false)} className="btn-ghost text-xs">취소</button>

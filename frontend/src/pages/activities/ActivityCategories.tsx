@@ -10,7 +10,7 @@ import {
   PieChart, Pie, Cell, ResponsiveContainer, Tooltip,
   AreaChart, Area, XAxis, YAxis, CartesianGrid,
 } from 'recharts';
-import { Layers } from 'lucide-react';
+
 
 const CATEGORY_COLORS: Record<string, string> = {
   development: '#3B82F6', communication: '#A855F7', documentation: '#10B981',
@@ -125,7 +125,6 @@ export default function ActivityCategories() {
 
       {categories.length === 0 ? (
         <div className="card text-center py-16">
-          <Layers className="w-12 h-12 text-gray-300 mx-auto mb-3" />
           <p className="text-gray-500">활동 카테고리 데이터가 없습니다.</p>
         </div>
       ) : (

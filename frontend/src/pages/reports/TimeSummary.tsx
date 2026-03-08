@@ -12,7 +12,6 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   PieChart, Pie, Cell,
 } from 'recharts';
-import { Clock, TrendingUp, Zap, Brain, CalendarDays } from 'lucide-react';
 import clsx from 'clsx';
 
 const PERIOD_OPTIONS = [
@@ -133,7 +132,6 @@ export default function TimeSummary() {
 
       {metrics.length === 0 ? (
         <div className="card text-center py-16">
-          <Clock className="w-12 h-12 text-gray-300 mx-auto mb-3" />
           <p className="text-gray-500">해당 기간에 기록된 데이터가 없습니다.</p>
           <p className="text-xs text-gray-400 mt-1">에이전트를 시작하면 데이터가 수집됩니다.</p>
         </div>
@@ -141,11 +139,11 @@ export default function TimeSummary() {
         <>
           {/* 핵심 지표 카드 */}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-            <SummaryCard icon={<Clock className="w-5 h-5 text-blue-500" />} label="총 업무 시간" value={fmtH(stats.totalWork)} />
-            <SummaryCard icon={<Zap className="w-5 h-5 text-green-500" />} label="활성 시간" value={fmtH(stats.activeWork)} />
-            <SummaryCard icon={<Brain className="w-5 h-5 text-purple-500" />} label="딥 포커스" value={fmtH(stats.deepFocus)} />
-            <SummaryCard icon={<TrendingUp className="w-5 h-5 text-indigo-500" />} label="평균 몰입도" value={`${stats.avgFocus}점`} />
-            <SummaryCard icon={<CalendarDays className="w-5 h-5 text-orange-500" />} label="기록 일수" value={`${stats.days}일`} />
+            <SummaryCard label="총 업무 시간" value={fmtH(stats.totalWork)} />
+            <SummaryCard label="활성 시간" value={fmtH(stats.activeWork)} />
+            <SummaryCard label="딥 포커스" value={fmtH(stats.deepFocus)} />
+            <SummaryCard label="평균 몰입도" value={`${stats.avgFocus}점`} />
+            <SummaryCard label="기록 일수" value={`${stats.days}일`} />
           </div>
 
           {/* 일별 시간 차트 */}
@@ -232,10 +230,9 @@ export default function TimeSummary() {
   );
 }
 
-function SummaryCard({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
+function SummaryCard({ label, value }: { label: string; value: string }) {
   return (
     <div className="card flex items-center gap-3 !py-4">
-      {icon}
       <div>
         <p className="text-[10px] text-gray-400 uppercase tracking-wider">{label}</p>
         <p className="text-lg font-bold text-gray-900 mt-0.5">{value}</p>

@@ -8,8 +8,7 @@ import { getMetricsByUser } from '../../services/firestoreService';
 import type { PerformanceMetrics } from '../../types';
 import ActivityTimeline from '../../components/dashboard/ActivityTimeline';
 import {
-  CalendarDays, ChevronDown, ChevronUp, ChevronLeft, ChevronRight,
-  Clock, Zap, Brain, Target, Frown,
+  ChevronDown, ChevronUp, ChevronLeft, ChevronRight,
 } from 'lucide-react';
 // clsx removed - unused
 
@@ -69,7 +68,6 @@ export default function TimeByDays() {
 
       {sorted.length === 0 ? (
         <div className="card text-center py-16">
-          <Frown className="w-12 h-12 text-gray-300 mx-auto mb-3" />
           <p className="text-gray-500">아직 기록된 데이터가 없습니다.</p>
         </div>
       ) : (
@@ -85,8 +83,8 @@ export default function TimeByDays() {
                     className="w-full flex items-center justify-between px-5 py-4 hover:bg-gray-50 transition-colors"
                   >
                     <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 bg-brand-50 rounded-xl flex items-center justify-center flex-shrink-0">
-                        <CalendarDays className="w-5 h-5 text-brand-600" />
+                      <div className="w-10 h-10 bg-brand-50 rounded-xl flex items-center justify-center flex-shrink-0 text-sm font-bold text-brand-600">
+                        {m.date.slice(8)}
                       </div>
                       <div className="text-left">
                         <p className="text-sm font-bold text-gray-900">{m.date}</p>
@@ -97,10 +95,10 @@ export default function TimeByDays() {
                     </div>
 
                     <div className="flex items-center gap-5">
-                      <MiniStat icon={<Clock className="w-3.5 h-3.5" />} label="총 시간" value={fmtH(m.totalWorkMinutes)} />
-                      <MiniStat icon={<Zap className="w-3.5 h-3.5" />} label="활성" value={fmtH(m.activeWorkMinutes)} />
-                      <MiniStat icon={<Brain className="w-3.5 h-3.5" />} label="몰입" value={`${m.focusScore}`} />
-                      <MiniStat icon={<Target className="w-3.5 h-3.5" />} label="효율" value={`${m.efficiencyScore}`} />
+                      <MiniStat label="총 시간" value={fmtH(m.totalWorkMinutes)} />
+                      <MiniStat label="활성" value={fmtH(m.activeWorkMinutes)} />
+                      <MiniStat label="몰입" value={`${m.focusScore}`} />
+                      <MiniStat label="효율" value={`${m.efficiencyScore}`} />
                       {isOpen ? <ChevronUp className="w-4 h-4 text-gray-400" /> : <ChevronDown className="w-4 h-4 text-gray-400" />}
                     </div>
                   </button>
@@ -207,10 +205,10 @@ const CATEGORY_COLORS: Record<string, string> = {
   meeting: '#F97316', research: '#14B8A6', idle: '#D1D5DB', other: '#9CA3AF',
 };
 
-function MiniStat({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
+function MiniStat({ label, value }: { label: string; value: string }) {
   return (
     <div className="text-center hidden sm:block">
-      <div className="flex items-center justify-center gap-1 text-gray-400">{icon}<span className="text-[10px]">{label}</span></div>
+      <div className="flex items-center justify-center gap-1 text-gray-400"><span className="text-[10px]">{label}</span></div>
       <p className="text-sm font-bold text-gray-700">{value}</p>
     </div>
   );

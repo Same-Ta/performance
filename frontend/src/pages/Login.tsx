@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { Shield, Eye, EyeOff, Mail, Lock, User, Building2, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Eye, EyeOff } from 'lucide-react';
 import type { UserRole } from '../types';
 
 type AuthMode = 'login' | 'signup';
@@ -140,9 +140,6 @@ export default function Login() {
       <div className="min-h-screen bg-gradient-to-br from-brand-50 via-white to-purple-50 flex items-center justify-center p-4">
         <div className="w-full max-w-md">
           <div className="card text-center py-10">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-success-100 rounded-full mb-4">
-              <CheckCircle2 className="w-8 h-8 text-success-600" />
-            </div>
             <h2 className="text-xl font-bold text-gray-900 mb-2">가입이 완료되었습니다!</h2>
             <p className="text-sm text-gray-500 mb-6">
               <span className="font-medium text-brand-600">{displayName}</span>님, ProofWork에 오신 것을 환영합니다.
@@ -169,7 +166,7 @@ export default function Login() {
         {/* 로고 */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-brand-600 rounded-2xl shadow-lg mb-4">
-            <Shield className="w-8 h-8 text-white" />
+            <span className="text-2xl font-bold text-white">P</span>
           </div>
           <h1 className="text-2xl font-bold text-gray-900">ProofWork</h1>
           <p className="text-sm text-gray-500 mt-1">나의 가치를 증명하는 AI 파트너</p>
@@ -206,10 +203,9 @@ export default function Login() {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1.5">이메일</label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                   <input
                     type="email"
-                    className="input-field pl-10"
+                    className="input-field"
                     placeholder="email@company.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -220,10 +216,9 @@ export default function Login() {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1.5">비밀번호</label>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                   <input
                     type={showPw ? 'text' : 'password'}
-                    className="input-field pl-10 pr-10"
+                    className="input-field pr-10"
                     placeholder="••••••••"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -240,9 +235,8 @@ export default function Login() {
               </div>
 
               {error && (
-                <div className="flex items-start gap-2 text-sm text-danger-600 bg-danger-50 p-3 rounded-lg">
-                  <AlertCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
-                  <span>{error}</span>
+                <div className="text-sm text-danger-600 bg-danger-50 p-3 rounded-lg">
+                  {error}
                 </div>
               )}
 
@@ -314,10 +308,9 @@ export default function Login() {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1.5">이름 <span className="text-danger-500">*</span></label>
                 <div className="relative">
-                  <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                   <input
                     type="text"
-                    className="input-field pl-10"
+                    className="input-field"
                     placeholder="홍길동"
                     value={displayName}
                     onChange={(e) => setDisplayName(e.target.value)}
@@ -331,10 +324,9 @@ export default function Login() {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1.5">회사 이메일 <span className="text-danger-500">*</span></label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                   <input
                     type="email"
-                    className="input-field pl-10"
+                    className="input-field"
                     placeholder="email@company.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -347,10 +339,9 @@ export default function Login() {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1.5">소속 부서 <span className="text-danger-500">*</span></label>
                 <div className="relative">
-                  <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                   <input
                     type="text"
-                    className="input-field pl-10"
+                    className="input-field"
                     placeholder="프론트엔드 개발팀"
                     value={department}
                     onChange={(e) => setDepartment(e.target.value)}
@@ -363,10 +354,9 @@ export default function Login() {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1.5">비밀번호 <span className="text-danger-500">*</span></label>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                   <input
                     type={showPw ? 'text' : 'password'}
-                    className="input-field pl-10 pr-10"
+                    className="input-field pr-10"
                     placeholder="영문 + 숫자 8자 이상"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -408,10 +398,9 @@ export default function Login() {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1.5">비밀번호 확인 <span className="text-danger-500">*</span></label>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                   <input
                     type={showConfirmPw ? 'text' : 'password'}
-                    className={`input-field pl-10 pr-10 ${
+                    className={`input-field pr-10 ${
                       confirmPw && confirmPw !== password ? 'border-danger-300 focus:ring-danger-500' : ''
                     }`}
                     placeholder="비밀번호 재입력"
@@ -431,8 +420,8 @@ export default function Login() {
                   <p className="text-xs text-danger-500 mt-1">비밀번호가 일치하지 않습니다.</p>
                 )}
                 {confirmPw && confirmPw === password && password.length > 0 && (
-                  <p className="text-xs text-success-500 mt-1 flex items-center gap-1">
-                    <CheckCircle2 className="w-3 h-3" /> 비밀번호가 일치합니다.
+                  <p className="text-xs text-success-500 mt-1">
+                    비밀번호가 일치합니다.
                   </p>
                 )}
               </div>
@@ -480,9 +469,8 @@ export default function Login() {
               </div>
 
               {error && (
-                <div className="flex items-start gap-2 text-sm text-danger-600 bg-danger-50 p-3 rounded-lg">
-                  <AlertCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
-                  <span>{error}</span>
+                <div className="text-sm text-danger-600 bg-danger-50 p-3 rounded-lg">
+                  {error}
                 </div>
               )}
 
@@ -506,8 +494,7 @@ export default function Login() {
 
         {/* 보안 라벨 */}
         <div className="text-center mt-6">
-          <p className="text-xs text-gray-400 flex items-center justify-center gap-1">
-            <Shield className="w-3 h-3" />
+          <p className="text-xs text-gray-400">
             영상 데이터는 로컬에서만 처리되며, 외부 서버로 전송되지 않습니다.
           </p>
         </div>

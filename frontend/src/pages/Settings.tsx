@@ -2,20 +2,9 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useSearchParams } from 'react-router-dom';
 import {
-  Shield,
-  Bell,
-  Link as LinkIcon,
-  Monitor,
-  Save,
   RefreshCw,
-  Pencil,
-  X,
-  Check,
-  User,
-  CreditCard,
   Eye,
   EyeOff,
-  ExternalLink,
 } from 'lucide-react';
 import clsx from 'clsx';
 import { getNotionSettings, saveNotionSettings } from '../services/firestoreService';
@@ -154,13 +143,13 @@ export default function Settings() {
     }
   };
 
-  const tabs: { id: Tab; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
-    { id: 'profile', label: '프로필', icon: User },
-    { id: 'agent', label: 'Agent 설정', icon: Monitor },
-    { id: 'privacy', label: '프라이버시', icon: Shield },
-    { id: 'integrations', label: '연동 관리', icon: LinkIcon },
-    { id: 'notifications', label: '알림 설정', icon: Bell },
-    { id: 'subscription', label: '구독 / 플랜', icon: CreditCard },
+  const tabs: { id: Tab; label: string }[] = [
+    { id: 'profile', label: '프로필' },
+    { id: 'agent', label: 'Agent 설정' },
+    { id: 'privacy', label: '프라이버시' },
+    { id: 'integrations', label: '연동 관리' },
+    { id: 'notifications', label: '알림 설정' },
+    { id: 'subscription', label: '구독 / 플랜' },
   ];
 
   return (
@@ -174,24 +163,20 @@ export default function Settings() {
 
       {/* 탭 */}
       <div className="flex gap-2 border-b border-gray-200 pb-0">
-        {tabs.map((tab) => {
-          const Icon = tab.icon;
-          return (
+        {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => handleTabChange(tab.id)}
               className={clsx(
-                'flex items-center gap-2 px-4 py-2.5 text-sm font-medium border-b-2 transition-all -mb-px',
+                'px-4 py-2.5 text-sm font-medium border-b-2 transition-all -mb-px',
                 activeTab === tab.id
                   ? 'border-brand-600 text-brand-700'
                   : 'border-transparent text-gray-500 hover:text-gray-700'
               )}
             >
-              <Icon className="w-4 h-4" />
               {tab.label}
             </button>
-          );
-        })}
+        ))}
       </div>
 
       {/* Agent 설정 */}
@@ -245,7 +230,6 @@ export default function Settings() {
                 <p className="text-xs text-gray-500">TensorRT 최적화 | 모델 크기: 45MB</p>
               </div>
               <button className="btn-ghost flex items-center gap-1 text-xs">
-                <RefreshCw className="w-3.5 h-3.5" />
                 업데이트 확인
               </button>
             </div>
@@ -258,7 +242,6 @@ export default function Settings() {
         <div className="card space-y-6">
           <div className="p-4 bg-success-50 rounded-xl border border-success-200">
             <div className="flex items-start gap-3">
-              <Shield className="w-6 h-6 text-success-600 flex-shrink-0" />
               <div>
                 <h3 className="text-sm font-bold text-success-800">Privacy-by-Design 보장</h3>
                 <p className="text-xs text-gray-600 mt-1 leading-relaxed">
@@ -339,8 +322,8 @@ export default function Settings() {
             {/* Jira */}
             <div className="p-4 border border-gray-200 rounded-xl flex items-center justify-between mb-3">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center text-lg">
-                  📋
+                <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                  <img src="/icons/jira.svg" alt="Jira" className="w-6 h-6" />
                 </div>
                 <div>
                   <p className="text-sm font-semibold">Jira</p>
@@ -361,8 +344,8 @@ export default function Settings() {
             {/* Slack */}
             <div className="p-4 border border-gray-200 rounded-xl flex items-center justify-between mb-3">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center text-lg">
-                  💬
+                <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                  <img src="/icons/slack.svg" alt="Slack" className="w-6 h-6" />
                 </div>
                 <div>
                   <p className="text-sm font-semibold">Slack</p>
@@ -384,8 +367,8 @@ export default function Settings() {
             <div className="border border-gray-200 rounded-xl overflow-hidden">
               <div className="p-4 flex items-center justify-between bg-gray-50">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center text-lg">
-                    📝
+                  <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
+                    <img src="/icons/notion.svg" alt="Notion" className="w-6 h-6" />
                   </div>
                   <div>
                     <p className="text-sm font-semibold">Notion</p>
@@ -418,7 +401,7 @@ export default function Settings() {
                       rel="noopener noreferrer"
                       className="mt-2 inline-flex items-center gap-1 font-medium hover:underline"
                     >
-                      공식 가이드 보기 <ExternalLink className="w-3 h-3" />
+                      공식 가이드 보기
                     </a>
                   </div>
 
@@ -546,7 +529,6 @@ export default function Settings() {
 
                   {notionSaved && (
                     <div className="flex items-center gap-2 text-xs text-green-700 bg-green-50 border border-green-200 rounded-lg px-3 py-2">
-                      <Check className="w-3.5 h-3.5" />
                       Notion 연동 설정이 저장되었습니다.
                     </div>
                   )}
@@ -556,7 +538,6 @@ export default function Settings() {
                       href="/notion/tasks"
                       className="text-xs text-brand-600 hover:text-brand-700 font-medium flex items-center gap-1"
                     >
-                      <ExternalLink className="w-3.5 h-3.5" />
                       Notion 태스크 보기
                     </a>
                     <div className="flex items-center gap-2">
@@ -565,11 +546,6 @@ export default function Settings() {
                         disabled={notionTesting}
                         className="btn-ghost flex items-center gap-2 text-sm border border-gray-300"
                       >
-                        {notionTesting ? (
-                          <RefreshCw className="w-4 h-4 animate-spin" />
-                        ) : (
-                          <Check className="w-4 h-4" />
-                        )}
                         {notionTesting ? '테스트 중...' : '연결 테스트'}
                       </button>
                       <button
@@ -577,11 +553,6 @@ export default function Settings() {
                         disabled={notionSaving}
                         className="btn-primary flex items-center gap-2 text-sm"
                       >
-                        {notionSaving ? (
-                          <RefreshCw className="w-4 h-4 animate-spin" />
-                        ) : (
-                          <Save className="w-4 h-4" />
-                        )}
                           {notionSaving ? '저장 중...' : 'Notion 저장'}
                       </button>
                     </div>
@@ -626,7 +597,6 @@ export default function Settings() {
       {['agent', 'privacy', 'notifications'].includes(activeTab) && (
         <div className="flex justify-end">
           <button className="btn-primary flex items-center gap-2">
-            <Save className="w-4 h-4" />
             설정 저장
           </button>
         </div>
@@ -637,7 +607,6 @@ export default function Settings() {
         <div className="card">
           <div className="flex items-center justify-between mb-4">
             <h3 className="section-title flex items-center gap-2">
-              <User className="w-4 h-4" />
               프로필 정보
             </h3>
             {!editingProfile ? (
@@ -645,7 +614,6 @@ export default function Settings() {
                 onClick={startEditProfile}
                 className="flex items-center gap-1.5 text-xs text-brand-600 hover:text-brand-700 font-medium"
               >
-                <Pencil className="w-3.5 h-3.5" />
                 편집
               </button>
             ) : (
@@ -653,7 +621,6 @@ export default function Settings() {
                 onClick={() => setEditingProfile(false)}
                 className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-gray-700 font-medium"
               >
-                <X className="w-3.5 h-3.5" />
                 취소
               </button>
             )}
@@ -673,7 +640,6 @@ export default function Settings() {
 
           {profileSaved && !editingProfile && (
             <div className="mb-3 flex items-center gap-2 text-xs text-green-700 bg-green-50 border border-green-200 rounded-lg px-3 py-2">
-              <Check className="w-3.5 h-3.5" />
               프로필이 저장되었습니다.
             </div>
           )}
@@ -728,11 +694,6 @@ export default function Settings() {
                   disabled={profileSaving}
                   className="btn-primary flex items-center gap-2 text-sm"
                 >
-                  {profileSaving ? (
-                    <RefreshCw className="w-4 h-4 animate-spin" />
-                  ) : (
-                    <Save className="w-4 h-4" />
-                  )}
                   {profileSaving ? '저장 중...' : '저장'}
                 </button>
               </div>
@@ -765,7 +726,6 @@ export default function Settings() {
         <div className="space-y-6">
           <div className="card">
             <h3 className="section-title flex items-center gap-2 mb-4">
-              <CreditCard className="w-4 h-4" />
               현재 플랜
             </h3>
             <div className="p-4 bg-brand-50 rounded-xl border border-brand-200">
@@ -799,8 +759,7 @@ export default function Settings() {
                   <ul className="mt-3 space-y-1.5">
                     {plan.features.map((f, i) => (
                       <li key={i} className="text-xs text-gray-600 flex items-center gap-1.5">
-                        <Check className="w-3 h-3 text-brand-600 flex-shrink-0" />
-                        {f}
+                        ✓ {f}
                       </li>
                     ))}
                   </ul>

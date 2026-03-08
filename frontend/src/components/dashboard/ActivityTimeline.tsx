@@ -1,4 +1,3 @@
-import { Clock } from 'lucide-react';
 import type { ActivitySegment } from '../../types';
 
 interface ActivityTimelineProps {
@@ -70,7 +69,6 @@ export default function ActivityTimeline({ segments, date, compact = false }: Ac
       ) : (
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Clock className="w-5 h-5 text-brand-500" />
             <h3 className="section-title">업무 타임라인</h3>
           </div>
           <div className="flex items-center gap-3">

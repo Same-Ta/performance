@@ -9,7 +9,7 @@ import type { PerformanceMetrics } from '../../types';
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell,
 } from 'recharts';
-import { AppWindow, Search, ArrowUpDown } from 'lucide-react';
+import { Search, ArrowUpDown } from 'lucide-react';
 import clsx from 'clsx';
 
 const CATEGORY_COLORS: Record<string, string> = {
@@ -144,7 +144,6 @@ export default function SitesAndApps() {
 
       {apps.length === 0 ? (
         <div className="card text-center py-16">
-          <AppWindow className="w-12 h-12 text-gray-300 mx-auto mb-3" />
           <p className="text-gray-500">앱 사용 데이터가 없습니다.</p>
         </div>
       ) : (

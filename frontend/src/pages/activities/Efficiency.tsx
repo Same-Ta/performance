@@ -11,7 +11,6 @@ import {
   LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer, Cell,
 } from 'recharts';
-import { Gauge, TrendingUp, TrendingDown, Minus } from 'lucide-react';
 import clsx from 'clsx';
 
 const GRADE_COLORS: Record<string, string> = {
@@ -138,7 +137,6 @@ export default function Efficiency() {
   if (!kpi) {
     return (
       <div className="card text-center py-16">
-        <Gauge className="w-12 h-12 text-gray-300 mx-auto mb-3" />
         <p className="text-gray-500">효율성 데이터가 없습니다.</p>
       </div>
     );
@@ -157,8 +155,7 @@ export default function Efficiency() {
           color={GRADE_COLORS[kpi.grade]} />
         <KpiCard label="최근 7일" value={`${Math.round(kpi.rAvg)}점`}
           sub={kpi.trend > 0 ? `+${kpi.trend.toFixed(1)}` : kpi.trend.toFixed(1)}
-          color={kpi.trend > 0 ? '#10B981' : kpi.trend < 0 ? '#EF4444' : '#6B7280'}
-          icon={kpi.trend > 2 ? <TrendingUp className="w-4 h-4" /> : kpi.trend < -2 ? <TrendingDown className="w-4 h-4" /> : <Minus className="w-4 h-4" />} />
+          color={kpi.trend > 0 ? '#10B981' : kpi.trend < 0 ? '#EF4444' : '#6B7280'} />
         <KpiCard label="최고 기록" value={`${kpi.best.efficiencyScore}점`} sub={kpi.best.date} color="#2563EB" />
         <KpiCard label="최저 기록" value={`${kpi.worst.efficiencyScore}점`} sub={kpi.worst.date} color="#EF4444" />
       </div>
@@ -235,15 +232,14 @@ export default function Efficiency() {
   );
 }
 
-function KpiCard({ label, value, sub, color, icon }: {
-  label: string; value: string; sub: string; color: string; icon?: React.ReactNode;
+function KpiCard({ label, value, sub, color }: {
+  label: string; value: string; sub: string; color: string;
 }) {
   return (
     <div className="card text-center space-y-1">
       <p className="text-xs text-gray-500">{label}</p>
       <p className="text-2xl font-bold" style={{ color }}>{value}</p>
       <div className="inline-flex items-center gap-1 text-xs" style={{ color }}>
-        {icon}
         <span>{sub}</span>
       </div>
     </div>

@@ -1,5 +1,4 @@
 import type { PerformanceReport } from '../../types';
-import { Download, Share2, TrendingUp, Target, Brain, Clock } from 'lucide-react';
 import clsx from 'clsx';
 
 interface ReportPreviewProps {
@@ -31,11 +30,9 @@ export default function ReportPreview({ report, onExport, onShare }: ReportPrevi
           </div>
           <div className="flex items-center gap-2">
             <button onClick={onExport} className="btn-secondary flex items-center gap-2 text-sm">
-              <Download className="w-4 h-4" />
               PDF 내보내기
             </button>
             <button onClick={onShare} className="btn-primary flex items-center gap-2 text-sm">
-              <Share2 className="w-4 h-4" />
               공유하기
             </button>
           </div>
@@ -60,22 +57,18 @@ export default function ReportPreview({ report, onExport, onShare }: ReportPrevi
       {/* 핵심 지표 4개 */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="card text-center">
-          <Brain className="w-6 h-6 text-brand-500 mx-auto mb-2" />
           <p className="text-xs text-gray-500">평균 몰입도</p>
           <p className="text-2xl font-bold text-gray-900 mt-1">{report.avgFocusScore}</p>
         </div>
         <div className="card text-center">
-          <TrendingUp className="w-6 h-6 text-success-500 mx-auto mb-2" />
           <p className="text-xs text-gray-500">평균 효율성</p>
           <p className="text-2xl font-bold text-gray-900 mt-1">{report.avgEfficiencyScore}</p>
         </div>
         <div className="card text-center">
-          <Target className="w-6 h-6 text-purple-500 mx-auto mb-2" />
           <p className="text-xs text-gray-500">목표 정렬도</p>
           <p className="text-2xl font-bold text-gray-900 mt-1">{report.avgGoalAlignment}%</p>
         </div>
         <div className="card text-center">
-          <Clock className="w-6 h-6 text-warning-500 mx-auto mb-2" />
           <p className="text-xs text-gray-500">총 딥포커스</p>
           <p className="text-2xl font-bold text-gray-900 mt-1">{report.totalDeepFocusHours}h</p>
         </div>

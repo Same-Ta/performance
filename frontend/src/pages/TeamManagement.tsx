@@ -12,25 +12,12 @@ import type { Workspace, WorkspaceMember, TeamInvite } from '../services/firesto
 import type { PerformanceMetrics } from '../types';
 import WorkspaceTimeline from '../components/dashboard/WorkspaceTimeline';
 import {
-  Users,
-  Plus,
-  Mail,
-  Send,
-  Building2,
-  UserPlus,
-  Clock,
   ChevronDown,
   ChevronUp,
   ChevronLeft,
   ChevronRight,
   Trash2,
-  BarChart3,
-  CheckCircle2,
-  XCircle,
   Loader2,
-  LayoutList,
-  GanttChartSquare,
-  Calendar,
 } from 'lucide-react';
 
 // ─── 카테고리 색상/라벨 ──────────────────────────────────
@@ -271,9 +258,9 @@ function MemberRow({
 
 // ─── 공통 상태 설정 ──────────────────────────────────────
 const STATUS_CONFIG = {
-  pending:  { label: '대기 중', color: 'text-amber-600 bg-amber-50',    icon: Clock },
-  accepted: { label: '수락됨',  color: 'text-success-700 bg-success-50', icon: CheckCircle2 },
-  declined: { label: '취소됨',  color: 'text-red-600 bg-red-50',        icon: XCircle },
+  pending:  { label: '대기 중', color: 'text-amber-600 bg-amber-50' },
+  accepted: { label: '수락됨',  color: 'text-success-700 bg-success-50' },
+  declined: { label: '취소됨',  color: 'text-red-600 bg-red-50' },
 } as const;
 
 type WorkspaceView = 'timeline' | 'list';
@@ -335,23 +322,18 @@ function WorkspaceCard({
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 bg-brand-100 rounded-xl flex items-center justify-center flex-shrink-0">
-            <Building2 className="w-5 h-5 text-brand-600" />
+            <span className="text-sm font-bold text-brand-600">{workspace.name.charAt(0)}</span>
           </div>
           <div>
-            <h3 className="font-bold text-gray-900">{workspace.name}</h3>
-            {workspace.description && (
-              <p className="text-xs text-gray-500">{workspace.description}</p>
-            )}
-            <p className="text-xs text-gray-400 mt-0.5">
-              {workspace.members.length}명 · {isOwner ? '내가 만든 워크스페이스' : `${workspace.ownerName}님의 워크스페이스`}
-            </p>
+            <h3 className="text-sm font-bold text-gray-900">{workspace.name}</h3>
+            {workspace.description && <p className="text-xs text-gray-500">{workspace.description}</p>}
+            <p className="text-[10px] text-gray-400 mt-0.5">{isOwner ? '소유자' : '멤버'} · {workspace.members.length}명</p>
           </div>
         </div>
         <button
           onClick={handleExpand}
           className="flex items-center gap-1.5 text-xs font-medium text-brand-600 hover:text-brand-700 px-3 py-2 rounded-xl hover:bg-brand-50 transition-colors"
         >
-          <Users className="w-4 h-4" />
           {expanded ? '접기' : '팀원 보기'}
           {expanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
         </button>
@@ -362,8 +344,7 @@ function WorkspaceCard({
         <div className="space-y-4 animate-fade-in">
           {/* 발송한 초대 목록 */}
           <div className="space-y-2">
-            <p className="text-xs font-semibold text-gray-600 flex items-center gap-1.5">
-              <Mail className="w-3.5 h-3.5" />
+            <p className="text-xs font-semibold text-gray-600">
               발송한 초대 목록
             </p>
             {(() => {
@@ -379,22 +360,22 @@ function WorkspaceCard({
               }
               return wsInvites.map((inv) => {
                 const cfg = STATUS_CONFIG[inv.status];
-                const Icon = cfg.icon;
                 return (
                   <div
                     key={inv.id}
                     className="flex items-center justify-between py-2.5 px-3 rounded-xl bg-gray-50"
                   >
                     <div className="flex items-center gap-3 min-w-0">
-                      <Mail className="w-4 h-4 text-gray-400 flex-shrink-0" />
+                      <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0">
+                        <span className="text-xs font-bold text-gray-500">{inv.email.charAt(0).toUpperCase()}</span>
+                      </div>
                       <div className="min-w-0">
                         <p className="text-sm font-medium text-gray-800 truncate">{inv.email}</p>
                         <p className="text-xs text-gray-400">{inv.createdAt?.slice(0, 10)}</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-2 flex-shrink-0 ml-2">
-                      <span className={`flex items-center gap-1 text-xs font-medium px-2 py-1 rounded-lg ${cfg.color}`}>
-                        <Icon className="w-3 h-3" />
+                      <span className={`text-xs font-medium px-2 py-1 rounded-lg ${cfg.color}`}>
                         {cfg.label}
                       </span>
                       {inv.status === 'pending' && (
@@ -415,20 +396,18 @@ function WorkspaceCard({
 
           {/* 초대 폼 (소유자 또는 모든 멤버) */}
           <form onSubmit={handleInvite} className="border-t border-gray-100 pt-4">
-            <p className="text-xs font-semibold text-gray-600 mb-2 flex items-center gap-1.5">
-              <UserPlus className="w-3.5 h-3.5" />
+            <p className="text-xs font-semibold text-gray-600 mb-2">
               새 팀원 초대
             </p>
             <div className="flex gap-2">
               <div className="relative flex-1">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                 <input
                   type="email"
                   required
                   value={inviteEmail}
                   onChange={(e) => setInviteEmail(e.target.value)}
                   placeholder="colleague@company.com"
-                  className="w-full border border-gray-200 rounded-xl pl-10 pr-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-300"
+                  className="w-full border border-gray-200 rounded-xl px-3 pr-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-300"
                 />
               </div>
               <button
@@ -436,7 +415,6 @@ function WorkspaceCard({
                 disabled={inviting || !inviteEmail.trim()}
                 className="flex items-center gap-2 px-4 py-2 bg-brand-600 hover:bg-brand-700 disabled:opacity-50 text-white text-sm font-semibold rounded-xl transition-colors"
               >
-                <Send className="w-4 h-4" />
                 {inviting ? '발송 중…' : '초대'}
               </button>
             </div>
@@ -596,7 +574,7 @@ export default function TeamManagement() {
           </button>
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-brand-100 rounded-xl flex items-center justify-center">
-              <Building2 className="w-5 h-5 text-brand-600" />
+              <span className="text-sm font-bold text-brand-600">{selectedWs.name.charAt(0)}</span>
             </div>
             <div>
               <h2 className="text-xl font-bold text-gray-900">{selectedWs.name}</h2>
@@ -608,8 +586,7 @@ export default function TeamManagement() {
         {/* 타임라인 & 목록 */}
         <div className="card space-y-4">
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <h3 className="text-sm font-bold text-gray-700 flex items-center gap-2">
-              <GanttChartSquare className="w-4 h-4 text-gray-500" />
+            <h3 className="text-sm font-bold text-gray-700">
               팀 타임라인 &amp; 성과 목록
             </h3>
             <div className="flex items-center gap-2 flex-wrap">
@@ -619,7 +596,6 @@ export default function TeamManagement() {
                   <ChevronLeft className="w-3.5 h-3.5 text-gray-500" />
                 </button>
                 <div className="flex items-center gap-1.5 px-2">
-                  <Calendar className="w-3.5 h-3.5 text-gray-400" />
                   <input
                     type="date"
                     value={timelineDate}
@@ -654,7 +630,6 @@ export default function TeamManagement() {
                       : 'text-gray-500 hover:text-gray-700'
                   }`}
                 >
-                  <GanttChartSquare className="w-3.5 h-3.5" />
                   타임라인
                 </button>
                 <button
@@ -665,7 +640,6 @@ export default function TeamManagement() {
                       : 'text-gray-500 hover:text-gray-700'
                   }`}
                 >
-                  <LayoutList className="w-3.5 h-3.5" />
                   목록
                 </button>
               </div>
@@ -692,8 +666,7 @@ export default function TeamManagement() {
             </div>
           ) : (
             <div>
-              <p className="text-xs font-semibold text-gray-600 flex items-center gap-1.5 mb-3">
-                <BarChart3 className="w-3.5 h-3.5" />
+              <p className="text-xs font-semibold text-gray-600 mb-3">
                 팀원별 성과 현황 · {timelineDate}
               </p>
               {wsMembers.map((member) => (
@@ -725,8 +698,7 @@ export default function TeamManagement() {
       {/* 헤더 */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-            <Users className="w-7 h-7 text-brand-600" />
+          <h1 className="text-2xl font-bold text-gray-900">
             팀 관리
           </h1>
           <p className="text-sm text-gray-500 mt-1">
@@ -737,7 +709,6 @@ export default function TeamManagement() {
           onClick={() => setShowCreateForm(!showCreateForm)}
           className="flex items-center gap-2 px-4 py-2.5 bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold rounded-xl transition-colors"
         >
-          <Plus className="w-4 h-4" />
           워크스페이스 만들기
         </button>
       </div>
@@ -745,8 +716,7 @@ export default function TeamManagement() {
       {/* 워크스페이스 생성 폼 */}
       {showCreateForm && (
         <form onSubmit={handleCreateWorkspace} className="card space-y-4 border-brand-200 bg-brand-50/20 animate-fade-in">
-          <h3 className="font-bold text-gray-800 flex items-center gap-2">
-            <Building2 className="w-5 h-5 text-brand-600" />
+          <h3 className="font-bold text-gray-800">
             새 워크스페이스 만들기
           </h3>
           <div>
@@ -777,7 +747,7 @@ export default function TeamManagement() {
               disabled={creating || !wsName.trim()}
               className="flex items-center gap-2 px-5 py-2.5 bg-brand-600 hover:bg-brand-700 disabled:opacity-50 text-white text-sm font-semibold rounded-xl transition-colors"
             >
-              {creating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />}
+              {creating ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
               {creating ? '생성 중…' : '생성'}
             </button>
             <button
@@ -798,7 +768,6 @@ export default function TeamManagement() {
         </div>
       ) : workspaces.length === 0 ? (
         <div className="card text-center py-16">
-          <Building2 className="w-14 h-14 text-gray-200 mx-auto mb-4" />
           <p className="text-gray-500 font-medium">아직 워크스페이스가 없습니다</p>
           <p className="text-xs text-gray-400 mt-1 mb-4">
             워크스페이스를 만들면 팀원을 초대하고 서로의 성과를 공유할 수 있습니다.
@@ -807,7 +776,7 @@ export default function TeamManagement() {
             onClick={() => setShowCreateForm(true)}
             className="inline-flex items-center gap-2 px-5 py-2.5 bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold rounded-xl transition-colors"
           >
-            <Plus className="w-4 h-4" />
+
             첫 번째 워크스페이스 만들기
           </button>
         </div>
@@ -820,7 +789,7 @@ export default function TeamManagement() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-brand-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <Building2 className="w-5 h-5 text-brand-600" />
+                    <span className="text-sm font-bold text-brand-600">{ws.name.charAt(0)}</span>
                   </div>
                   <div>
                     <h3 className="font-bold text-gray-900">{ws.name}</h3>

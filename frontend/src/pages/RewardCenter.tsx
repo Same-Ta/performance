@@ -1,7 +1,6 @@
 import { useAuth } from '../contexts/AuthContext';
 import { useRewardStatus } from '../hooks/usePerformance';
 import { REWARD_TIERS, getRewardTier } from '../services/analyticsService';
-import { ChevronRight, Lock, CheckCircle, Flame, Gift } from 'lucide-react';
 import clsx from 'clsx';
 
 export default function RewardCenter() {
@@ -21,7 +20,7 @@ export default function RewardCenter() {
     return (
       <div className="flex flex-col items-center justify-center min-h-[50vh] text-center px-4">
         <div className="w-20 h-20 bg-brand-50 rounded-full flex items-center justify-center mb-5">
-          <Gift className="w-10 h-10 text-brand-400" />
+          <span className="text-3xl">🎁</span>
         </div>
         <h2 className="text-xl font-bold text-gray-800 mb-2">아직 보상 티어가 없어요</h2>
         <p className="text-sm text-gray-500 max-w-sm leading-relaxed">
@@ -62,9 +61,8 @@ export default function RewardCenter() {
         </p>
 
         <div className="flex items-center justify-center gap-2 mt-3">
-          <Flame className="w-5 h-5 text-orange-500" />
           <span className="text-sm font-semibold text-orange-600">
-            {rewardStatus.streakDays}일 연속 활성
+            🔥 {rewardStatus.streakDays}일 연속 활성
           </span>
         </div>
 
@@ -100,7 +98,6 @@ export default function RewardCenter() {
               key={i}
               className="flex items-center gap-3 p-3 bg-success-50 rounded-xl"
             >
-              <CheckCircle className="w-5 h-5 text-success-500 flex-shrink-0" />
               <span className="text-sm font-medium text-success-700">{benefit}</span>
             </div>
           ))}
@@ -142,11 +139,11 @@ export default function RewardCenter() {
                       </p>
                     </div>
                   </div>
-                  {!isUnlocked && <Lock className="w-5 h-5 text-gray-300" />}
+                  {!isUnlocked && <span className="text-sm text-gray-300">🔒</span>}
                   {isUnlocked && !isCurrent && (
-                    <CheckCircle className="w-5 h-5 text-success-500" />
+                    <span className="text-sm text-success-500">✓</span>
                   )}
-                  {isCurrent && <ChevronRight className="w-5 h-5 text-brand-500" />}
+                  {isCurrent && <span className="text-sm text-brand-500">›</span>}
                 </div>
 
                 <div className="flex flex-wrap gap-2">

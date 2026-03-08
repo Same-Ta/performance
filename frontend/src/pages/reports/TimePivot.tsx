@@ -6,7 +6,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { getMetricsByUser } from '../../services/firestoreService';
 import type { PerformanceMetrics } from '../../types';
-import { Table2, ArrowUpDown, Download } from 'lucide-react';
+import { ArrowUpDown, Download } from 'lucide-react';
 import clsx from 'clsx';
 
 type PivotMode = 'category' | 'app';
@@ -158,7 +158,6 @@ export default function TimePivot() {
 
       {rows.length === 0 ? (
         <div className="card text-center py-16">
-          <Table2 className="w-12 h-12 text-gray-300 mx-auto mb-3" />
           <p className="text-gray-500">데이터가 없습니다.</p>
         </div>
       ) : (

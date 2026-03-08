@@ -1,44 +1,18 @@
 import { Outlet, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import {
-  LayoutDashboard,
-  Users,
-  ClipboardCheck,
-  Settings,
-  LogOut,
-  Shield,
-  Wifi,
-  WifiOff,
   ChevronLeft,
   ChevronRight,
   ChevronDown,
-  UserPlus,
-  Clock,
-  BarChart3,
-  CalendarDays,
-  Table2,
-  Monitor,
-  AppWindow,
-  Layers,
-  GanttChartSquare,
-  Target,
-  Zap,
-  UserCircle,
-  FileBarChart,
-  User,
-  CreditCard,
-  CheckSquare,
 } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 import clsx from 'clsx';
-import type { LucideIcon } from 'lucide-react';
 
 // ─── 타입 정의 ───────────────────────────────────────────
 
 interface NavLeaf {
   kind: 'leaf';
   to: string;
-  icon: LucideIcon;
   label: string;
   roles: string[];
 }
@@ -46,7 +20,6 @@ interface NavLeaf {
 interface NavGroup {
   kind: 'group';
   id: string;
-  icon: LucideIcon;
   label: string;
   roles: string[];
   children: NavLeaf[] | NavSubGroup[];
@@ -55,7 +28,6 @@ interface NavGroup {
 interface NavSubGroup {
   kind: 'subgroup';
   id: string;
-  icon: LucideIcon;
   label: string;
   children: NavLeaf[];
 }
@@ -72,20 +44,18 @@ const navItems: NavItem[] = [
   {
     kind: 'group',
     id: 'reports',
-    icon: FileBarChart,
     label: '리포트',
     roles: allRoles,
     children: [
       {
         kind: 'subgroup',
         id: 'reports-time',
-        icon: Clock,
         label: '시간',
         children: [
-          { kind: 'leaf', to: '/reports/time/summary', icon: BarChart3, label: '요약', roles: allRoles },
-          { kind: 'leaf', to: '/reports/time/detailed', icon: FileBarChart, label: '상세', roles: allRoles },
-          { kind: 'leaf', to: '/reports/time/by-days', icon: CalendarDays, label: '일별', roles: allRoles },
-          { kind: 'leaf', to: '/reports/time/pivot', icon: Table2, label: '피벗 테이블', roles: allRoles },
+          { kind: 'leaf', to: '/reports/time/summary', label: '요약', roles: allRoles },
+          { kind: 'leaf', to: '/reports/time/detailed', label: '상세', roles: allRoles },
+          { kind: 'leaf', to: '/reports/time/by-days', label: '일별', roles: allRoles },
+          { kind: 'leaf', to: '/reports/time/pivot', label: '피벗 테이블', roles: allRoles },
         ],
       },
     ],
@@ -95,17 +65,16 @@ const navItems: NavItem[] = [
   {
     kind: 'group',
     id: 'activities',
-    icon: Monitor,
     label: '컴퓨터 활동',
     roles: allRoles,
     children: [
-      { kind: 'leaf', to: '/activities/dashboard', icon: LayoutDashboard, label: '대시보드', roles: allRoles },
-      { kind: 'leaf', to: '/activities/apps', icon: AppWindow, label: '사이트 및 앱', roles: allRoles },
-      { kind: 'leaf', to: '/activities/categories', icon: Layers, label: '활동 카테고리', roles: allRoles },
-      { kind: 'leaf', to: '/activities/timeline', icon: GanttChartSquare, label: '타임라인', roles: allRoles },
-      { kind: 'leaf', to: '/activities/goals', icon: Target, label: '목표', roles: allRoles },
-      { kind: 'leaf', to: '/activities/efficiency', icon: Zap, label: '효율성', roles: allRoles },
-      { kind: 'leaf', to: '/activities/user-stats', icon: UserCircle, label: '사용자 통계', roles: allRoles },
+      { kind: 'leaf', to: '/activities/dashboard', label: '대시보드', roles: allRoles },
+      { kind: 'leaf', to: '/activities/apps', label: '사이트 및 앱', roles: allRoles },
+      { kind: 'leaf', to: '/activities/categories', label: '활동 카테고리', roles: allRoles },
+      { kind: 'leaf', to: '/activities/timeline', label: '타임라인', roles: allRoles },
+      { kind: 'leaf', to: '/activities/goals', label: '목표', roles: allRoles },
+      { kind: 'leaf', to: '/activities/efficiency', label: '효율성', roles: allRoles },
+      { kind: 'leaf', to: '/activities/user-stats', label: '사용자 통계', roles: allRoles },
     ],
   },
 
@@ -113,22 +82,21 @@ const navItems: NavItem[] = [
   {
     kind: 'group',
     id: 'team',
-    icon: Users,
     label: 'Team',
     roles: allRoles,
     children: [
-      { kind: 'leaf', to: '/team/users', icon: Users, label: 'Users', roles: allRoles },
-      { kind: 'leaf', to: '/team/timesheet-approvals', icon: CheckSquare, label: 'Timesheet Approvals', roles: allRoles },
+      { kind: 'leaf', to: '/team/users', label: 'Users', roles: allRoles },
+      { kind: 'leaf', to: '/team/timesheet-approvals', label: 'Timesheet Approvals', roles: allRoles },
     ],
   },
 
   // ── Notion 연동 ──────────────
-  { kind: 'leaf', to: '/notion/tasks', icon: CheckSquare, label: 'Notion 태스크', roles: allRoles },
+  { kind: 'leaf', to: '/notion/tasks', label: 'Notion 태스크', roles: allRoles },
 
   // ── 기타 ───────────────────
-  { kind: 'leaf', to: '/manager', icon: Users, label: '팀 관리 (매니저)', roles: managerUp },
-  { kind: 'leaf', to: '/review', icon: ClipboardCheck, label: '데이터 검토', roles: allRoles },
-  { kind: 'leaf', to: '/workspace', icon: UserPlus, label: '워크스페이스', roles: allRoles },
+  { kind: 'leaf', to: '/manager', label: '팀 관리 (매니저)', roles: managerUp },
+  { kind: 'leaf', to: '/review', label: '데이터 검토', roles: allRoles },
+  { kind: 'leaf', to: '/workspace', label: '워크스페이스', roles: allRoles },
 ];
 
 // ─── 컴포넌트 ────────────────────────────────────────────
@@ -189,7 +157,6 @@ export default function Layout() {
             )
           }
         >
-          <item.icon className="w-4 h-4 flex-shrink-0" />
           {!collapsed && <span>{item.label}</span>}
         </NavLink>
       </li>
@@ -208,7 +175,6 @@ export default function Layout() {
             hasActive ? 'text-brand-700' : 'text-gray-500 hover:bg-gray-50 hover:text-gray-700',
           )}
         >
-          <sg.icon className="w-4 h-4 flex-shrink-0" />
           {!collapsed && (
             <>
               <span className="flex-1 text-left">{sg.label}</span>
@@ -238,7 +204,7 @@ export default function Layout() {
         {/* 섹션 헤더 (접을 때는 아이콘만) */}
         {collapsed ? (
           <div className="flex justify-center py-2">
-            <g.icon className={clsx('w-5 h-5', hasActive ? 'text-brand-600' : 'text-gray-400')} />
+            <span className={clsx('text-xs font-bold', hasActive ? 'text-brand-600' : 'text-gray-400')}>{g.label[0]}</span>
           </div>
         ) : (
           <button
@@ -248,7 +214,6 @@ export default function Layout() {
               hasActive ? 'text-brand-700' : 'text-gray-500 hover:bg-gray-50 hover:text-gray-700',
             )}
           >
-            <g.icon className="w-5 h-5 flex-shrink-0" />
             <span className="flex-1 text-left">{g.label}</span>
             <ChevronDown className={clsx('w-3.5 h-3.5 transition-transform', isOpen && 'rotate-180')} />
           </button>
@@ -284,11 +249,10 @@ export default function Layout() {
         <div className="h-16 flex items-center justify-between px-4 border-b border-gray-100">
           {!collapsed && (
             <div className="flex items-center gap-2">
-              <Shield className="w-7 h-7 text-brand-600" />
               <span className="font-bold text-lg text-brand-800">ProofWork</span>
             </div>
           )}
-          {collapsed && <Shield className="w-7 h-7 text-brand-600 mx-auto" />}
+          {collapsed && <span className="font-bold text-sm text-brand-600">PW</span>}
           <button
             onClick={() => setCollapsed(!collapsed)}
             className="p-1 rounded-lg hover:bg-gray-100 transition-colors"
@@ -307,9 +271,9 @@ export default function Layout() {
         {/* 하단 Agent 상태 (collapsed 시) */}
         {collapsed && (
           <div className="border-t border-gray-100 p-3 flex justify-center">
-            {profile?.agentConnected
-              ? <Wifi className="w-4 h-4 text-success-500" />
-              : <WifiOff className="w-4 h-4 text-gray-400" />}
+            <span className={clsx('text-[10px] font-medium', profile?.agentConnected ? 'text-success-500' : 'text-gray-400')}>
+              {profile?.agentConnected ? 'ON' : 'OFF'}
+            </span>
           </div>
         )}
       </aside>
@@ -326,9 +290,9 @@ export default function Layout() {
           {/* Agent 상태 */}
           <div className="flex items-center gap-1.5 text-xs mr-auto">
             {profile?.agentConnected ? (
-              <><Wifi className="w-3.5 h-3.5 text-success-500" /><span className="text-success-700">Agent 연결됨</span></>
+              <><span className="w-2 h-2 rounded-full bg-success-500" /><span className="text-success-700">Agent 연결됨</span></>
             ) : (
-              <><WifiOff className="w-3.5 h-3.5 text-gray-400" /><span className="text-gray-400">Agent 미연결</span></>
+              <><span className="w-2 h-2 rounded-full bg-gray-300" /><span className="text-gray-400">Agent 미연결</span></>
             )}
           </div>
 
@@ -357,12 +321,12 @@ export default function Layout() {
                 </div>
 
                 {/* 메뉴 항목 */}
-                <DropdownLink icon={User} label="Profile settings" onClick={() => { setAccountOpen(false); navigate('/settings?tab=profile'); }} />
-                <DropdownLink icon={Settings} label="Account Settings" onClick={() => { setAccountOpen(false); navigate('/settings'); }} />
-                <DropdownLink icon={CreditCard} label="Subscription" onClick={() => { setAccountOpen(false); navigate('/settings?tab=subscription'); }} />
+                <DropdownLink label="Profile settings" onClick={() => { setAccountOpen(false); navigate('/settings?tab=profile'); }} />
+                <DropdownLink label="Account Settings" onClick={() => { setAccountOpen(false); navigate('/settings'); }} />
+                <DropdownLink label="Subscription" onClick={() => { setAccountOpen(false); navigate('/settings?tab=subscription'); }} />
 
                 <div className="border-t border-gray-100 mt-1 pt-1">
-                  <DropdownLink icon={LogOut} label="Log out" danger onClick={() => { setAccountOpen(false); handleSignOut(); }} />
+                  <DropdownLink label="Log out" danger onClick={() => { setAccountOpen(false); handleSignOut(); }} />
                 </div>
               </div>
             )}
@@ -379,8 +343,8 @@ export default function Layout() {
 }
 
 /** 드롭다운 메뉴 항목 */
-function DropdownLink({ icon: Icon, label, onClick, danger }: {
-  icon: LucideIcon; label: string; onClick: () => void; danger?: boolean;
+function DropdownLink({ label, onClick, danger }: {
+  label: string; onClick: () => void; danger?: boolean;
 }) {
   return (
     <button
@@ -392,7 +356,6 @@ function DropdownLink({ icon: Icon, label, onClick, danger }: {
           : 'text-gray-700 hover:bg-gray-50',
       )}
     >
-      <Icon className="w-4 h-4 flex-shrink-0" />
       <span>{label}</span>
     </button>
   );

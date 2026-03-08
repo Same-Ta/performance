@@ -1,13 +1,11 @@
-import { ReactNode } from 'react';
-import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
+
 import clsx from 'clsx';
 
 interface MetricCardProps {
   title: string;
   value: string | number;
   suffix?: string;
-  change?: number;           // 전일 대비 변화 (%)
-  icon: ReactNode;
+  change?: number;
   color: 'brand' | 'success' | 'warning' | 'danger';
   description?: string;
 }
@@ -24,18 +22,11 @@ export default function MetricCard({
   value,
   suffix,
   change,
-  icon,
   color,
   description,
 }: MetricCardProps) {
-  const trendIcon =
-    change === undefined ? null : change > 0 ? (
-      <TrendingUp className="w-3.5 h-3.5" />
-    ) : change < 0 ? (
-      <TrendingDown className="w-3.5 h-3.5" />
-    ) : (
-      <Minus className="w-3.5 h-3.5" />
-    );
+  const trendLabel =
+    change === undefined ? null : change > 0 ? '▲' : change < 0 ? '▼' : '—';
 
   const trendColor =
     change === undefined
@@ -49,8 +40,8 @@ export default function MetricCard({
   return (
     <div className="card-hover animate-fade-in">
       <div className="flex items-start justify-between mb-4">
-        <div className={clsx('p-2.5 rounded-xl', colorMap[color])}>
-          {icon}
+        <div className={clsx('px-2.5 py-1 rounded-xl text-xs font-semibold', colorMap[color])}>
+          {title}
         </div>
         {change !== undefined && (
           <div
@@ -59,13 +50,12 @@ export default function MetricCard({
               trendColor
             )}
           >
-            {trendIcon}
+            {trendLabel}
             <span>{change > 0 ? '+' : ''}{change}%</span>
           </div>
         )}
       </div>
 
-      <p className="text-sm text-gray-500 mb-1">{title}</p>
       <div className="flex items-baseline gap-1">
         <span className="text-2xl font-bold text-gray-900">{value}</span>
         {suffix && <span className="text-sm text-gray-400">{suffix}</span>}

@@ -7,7 +7,6 @@ import { useAuth } from '../../contexts/AuthContext';
 import { usePerformanceReport, useDetailedReport } from '../../hooks/usePerformance';
 import ReportPreview from '../../components/report/ReportPreview';
 import DetailedWorkReport from '../../components/report/DetailedWorkReport';
-import { FileBarChart, Sparkles, LayoutList } from 'lucide-react';
 import clsx from 'clsx';
 
 type TabKey = 'detailed' | 'overview';
@@ -41,7 +40,6 @@ export default function TimeDetailed() {
   if (!hasReport && !hasAnalysis) {
     return (
       <div className="card text-center py-12">
-        <FileBarChart className="w-12 h-12 text-gray-300 mx-auto mb-3" />
         <p className="text-gray-500">생성된 리포트가 없습니다.</p>
         <p className="text-xs text-gray-400 mt-1">충분한 데이터가 쌓이면 자동으로 리포트가 생성됩니다.</p>
       </div>
@@ -59,9 +57,9 @@ export default function TimeDetailed() {
 
       {/* 탭 */}
       <div className="flex gap-1 p-1 bg-gray-100 rounded-xl w-fit">
-        <TabBtn active={activeTab === 'detailed'} onClick={() => setActiveTab('detailed')} icon={<Sparkles className="w-4 h-4" />} label="상세 업무 분석" />
+        <TabBtn active={activeTab === 'detailed'} onClick={() => setActiveTab('detailed')} label="상세 업무 분석" />
         {hasReport && (
-          <TabBtn active={activeTab === 'overview'} onClick={() => setActiveTab('overview')} icon={<LayoutList className="w-4 h-4" />} label="기본 리포트" />
+          <TabBtn active={activeTab === 'overview'} onClick={() => setActiveTab('overview')} label="기본 리포트" />
         )}
       </div>
 
@@ -74,7 +72,6 @@ export default function TimeDetailed() {
           </div>
         ) : (
           <div className="card text-center py-12">
-            <Sparkles className="w-12 h-12 text-gray-300 mx-auto mb-3" />
             <p className="text-gray-500">상세 분석 데이터가 없습니다.</p>
           </div>
         )
@@ -91,7 +88,7 @@ export default function TimeDetailed() {
   );
 }
 
-function TabBtn({ active, onClick, icon, label }: { active: boolean; onClick: () => void; icon: React.ReactNode; label: string }) {
+function TabBtn({ active, onClick, label }: { active: boolean; onClick: () => void; label: string }) {
   return (
     <button
       onClick={onClick}
@@ -100,7 +97,7 @@ function TabBtn({ active, onClick, icon, label }: { active: boolean; onClick: ()
         active ? 'bg-white text-brand-700 shadow-sm' : 'text-gray-500 hover:text-gray-700',
       )}
     >
-      {icon}{label}
+      {label}
     </button>
   );
 }

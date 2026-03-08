@@ -1,5 +1,5 @@
 import type { DataReviewItem } from '../../types';
-import { Edit3, Clock, Eye, ChevronDown, ChevronUp, Trash2, Briefcase, Send, CheckCircle, X } from 'lucide-react';
+import { ChevronDown, ChevronUp, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import ActivityTimeline from '../dashboard/ActivityTimeline';
 
@@ -43,14 +43,13 @@ export default function DataReviewCard({
     ?? (metrics.timeline && metrics.timeline.length > 0 ? metrics.timeline[metrics.timeline.length - 1].endTime : null);
 
   const statusConfig = {
-    pending: { label: '검토 대기', class: 'badge-warning', icon: Clock },
-    approved: { label: '전송됨', class: 'badge-success', icon: CheckCircle },
-    rejected: { label: '반려됨', class: 'badge-danger', icon: X },
-    edited: { label: '수정됨', class: 'badge-info', icon: Edit3 },
+    pending: { label: '검토 대기', class: 'badge-warning' },
+    approved: { label: '전송됨', class: 'badge-success' },
+    rejected: { label: '반려됨', class: 'badge-danger' },
+    edited: { label: '수정됨', class: 'badge-info' },
   };
 
   const status = statusConfig[item.decision];
-  const StatusIcon = status.icon;
 
   return (
     <div className="card animate-fade-in">
@@ -60,20 +59,17 @@ export default function DataReviewCard({
           <div className="text-sm font-semibold text-gray-900">{item.date}</div>
           {/* 세션 시간 범위 */}
           {sessionStart && sessionEnd && (
-            <div className="flex items-center gap-1 text-xs text-gray-500 bg-gray-50 px-2 py-1 rounded-lg">
-              <Clock className="w-3 h-3" />
+            <div className="text-xs text-gray-500 bg-gray-50 px-2 py-1 rounded-lg">
               <span>{sessionStart} ~ {sessionEnd}</span>
             </div>
           )}
           {/* 업무 유형 */}
           {metrics.taskType && TASK_TYPE_LABELS[metrics.taskType] && (
-            <span className={`flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-medium ${TASK_TYPE_LABELS[metrics.taskType].color}`}>
-              <Briefcase className="w-3 h-3" />
+            <span className={`px-2 py-0.5 rounded-md text-xs font-medium ${TASK_TYPE_LABELS[metrics.taskType].color}`}>
               {TASK_TYPE_LABELS[metrics.taskType].label}
             </span>
           )}
           <span className={status.class}>
-            <StatusIcon className="w-3 h-3 mr-1" />
             {status.label}
           </span>
         </div>
@@ -94,7 +90,6 @@ export default function DataReviewCard({
             onClick={() => setExpanded(!expanded)}
             className="btn-ghost flex items-center gap-1 text-xs"
           >
-            <Eye className="w-3.5 h-3.5" />
             {expanded ? '접기' : '상세 보기'}
             {expanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
           </button>
@@ -231,7 +226,6 @@ export default function DataReviewCard({
                 : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
             }`}
           >
-            <Edit3 className="w-4 h-4" />
             {isEditing ? '수정 취소' : '수정하기'}
           </button>
 
@@ -247,7 +241,6 @@ export default function DataReviewCard({
               }}
               className="flex items-center gap-2 px-4 py-2 bg-brand-600 hover:bg-brand-700 disabled:opacity-50 text-white text-sm font-semibold rounded-xl transition-colors"
             >
-              <Send className="w-4 h-4" />
               {submitting ? '전송 중…' : '팀장에게 전송하기'}
             </button>
           )}
@@ -255,8 +248,7 @@ export default function DataReviewCard({
           {/* 이미 전송됨 표시 */}
           {item.decision === 'approved' && (
             <div className="flex items-center gap-2 px-4 py-2 bg-success-50 rounded-xl text-success-700 text-sm font-medium">
-              <CheckCircle className="w-4 h-4" />
-              팀장에게 전송 완료
+              ✓ 팀장에게 전송 완료
             </div>
           )}
         </div>

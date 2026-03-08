@@ -1,5 +1,4 @@
 import type { PerformerSummary } from '../../types';
-import { Trophy, TrendingUp, Flame } from 'lucide-react';
 import clsx from 'clsx';
 
 interface TeamOverviewProps {
@@ -24,7 +23,6 @@ export default function TeamOverview({ members }: TeamOverviewProps) {
           <h3 className="section-title">팀 성과 요약</h3>
           <p className="section-subtitle">이번 주 팀원별 핵심 지표</p>
         </div>
-        <Trophy className="w-5 h-5 text-warning-500" />
       </div>
 
       <div className="space-y-3">
@@ -64,14 +62,12 @@ export default function TeamOverview({ members }: TeamOverviewProps) {
 
               {/* 몰입도 */}
               <div className="hidden sm:flex items-center gap-1 text-xs text-gray-500">
-                <TrendingUp className="w-3.5 h-3.5" />
                 <span>몰입 {member.focusScore}</span>
               </div>
 
               {/* 연속 스트릭 */}
               {member.streak >= 3 && (
                 <div className="hidden md:flex items-center gap-1 text-xs text-orange-500">
-                  <Flame className="w-3.5 h-3.5" />
                   <span>{member.streak}일</span>
                 </div>
               )}

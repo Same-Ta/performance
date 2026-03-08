@@ -1,5 +1,4 @@
 import type { SoftwareUsageEntry} from '../../types';
-import { Monitor } from 'lucide-react';
 
 interface ProductivityOverviewProps {
   softwareData: SoftwareUsageEntry[];
@@ -70,7 +69,6 @@ export default function ProductivityOverview({
   return (
     <div className="card space-y-5">
       <div className="flex items-center gap-2">
-        <Monitor className="w-5 h-5 text-brand-500" />
         <h3 className="section-title">생산성 분석</h3>
       </div>
 

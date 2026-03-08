@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-import { Play, Square, Wifi, WifiOff, Activity, Clock, Brain, RefreshCw, ChevronDown, Globe, Pencil } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import { browserTracker } from '../../services/browserTracker';
 import type { BrowserLiveStats } from '../../services/browserTracker';
 import { submitMetrics } from '../../services/firestoreService';
@@ -401,17 +401,9 @@ export default function AgentControlPanel({ onSessionEnd }: Props) {
       {/* 상단 헤더 */}
       <div className="flex items-center justify-between px-5 py-4 border-b border-gray-50">
         <div className="flex items-center gap-2.5">
-          <Activity className="w-5 h-5 text-brand-500" />
           <span className="font-semibold text-gray-800">업무 추적 에이전트</span>
         </div>
         <div className="flex items-center gap-1.5">
-          {browserRunning ? (
-            <Globe className={`w-4 h-4 ${stateColor}`} />
-          ) : agentState === 'offline' ? (
-            <WifiOff className={`w-4 h-4 ${stateColor}`} />
-          ) : (
-            <Wifi className={`w-4 h-4 ${stateColor}`} />
-          )}
           <span className={`text-xs font-medium ${stateColor}`}>{stateLabel}</span>
         </div>
       </div>
@@ -428,7 +420,6 @@ export default function AgentControlPanel({ onSessionEnd }: Props) {
                   : 'bg-gray-50 border-gray-200 text-gray-500 hover:bg-gray-100'
               }`}
             >
-              <Globe className="w-3.5 h-3.5" />
               브라우저 모드
             </button>
             <button
@@ -439,7 +430,6 @@ export default function AgentControlPanel({ onSessionEnd }: Props) {
                   : 'bg-gray-50 border-gray-200 text-gray-500 hover:bg-gray-100'
               }`}
             >
-              <Wifi className="w-3.5 h-3.5" />
               로컬 에이전트
             </button>
           </div>
@@ -458,10 +448,10 @@ export default function AgentControlPanel({ onSessionEnd }: Props) {
         {/* 실시간 통계 */}
         {isTracking && liveStats && (
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            <StatBadge icon={<Clock className="w-4 h-4 text-blue-500" />} label="경과" value={`${liveStats.elapsedMinutes}분`} />
-            <StatBadge icon={<Activity className="w-4 h-4 text-green-500" />} label="활성" value={`${liveStats.activeMinutes}분`} />
-            <StatBadge icon={<Brain className="w-4 h-4 text-purple-500" />} label="딥포커스" value={`${liveStats.deepFocusMinutes}분`} />
-            <StatBadge icon={<RefreshCw className="w-4 h-4 text-orange-400" />} label="전환" value={`${liveStats.contextSwitches}회`} />
+            <StatBadge label="경과" value={`${liveStats.elapsedMinutes}분`} />
+            <StatBadge label="활성" value={`${liveStats.activeMinutes}분`} />
+            <StatBadge label="딥포커스" value={`${liveStats.deepFocusMinutes}분`} />
+            <StatBadge label="전환" value={`${liveStats.contextSwitches}회`} />
           </div>
         )}
 
@@ -523,7 +513,6 @@ export default function AgentControlPanel({ onSessionEnd }: Props) {
                     className={`w-full text-left px-3 py-2 text-sm hover:bg-gray-50 flex items-center gap-2 ${selectedTask === '__custom__' ? 'bg-brand-50' : ''}`}
                   >
                     <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-medium bg-violet-100 text-violet-700">
-                      <Pencil className="w-3 h-3" />
                       직접 입력
                     </span>
                   </button>
@@ -561,7 +550,6 @@ export default function AgentControlPanel({ onSessionEnd }: Props) {
               disabled={loading}
               className="flex items-center gap-2 px-5 py-2.5 bg-red-500 hover:bg-red-600 disabled:opacity-50 text-white text-sm font-semibold rounded-xl transition-colors"
             >
-              <Square className="w-4 h-4 fill-white" />
               {loading ? '종료 중…' : '추적 중지'}
             </button>
           ) : (
@@ -570,7 +558,6 @@ export default function AgentControlPanel({ onSessionEnd }: Props) {
               disabled={loading || !user}
               className="flex items-center gap-2 px-5 py-2.5 bg-brand-600 hover:bg-brand-700 disabled:opacity-40 disabled:cursor-not-allowed text-white text-sm font-semibold rounded-xl transition-colors"
             >
-              <Play className="w-4 h-4 fill-white" />
               {loading ? '시작 중…' : '추적 시작'}
             </button>
           )}
@@ -580,10 +567,9 @@ export default function AgentControlPanel({ onSessionEnd }: Props) {
   );
 }
 
-function StatBadge({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
+function StatBadge({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-center gap-2 bg-gray-50 rounded-xl px-3 py-2.5">
-      {icon}
       <div>
         <p className="text-[10px] text-gray-400 leading-none">{label}</p>
         <p className="text-sm font-semibold text-gray-700 mt-0.5">{value}</p>

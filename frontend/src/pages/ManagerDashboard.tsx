@@ -3,7 +3,6 @@ import MetricCard from '../components/dashboard/MetricCard';
 import TeamOverview from '../components/dashboard/TeamOverview';
 import BottleneckAlert from '../components/dashboard/BottleneckAlert';
 import FocusChart from '../components/charts/FocusChart';
-import { Users, Brain, Zap, Target } from 'lucide-react';
 
 export default function ManagerDashboard() {
   const { dashboard, loading } = useTeamDashboard();
@@ -19,7 +18,6 @@ export default function ManagerDashboard() {
   if (!dashboard) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] text-center px-4">
-        <Users className="w-16 h-16 text-gray-200 mb-4" />
         <h2 className="text-xl font-bold text-gray-800 mb-2">팀 데이터가 없어요</h2>
         <p className="text-sm text-gray-500 max-w-sm leading-relaxed">
           팀원들이 On-Device Agent로 데이터를 제출하고,<br />
@@ -47,14 +45,12 @@ export default function ManagerDashboard() {
           title="팀 인원"
           value={dashboard.memberCount}
           suffix="명"
-          icon={<Users className="w-5 h-5" />}
           color="brand"
         />
         <MetricCard
           title="팀 평균 몰입도"
           value={dashboard.avgFocusScore}
           suffix="/100"
-          icon={<Brain className="w-5 h-5" />}
           color="brand"
           change={3}
         />
@@ -62,7 +58,6 @@ export default function ManagerDashboard() {
           title="팀 평균 효율성"
           value={dashboard.avgEfficiency}
           suffix="/100"
-          icon={<Zap className="w-5 h-5" />}
           color="success"
           change={-1}
         />
@@ -70,7 +65,6 @@ export default function ManagerDashboard() {
           title="팀 목표 정렬도"
           value={dashboard.avgGoalAlignment}
           suffix="%"
-          icon={<Target className="w-5 h-5" />}
           color="warning"
           change={5}
         />

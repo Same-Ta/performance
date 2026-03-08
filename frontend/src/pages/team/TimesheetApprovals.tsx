@@ -5,7 +5,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { getMetricsByUser, getPendingReviews, updateReviewDecision } from '../../services/firestoreService';
-import { CheckSquare, Check, X, Filter } from 'lucide-react';
+import { Check, X, Filter } from 'lucide-react';
 import clsx from 'clsx';
 
 /** 통합 행 타입 */
@@ -155,7 +155,6 @@ export default function TimesheetApprovals() {
 
       {filtered.length === 0 ? (
         <div className="card text-center py-16">
-          <CheckSquare className="w-12 h-12 text-gray-300 mx-auto mb-3" />
           <p className="text-gray-500">해당하는 타임시트가 없습니다.</p>
         </div>
       ) : (

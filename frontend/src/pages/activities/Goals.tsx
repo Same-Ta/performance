@@ -12,7 +12,6 @@ import {
   ResponsiveContainer, Tooltip,
   LineChart, Line, XAxis, YAxis, CartesianGrid,
 } from 'recharts';
-import { Target, TrendingUp, TrendingDown, Minus } from 'lucide-react';
 import clsx from 'clsx';
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -130,7 +129,6 @@ export default function Goals() {
   if (!kpi) {
     return (
       <div className="card text-center py-16">
-        <Target className="w-12 h-12 text-gray-300 mx-auto mb-3" />
         <p className="text-gray-500">목표 데이터가 없습니다.</p>
       </div>
     );
@@ -154,7 +152,7 @@ export default function Goals() {
           <p className={clsx('text-3xl font-bold mt-1', pctColor(kpi.rAvg))}>{Math.round(kpi.rAvg)}</p>
           <div className={clsx('text-xs font-semibold mt-1 inline-flex items-center gap-1',
             kpi.trend > 0 ? 'text-green-600' : kpi.trend < 0 ? 'text-red-500' : 'text-gray-400')}>
-            {kpi.trend > 2 ? <TrendingUp className="w-3 h-3" /> : kpi.trend < -2 ? <TrendingDown className="w-3 h-3" /> : <Minus className="w-3 h-3" />}
+            {kpi.trend > 2 ? '▲' : kpi.trend < -2 ? '▼' : '—'}
             {kpi.trend > 0 ? '+' : ''}{kpi.trend.toFixed(1)}p
           </div>
         </div>

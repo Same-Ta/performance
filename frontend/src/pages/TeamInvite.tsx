@@ -6,22 +6,13 @@ import {
   cancelInvite,
 } from '../services/firestoreService';
 import type { TeamInvite as TeamInviteDoc } from '../services/firestoreService';
-import {
-  UserPlus,
-  Mail,
-  Clock,
-  CheckCircle2,
-  XCircle,
-  Trash2,
-  Send,
-  Users,
-} from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 import clsx from 'clsx';
 
 const STATUS_CONFIG = {
-  pending: { label: '대기 중', color: 'text-amber-600 bg-amber-50', icon: Clock },
-  accepted: { label: '수락됨', color: 'text-success-700 bg-success-50', icon: CheckCircle2 },
-  declined: { label: '거절/취소', color: 'text-red-600 bg-red-50', icon: XCircle },
+  pending: { label: '대기 중', color: 'text-amber-600 bg-amber-50' },
+  accepted: { label: '수락됨', color: 'text-success-700 bg-success-50' },
+  declined: { label: '거절/취소', color: 'text-red-600 bg-red-50' },
 };
 
 export default function TeamInvite() {
@@ -89,8 +80,7 @@ export default function TeamInvite() {
   return (
     <div className="space-y-6 animate-fade-in">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-          <Users className="w-7 h-7 text-brand-600" />
+        <h1 className="text-2xl font-bold text-gray-900">
           팀원 초대
         </h1>
         <p className="text-sm text-gray-500 mt-1">
@@ -100,8 +90,7 @@ export default function TeamInvite() {
 
       {/* 초대 폼 */}
       <form onSubmit={handleSend} className="card space-y-4">
-        <h3 className="section-title flex items-center gap-2">
-          <UserPlus className="w-4 h-4" />
+        <h3 className="section-title">
           새 초대 발송
         </h3>
 
@@ -109,17 +98,14 @@ export default function TeamInvite() {
           <label className="block text-xs font-semibold text-gray-700 mb-1">
             초대할 이메일 주소
           </label>
-          <div className="relative">
-            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-            <input
-              type="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="colleague@company.com"
-              className="input-field pl-10"
-            />
-          </div>
+          <input
+            type="email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="colleague@company.com"
+            className="input-field"
+          />
         </div>
 
         <div>
@@ -155,7 +141,6 @@ export default function TeamInvite() {
             disabled={sending || !email.trim()}
             className="btn-primary flex items-center gap-2 disabled:opacity-50"
           >
-            <Send className="w-4 h-4" />
             {sending ? '발송 중…' : '초대 발송'}
           </button>
           {sendResult && (
@@ -188,21 +173,19 @@ export default function TeamInvite() {
 
         {!loadingInvites && !loadError && invites.length === 0 && (
           <div className="py-10 text-center">
-            <UserPlus className="w-10 h-10 text-gray-300 mx-auto mb-2" />
             <p className="text-sm text-gray-400">발송한 초대가 없습니다.</p>
           </div>
         )}
 
         {!loadingInvites && invites.map((inv) => {
           const cfg = STATUS_CONFIG[inv.status];
-          const Icon = cfg.icon;
           return (
             <div
               key={inv.id}
               className="flex items-center gap-3 p-4 border border-gray-100 rounded-xl hover:bg-gray-50 transition-colors"
             >
               <div className="w-10 h-10 rounded-full bg-brand-100 flex items-center justify-center flex-shrink-0">
-                <Mail className="w-4 h-4 text-brand-600" />
+                <span className="text-sm font-bold text-brand-600">{inv.email.charAt(0).toUpperCase()}</span>
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-semibold text-gray-900 truncate">{inv.email}</p>
@@ -212,8 +195,7 @@ export default function TeamInvite() {
                   </span>
                 </div>
               </div>
-              <span className={clsx('flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full', cfg.color)}>
-                <Icon className="w-3.5 h-3.5" />
+              <span className={clsx('text-xs font-semibold px-2.5 py-1 rounded-full', cfg.color)}>
                 {cfg.label}
               </span>
               {inv.status === 'pending' && (

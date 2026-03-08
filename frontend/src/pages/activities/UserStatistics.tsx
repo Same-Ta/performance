@@ -10,7 +10,6 @@ import type { PerformanceMetrics } from '../../types';
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell,
 } from 'recharts';
-import { UserCircle, Award, Flame, Calendar, Clock, Star } from 'lucide-react';
 
 const GRADE_COLORS: Record<string, string> = {
   S: '#7C3AED', A: '#2563EB', B: '#10B981', C: '#F59E0B', D: '#EF4444', F: '#6B7280',
@@ -125,7 +124,6 @@ export default function UserStatistics() {
   if (!stats) {
     return (
       <div className="card text-center py-16">
-        <UserCircle className="w-12 h-12 text-gray-300 mx-auto mb-3" />
         <p className="text-gray-500">사용자 통계 데이터가 없습니다.</p>
       </div>
     );
@@ -146,14 +144,14 @@ export default function UserStatistics() {
 
       {/* 대표 KPI */}
       <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4">
-        <StatCard icon={<Calendar className="w-5 h-5" />} label="총 근무일" value={`${stats.totalDays}일`} color="#3B82F6" />
-        <StatCard icon={<Clock className="w-5 h-5" />} label="누적 근무 시간" value={fmtH(stats.totalWork)} color="#10B981" />
-        <StatCard icon={<Star className="w-5 h-5" />} label="평균 효율" value={`${Math.round(stats.avgEff)}점`}
+        <StatCard label="총 근무일" value={`${stats.totalDays}일`} color="#3B82F6" />
+        <StatCard label="누적 근무 시간" value={fmtH(stats.totalWork)} color="#10B981" />
+        <StatCard label="평균 효율" value={`${Math.round(stats.avgEff)}점`}
           sub={`등급 ${stats.avgGrade}`} color={GRADE_COLORS[stats.avgGrade]} />
-        <StatCard icon={<Star className="w-5 h-5" />} label="평균 집중" value={`${Math.round(stats.avgFocus)}점`} color="#6366F1" />
-        <StatCard icon={<Flame className="w-5 h-5" />} label="현재 연속"
+        <StatCard label="평균 집중" value={`${Math.round(stats.avgFocus)}점`} color="#6366F1" />
+        <StatCard label="현재 연속"
           value={`${stats.streak}일`} sub={`최대 ${stats.maxStreak}일`} color="#F59E0B" />
-        <StatCard icon={<Award className="w-5 h-5" />} label="보상 티어"
+        <StatCard label="보상 티어"
           value={stats.tier.name} sub={`${stats.tier.minScore}~${stats.tier.maxScore}점`} color={stats.tier.color} />
       </div>
 
@@ -245,14 +243,11 @@ export default function UserStatistics() {
   );
 }
 
-function StatCard({ icon, label, value, sub, color }: {
-  icon: React.ReactNode; label: string; value: string; sub?: string; color: string;
+function StatCard({ label, value, sub, color }: {
+  label: string; value: string; sub?: string; color: string;
 }) {
   return (
     <div className="card text-center space-y-1.5">
-      <div className="mx-auto w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: color + '18', color }}>
-        {icon}
-      </div>
       <p className="text-[10px] text-gray-500 uppercase tracking-wide">{label}</p>
       <p className="text-lg font-bold" style={{ color }}>{value}</p>
       {sub && <p className="text-[10px] text-gray-400">{sub}</p>}

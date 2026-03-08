@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Layout from './components/Layout';
 import Login from './pages/Login';
+import Signup from './pages/Signup';
+import LandingPage from './pages/LandingPage';
 
 // 기존 페이지
 import ManagerDashboard from './pages/ManagerDashboard';
@@ -44,7 +46,7 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
   }
 
   if (!user) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/landing" replace />;
   }
 
   return <>{children}</>;
@@ -67,7 +69,9 @@ export default function App() {
     <BrowserRouter>
       <AuthProvider>
         <Routes>
+          <Route path="/landing" element={<PublicRoute><LandingPage /></PublicRoute>} />
           <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
+          <Route path="/signup" element={<PublicRoute><Signup /></PublicRoute>} />
           <Route
             path="/"
             element={
@@ -113,7 +117,7 @@ export default function App() {
             <Route path="team-invite" element={<Navigate to="/team/users" replace />} />
             <Route path="team" element={<Navigate to="/team/users" replace />} />
           </Route>
-          <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="*" element={<Navigate to="/landing" replace />} />
         </Routes>
       </AuthProvider>
     </BrowserRouter>

@@ -3,8 +3,8 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell,
 } from 'recharts';
 import {
-  Monitor, Clock, Brain, TrendingUp, Zap, Target, ChevronDown, ChevronUp,
-  Sparkles, AlertTriangle, Award, AppWindow, Layers, ArrowUpRight, ArrowDownRight, Minus,
+  ChevronDown, ChevronUp,
+  ArrowUpRight, ArrowDownRight, Minus,
 } from 'lucide-react';
 import clsx from 'clsx';
 import type { DetailedAnalysis } from '../../services/workAnalysisService';
@@ -63,7 +63,6 @@ export default function DetailedWorkReport({
   if (analysis.activeWorkMinutes === 0) {
     return (
       <div className="card text-center py-12">
-        <Monitor className="w-12 h-12 text-gray-300 mx-auto mb-3" />
         <p className="text-gray-500">분석할 업무 데이터가 없습니다.</p>
         <p className="text-xs text-gray-400 mt-1">추적을 시작하면 상세 리포트가 생성됩니다.</p>
       </div>
@@ -74,17 +73,16 @@ export default function DetailedWorkReport({
     <div className="space-y-5 animate-fade-in">
       {/* ─── 핵심 지표 요약 ─── */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <StatCard icon={<Clock className="w-5 h-5 text-blue-500" />} label="총 업무 시간" value={fmtMin(analysis.totalWorkMinutes)} />
-        <StatCard icon={<Zap className="w-5 h-5 text-green-500" />} label="활성 시간" value={fmtMin(analysis.activeWorkMinutes)} />
-        <StatCard icon={<Target className="w-5 h-5 text-purple-500" />} label="생산성" value={`${analysis.productivityRate}%`} />
-        <StatCard icon={<Brain className="w-5 h-5 text-indigo-500" />} label="작업 스타일" value={analysis.workPattern.workStyle} />
+        <StatCard label="총 업무 시간" value={fmtMin(analysis.totalWorkMinutes)} />
+        <StatCard label="활성 시간" value={fmtMin(analysis.activeWorkMinutes)} />
+        <StatCard label="생산성" value={`${analysis.productivityRate}%`} />
+        <StatCard label="작업 스타일" value={analysis.workPattern.workStyle} />
       </div>
 
       {/* ─── AI 업무 서술 ─── */}
       <Section
         id="ai"
         title="AI 업무 분석 리포트"
-        icon={<Sparkles className="w-5 h-5 text-amber-500" />}
         expanded={expandedSections.ai}
         onToggle={() => toggle('ai')}
       >
@@ -106,7 +104,6 @@ export default function DetailedWorkReport({
                   {aiReport.appWorkAnalysis.map((app, i) => (
                     <div key={i} className="bg-white border border-gray-100 rounded-xl p-4 shadow-sm">
                       <div className="flex items-center gap-2 mb-2">
-                        <AppWindow className="w-4 h-4 text-brand-500" />
                         <span className="text-sm font-bold text-gray-800">{app.appName}</span>
                       </div>
                       <p className="text-sm text-gray-600 mb-1">{app.workDescription}</p>
@@ -166,7 +163,6 @@ export default function DetailedWorkReport({
                   {aiReport.actionableRecommendations.map((rec, i) => (
                     <div key={i} className="bg-white border border-gray-100 rounded-xl p-4 shadow-sm">
                       <div className="flex items-center gap-2 mb-1">
-                        <AlertTriangle className="w-4 h-4 text-gray-400" />
                         <span className="text-sm font-bold text-gray-800">{rec.title}</span>
                         <span className={clsx('text-[10px] font-semibold px-2 py-0.5 rounded-full', PRIORITY_COLORS[rec.priority])}>
                           {PRIORITY_LABELS[rec.priority]}
@@ -183,10 +179,7 @@ export default function DetailedWorkReport({
             {/* 성과 하이라이트 */}
             {aiReport.performanceHighlights.length > 0 && (
               <div className="bg-brand-50 rounded-xl p-4 border-2 border-brand-200">
-                <div className="flex items-center gap-2 mb-3">
-                  <Award className="w-5 h-5 text-brand-600" />
-                  <p className="text-sm font-bold text-brand-800">성과 어필 포인트</p>
-                </div>
+                <p className="text-sm font-bold text-brand-800 mb-3">성과 어필 포인트</p>
                 <ul className="space-y-2">
                   {aiReport.performanceHighlights.map((h, i) => (
                     <li key={i} className="flex items-start gap-3 bg-white rounded-lg px-3 py-2 border border-brand-100">
@@ -202,7 +195,6 @@ export default function DetailedWorkReport({
           </div>
         ) : (
           <div className="text-center py-8">
-            <Sparkles className="w-10 h-10 text-amber-300 mx-auto mb-3" />
             <p className="text-sm text-gray-500 mb-3">
               AI가 실제 앱 사용 데이터와 작업 내용을 분석하여 상세 리포트를 생성합니다.
             </p>
@@ -228,7 +220,6 @@ export default function DetailedWorkReport({
       <Section
         id="apps"
         title="앱별 사용 분석"
-        icon={<Layers className="w-5 h-5 text-blue-500" />}
         expanded={expandedSections.apps}
         onToggle={() => toggle('apps')}
         badge={`${analysis.appAnalyses.length}개 앱`}
@@ -293,10 +284,7 @@ export default function DetailedWorkReport({
       {/* ─── 카테고리별 시간 분포 ─── */}
       {analysis.categorySummaries.length > 0 && (
         <div className="card">
-          <div className="flex items-center gap-2 mb-4">
-            <Monitor className="w-5 h-5 text-brand-500" />
-            <h3 className="section-title">카테고리별 업무 시간</h3>
-          </div>
+          <h3 className="section-title mb-4">카테고리별 업무 시간</h3>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
             {analysis.categorySummaries.map((cat) => (
               <div key={cat.category} className="bg-gray-50 rounded-xl p-3 border border-gray-100">
@@ -320,7 +308,6 @@ export default function DetailedWorkReport({
       <Section
         id="hourly"
         title="시간대별 생산성"
-        icon={<TrendingUp className="w-5 h-5 text-green-500" />}
         expanded={expandedSections.hourly}
         onToggle={() => toggle('hourly')}
       >
@@ -371,7 +358,6 @@ export default function DetailedWorkReport({
       <Section
         id="pattern"
         title="작업 패턴 분석"
-        icon={<Brain className="w-5 h-5 text-purple-500" />}
         expanded={expandedSections.pattern}
         onToggle={() => toggle('pattern')}
       >
@@ -397,7 +383,6 @@ export default function DetailedWorkReport({
       <Section
         id="timeline"
         title="작업 내용 상세"
-        icon={<Clock className="w-5 h-5 text-orange-500" />}
         expanded={expandedSections.timeline}
         onToggle={() => toggle('timeline')}
         badge={`${analysis.workContents.length}건`}
@@ -436,10 +421,7 @@ export default function DetailedWorkReport({
       {/* ─── 인사이트 ─── */}
       {analysis.insights.length > 0 && (
         <div className="card bg-gray-50 border border-gray-100">
-          <div className="flex items-center gap-2 mb-3">
-            <Sparkles className="w-5 h-5 text-amber-500" />
-            <h3 className="section-title">핵심 인사이트</h3>
-          </div>
+          <h3 className="section-title mb-3">핵심 인사이트</h3>
           <ul className="space-y-2">
             {analysis.insights.map((insight, i) => (
               <li key={i} className="text-sm text-gray-700 flex items-start gap-2">
@@ -456,10 +438,9 @@ export default function DetailedWorkReport({
 
 // ─── 서브 컴포넌트 ──────────────────────────────────────────
 
-function StatCard({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
+function StatCard({ label, value }: { label: string; value: string }) {
   return (
-    <div className="card flex items-center gap-3 !py-4">
-      {icon}
+    <div className="card !py-4">
       <div>
         <p className="text-[10px] text-gray-400 uppercase tracking-wider">{label}</p>
         <p className="text-lg font-bold text-gray-900 mt-0.5">{value}</p>
@@ -471,7 +452,6 @@ function StatCard({ icon, label, value }: { icon: React.ReactNode; label: string
 function Section({
   id: _id,
   title,
-  icon,
   expanded,
   onToggle,
   badge,
@@ -479,7 +459,6 @@ function Section({
 }: {
   id: string;
   title: string;
-  icon: React.ReactNode;
   expanded: boolean;
   onToggle: () => void;
   badge?: string;
@@ -492,7 +471,6 @@ function Section({
         className="w-full flex items-center justify-between"
       >
         <div className="flex items-center gap-2">
-          {icon}
           <h3 className="section-title">{title}</h3>
           {badge && (
             <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-gray-100 text-gray-500">

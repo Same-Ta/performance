@@ -9,7 +9,7 @@ import {
   inviteMemberToWorkspace,
   type Workspace,
 } from '../../services/firestoreService';
-import { Users as UsersIcon, UserPlus, Settings, Plus, Search, ChevronDown } from 'lucide-react';
+import { UserPlus, Settings, Plus, Search, ChevronDown } from 'lucide-react';
 import clsx from 'clsx';
 
 interface MemberRow {
@@ -200,7 +200,6 @@ export default function TeamUsers() {
           Create group
         </button>
         <div className="flex items-center gap-1.5 text-sm text-gray-500">
-          <UsersIcon className="w-4 h-4" />
           <span>{members.length} / 100 Users</span>
         </div>
         <span className="text-sm text-brand-600 hover:underline cursor-pointer">Change number of seats</span>

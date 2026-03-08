@@ -6,7 +6,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { getMetricsByUser } from '../../services/firestoreService';
 import type { PerformanceMetrics, ActivitySegment } from '../../types';
-import { Clock, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import clsx from 'clsx';
 
 const ACT_COLORS: Record<string, string> = {
@@ -128,7 +128,6 @@ export default function ActivitiesTimeline() {
 
       {timeline.length === 0 ? (
         <div className="card text-center py-16">
-          <Clock className="w-12 h-12 text-gray-300 mx-auto mb-3" />
           <p className="text-gray-500">이 날짜의 타임라인 데이터가 없습니다.</p>
         </div>
       ) : (

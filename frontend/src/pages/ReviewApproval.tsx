@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useDataReview } from '../hooks/usePerformance';
 import DataReviewCard from '../components/review/DataReviewCard';
-import { Shield, ClipboardCheck, AlertCircle, Filter, X } from 'lucide-react';
+import { X } from 'lucide-react';
 
 const STATUS_FILTERS = [
   { value: 'all', label: '전체', color: 'bg-gray-100 text-gray-700' },
@@ -69,32 +69,27 @@ export default function ReviewApproval() {
 
       {/* Privacy Firewall 안내 */}
       <div className="card bg-brand-50/30 border-brand-200">
-        <div className="flex items-start gap-3">
-          <Shield className="w-6 h-6 text-brand-600 flex-shrink-0 mt-0.5" />
-          <div>
-            <h3 className="text-sm font-bold text-brand-800 mb-1">
-              Privacy Firewall — 당신의 데이터, 당신의 결정
-            </h3>
+        <div>
+          <h3 className="text-sm font-bold text-brand-800 mb-1">
+            Privacy Firewall — 당신의 데이터, 당신의 결정
+          </h3>
             <p className="text-xs text-gray-600 leading-relaxed">
               아래 데이터는 모두 귀하의 PC에서 로컬로 분석된 결과입니다. 
               영상 원본은 이미 완전히 파기되었으며, 아래의 <strong>수치 데이터만</strong> 존재합니다.
               <br />
               <strong>팀장에게 전송</strong> 버튼을 누르기 전까지 어떤 데이터도 전송되지 않습니다.
             </p>
-          </div>
         </div>
       </div>
 
       {/* 상태 요약 */}
       <div className="flex items-center gap-4 flex-wrap">
-        <div className="flex items-center gap-2 px-4 py-2 bg-warning-50 rounded-xl">
-          <AlertCircle className="w-4 h-4 text-warning-500" />
+        <div className="px-4 py-2 bg-warning-50 rounded-xl">
           <span className="text-sm font-medium text-warning-700">
             검토 대기: {pendingCount}건
           </span>
         </div>
-        <div className="flex items-center gap-2 px-4 py-2 bg-success-50 rounded-xl">
-          <ClipboardCheck className="w-4 h-4 text-success-500" />
+        <div className="px-4 py-2 bg-success-50 rounded-xl">
           <span className="text-sm font-medium text-success-700">
             팀장 전송 완료: {sentCount}건
           </span>
@@ -104,7 +99,6 @@ export default function ReviewApproval() {
       {/* 필터링 */}
       <div className="card">
         <div className="flex items-center gap-2 mb-3">
-          <Filter className="w-4 h-4 text-gray-500" />
           <span className="text-sm font-semibold text-gray-700">필터</span>
           {hasActiveFilter && (
             <button
@@ -194,7 +188,6 @@ export default function ReviewApproval() {
 
       {filteredReviews.length === 0 && reviews.length > 0 && (
         <div className="card text-center py-12">
-          <Filter className="w-12 h-12 text-gray-300 mx-auto mb-3" />
           <p className="text-gray-500">필터 조건에 맞는 데이터가 없습니다.</p>
           <button
             onClick={() => { setStatusFilter('all'); setTaskFilter('all'); }}
@@ -207,7 +200,6 @@ export default function ReviewApproval() {
 
       {reviews.length === 0 && (
         <div className="card text-center py-12">
-          <ClipboardCheck className="w-12 h-12 text-gray-300 mx-auto mb-3" />
           <p className="text-gray-500">검토할 데이터가 없습니다.</p>
           <p className="text-xs text-gray-400 mt-1">Agent에서 분석이 완료되면 여기에 표시됩니다.</p>
         </div>

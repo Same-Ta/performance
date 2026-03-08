@@ -6,12 +6,6 @@ import EfficiencyChart from '../components/charts/EfficiencyChart';
 import AgentControlPanel from '../components/agent/AgentControlPanel';
 import ActivityTimeline from '../components/dashboard/ActivityTimeline';
 import ProductivityOverview from '../components/dashboard/ProductivityOverview';
-import {
-  Zap,
-  Clock,
-  Code2,
-  TrendingUp,
-} from 'lucide-react';
 
 function NoDataCard() {
   return (
@@ -74,7 +68,6 @@ export default function EmployeeDashboard() {
           <div className="flex flex-col">
             <div className="card flex-1 flex flex-col">
               <div className="flex items-center gap-2 mb-4">
-                <Code2 className="w-5 h-5 text-brand-500" />
                 <h3 className="section-title">오늘의 AI 업무 요약</h3>
               </div>
               <p className="text-sm text-gray-700 leading-relaxed mb-4">
@@ -106,17 +99,14 @@ export default function EmployeeDashboard() {
               {/* 세부 지표 */}
               <div className="grid grid-cols-3 gap-3 mt-5 pt-4 border-t border-gray-100">
                 <div className="text-center">
-                  <TrendingUp className="w-4 h-4 text-gray-400 mx-auto mb-1" />
                   <p className="text-xs text-gray-500">컨텍스트 전환</p>
                   <p className="text-sm font-bold">{today.contextSwitchCount}회</p>
                 </div>
                 <div className="text-center">
-                  <Zap className="w-4 h-4 text-gray-400 mx-auto mb-1" />
                   <p className="text-xs text-gray-500">입력 밀도</p>
                   <p className="text-sm font-bold">{today.inputDensity}/분</p>
                 </div>
                 <div className="text-center">
-                  <Clock className="w-4 h-4 text-gray-400 mx-auto mb-1" />
                   <p className="text-xs text-gray-500">활성 시간</p>
                   <p className="text-sm font-bold">{(today.activeWorkMinutes / 60).toFixed(1)}h</p>
                 </div>
