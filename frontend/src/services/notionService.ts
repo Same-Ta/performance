@@ -3,21 +3,44 @@
  * Firebase Functions의 notionProxy를 통해 Notion API를 호출합니다.
  */
 
-import { httpsCallable } from 'firebase/functions';
-import { functions } from '../config/firebase';
+import { auth } from '../config/firebase';
 import type { NotionSettings, NotionTask } from '../types';
 
-const proxyFn = httpsCallable<Record<string, unknown>, { tasks?: NotionTask[]; success?: boolean; ok?: boolean; message?: string; botName?: string; dbTitle?: string; hint?: string }>(
-  functions,
-  'notionProxy'
-);
+const FUNCTIONS_URL = import.meta.env.DEV 
+  ? 'http://localhost:5003/snippet-b24e9/asia-northeast3/notionProxy'
+  : 'https://asia-northeast3-snippet-b24e9.cloudfunctions.net/notionProxy';
+
+async function callNotionProxy(data: Record<string, unknown>): Promise<any> {
+  const user = auth.currentUser;
+  if (!user) {
+    throw new Error('로그인이 필요합니다.');
+  }
+
+  const token = await user.getIdToken();
+  
+  const response = await fetch(FUNCTIONS_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || '요청 실패');
+  }
+
+  return response.json();
+}
 
 export async function testNotionConnection(
   apiKey: string,
   databaseId: string
 ): Promise<{ ok: boolean; message: string }> {
-  const result = await proxyFn({ action: 'testConnection', apiKey, databaseId });
-  return { ok: result.data.ok ?? false, message: result.data.message ?? '' };
+  const result = await callNotionProxy({ action: 'testConnection', apiKey, databaseId });
+  return { ok: result.ok ?? false, message: result.message ?? '' };
 }
 
 /**
@@ -29,7 +52,7 @@ export async function fetchDoingTasks(
   settings: NotionSettings,
   userName?: string
 ): Promise<{ tasks: NotionTask[]; hint?: string }> {
-  const result = await proxyFn({
+  const result = await callNotionProxy({
     action: 'getDoingTasks',
     apiKey: settings.apiKey,
     databaseId: settings.databaseId,
@@ -39,7 +62,7 @@ export async function fetchDoingTasks(
     assigneeProperty: settings.assigneeProperty,
     userName,
   });
-  return { tasks: result.data.tasks ?? [], hint: result.data.hint };
+  return { tasks: result.tasks ?? [], hint: result.hint };
 }
 
 /**
@@ -55,7 +78,7 @@ export async function updateTaskProgress(
   progress: number,
   isDone: boolean
 ): Promise<void> {
-  await proxyFn({
+  await callNotionProxy({
     action: 'updateTask',
     apiKey: settings.apiKey,
     pageId,

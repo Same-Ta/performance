@@ -13,7 +13,6 @@ import * as admin from "firebase-admin";
 import { onDocumentWritten } from "firebase-functions/v2/firestore";
 import { onSchedule } from "firebase-functions/v2/scheduler";
 import { onRequest } from "firebase-functions/v2/https";
-import { onCall, HttpsError } from "firebase-functions/v2/https";
 import { Client as NotionClient } from "@notionhq/client";
 
 admin.initializeApp();
@@ -413,27 +412,38 @@ export const mapMetricsToGoals = onRequest(
 );
 
 // ============================================================
-// 6. Notion 태스크 연동 프록시 (onCall - 인증 필수)
+// 6. Notion 태스크 연동 프록시 (onRequest - CORS 수동 처리)
 // ============================================================
-export const notionProxy = onCall(
-  {
-    region: "asia-northeast3",
-    cors: [
-      "http://localhost:3000",
-      "http://localhost:5173",
-      "https://performance-fefc0.web.app",
-      "https://performance-fefc0.firebaseapp.com",
-    ],
-  },
-  async (request) => {
-    // 인증 확인
-    if (!request.auth) {
-      throw new HttpsError("unauthenticated", "로그인이 필요합니다.");
+export const notionProxy = onRequest(
+  { region: "asia-northeast3" },
+  async (req, res) => {
+    // CORS 헤더 설정
+    res.set('Access-Control-Allow-Origin', '*');
+    res.set('Access-Control-Allow-Methods', 'POST, OPTIONS');
+    res.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.set('Access-Control-Max-Age', '3600');
+
+    // Preflight 요청 처리
+    if (req.method === 'OPTIONS') {
+      res.status(204).send('');
+      return;
+    }
+
+    if (req.method !== 'POST') {
+      res.status(405).json({ error: 'Method not allowed' });
+      return;
+    }
+
+    // 인증 토큰 확인 (Authorization 헤더에서)
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      res.status(401).json({ error: '로그인이 필요합니다.' });
+      return;
     }
 
     const { action, apiKey, databaseId, pageId, statusProperty, doingValue,
             doneValue, progressProperty, assigneeProperty, userName,
-            progress, isDone } = request.data as {
+            progress, isDone } = req.body as {
       action: "getDoingTasks" | "updateTask" | "testConnection";
       apiKey: string;
       databaseId?: string;
@@ -449,7 +459,8 @@ export const notionProxy = onCall(
     };
 
     if (!apiKey) {
-      throw new HttpsError("invalid-argument", "Notion API 키가 필요합니다.");
+      res.status(400).json({ error: "Notion API 키가 필요합니다." });
+      return;
     }
 
     const notion = new NotionClient({ auth: apiKey.trim() });
@@ -463,38 +474,46 @@ export const notionProxy = onCall(
         botName = (me as { name?: string }).name ?? "unknown";
       } catch (err) {
         const e = err as { code?: string; message?: string };
-        throw new HttpsError("unauthenticated",
-          `API Key가 유효하지 않습니다. Integration Token(secret_...)을 확인하세요.\n(오류: ${e.message})`);
+        res.status(401).json({
+          error: `API Key가 유효하지 않습니다. Integration Token(secret_...)을 확인하세요.\n(오류: ${e.message})`
+        });
+        return;
       }
 
       // 2단계: DB 접근 권한 확인
       if (!databaseId) {
-        return { ok: true, apiKey: true, database: false, botName, dbTitle: "",
-          message: "API Key는 유효합니다. Database ID를 입력해주세요." };
+        res.json({ ok: true, apiKey: true, database: false, botName, dbTitle: "",
+          message: "API Key는 유효합니다. Database ID를 입력해주세요." });
+        return;
       }
       const cleanId = databaseId.trim().replace(/-/g, "");
       try {
         const db = await notion.databases.retrieve({ database_id: cleanId });
         const dbTitle = (db as { title?: Array<{ plain_text?: string }> })
           .title?.[0]?.plain_text ?? "(제목 없음)";
-        return { ok: true, apiKey: true, database: true, botName, dbTitle,
-          message: `연결 성공! DB "${dbTitle}"에 접근 가능합니다.` };
+        res.json({ ok: true, apiKey: true, database: true, botName, dbTitle,
+          message: `연결 성공! DB "${dbTitle}"에 접근 가능합니다.` });
+        return;
       } catch (err) {
         const e = err as { code?: string; message?: string };
         if (e.code === "object_not_found" || e.code === "unauthorized") {
-          throw new HttpsError("not-found",
-            `API Key는 유효하지만 DB에 접근할 수 없습니다.\n` +
+          res.status(404).json({
+            error: `API Key는 유효하지만 DB에 접근할 수 없습니다.\n` +
             `Notion DB 페이지에서 ··· → 연결(Connections) → 인테그레이션 추가를 완료했는지 확인하세요.\n` +
-            `(DB ID: ${cleanId})`);
+            `(DB ID: ${cleanId})`
+          });
+          return;
         }
-        throw new HttpsError("internal", `DB 조회 오류: ${e.message}`);
+        res.status(500).json({ error: `DB 조회 오류: ${e.message}` });
+        return;
       }
     }
 
     // ── 진행 중 태스크 조회 ────────────────────────────────
     if (action === "getDoingTasks") {
       if (!databaseId) {
-        throw new HttpsError("invalid-argument", "databaseId가 필요합니다.");
+        res.status(400).json({ error: "databaseId가 필요합니다." });
+        return;
       }
 
       const statusProp = statusProperty || "상태";
@@ -529,11 +548,14 @@ export const notionProxy = onCall(
           const notionErr = err as { code?: string; message?: string };
           console.error("[notionProxy] DB 조회 실패:", notionErr.code, notionErr.message);
           if (notionErr.code === "object_not_found" || notionErr.code === "unauthorized") {
-            throw new HttpsError("not-found",
-              `Notion DB에 접근할 수 없습니다. DB ID와 인테그레이션 연결을 확인하세요.\n` +
-              `(DB ID: ${cleanDatabaseId}, 오류: ${notionErr.message})`);
+            res.status(404).json({
+              error: `Notion DB에 접근할 수 없습니다. DB ID와 인테그레이션 연결을 확인하세요.\n` +
+              `(DB ID: ${cleanDatabaseId}, 오류: ${notionErr.message})`
+            });
+            return;
           }
-          throw new HttpsError("internal", `Notion API 오류: ${notionErr.message}`);
+          res.status(500).json({ error: `Notion API 오류: ${notionErr.message}` });
+          return;
         }
       }
 
@@ -612,19 +634,22 @@ export const notionProxy = onCall(
 
       if (tasks.length === 0 && doingTasks.length === 0 && allStatuses.length > 0) {
         // doingVal이 DB 실제 값과 불일치 → 힌트 포함해서 반환
-        return {
+        res.json({
           tasks: [],
           hint: `설정의 "진행 중 값"이 "${doingVal}"로 설정되어 있지만, DB에 존재하는 상태 값은 [${allStatuses.join(", ")}]입니다. 설정에서 값을 수정해주세요.`,
-        };
+        });
+        return;
       }
 
-      return { tasks };
+      res.json({ tasks });
+      return;
     }
 
     // ── 태스크 달성률/상태 업데이트 ───────────────────────
     if (action === "updateTask") {
       if (!pageId) {
-        throw new HttpsError("invalid-argument", "pageId가 필요합니다.");
+        res.status(400).json({ error: "pageId가 필요합니다." });
+        return;
       }
 
       const statusProp = statusProperty || "상태";
@@ -658,13 +683,15 @@ export const notionProxy = onCall(
             properties: properties as Parameters<typeof notion.pages.update>[0]["properties"],
           });
         } else {
-          throw new HttpsError("internal", "Notion 업데이트 실패");
+          res.status(500).json({ error: "Notion 업데이트 실패" });
+          return;
         }
       }
 
-      return { success: true };
+      res.json({ success: true });
+      return;
     }
 
-    throw new HttpsError("invalid-argument", "지원하지 않는 action입니다.");
+    res.status(400).json({ error: "지원하지 않는 action입니다." });
   }
 );
