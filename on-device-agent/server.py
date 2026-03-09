@@ -156,12 +156,16 @@ def stop():
 
 
 if __name__ == "__main__":
+    import os
+    port = int(os.environ.get("PORT", 5001))
+    host = os.environ.get("HOST", "0.0.0.0" if os.environ.get("PORT") else "localhost")
+    
     print()
     print("=" * 52)
     print("  ProofWork Agent Server")
-    print("  http://localhost:5001")
+    print(f"  http://{host}:{port}")
     print("=" * 52)
     print("  Press [Start Tracking] button in the dashboard.")
     print("  Quit: Ctrl+C")
     print()
-    app.run(host="localhost", port=5001, debug=False, use_reloader=False)
+    app.run(host=host, port=port, debug=False, use_reloader=False)

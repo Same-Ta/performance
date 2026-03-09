@@ -1,0 +1,26 @@
+# ProofWork On-Device Agent
+# Python dependencies for Render deployment
+
+# === Core ===
+psutil>=5.9.0
+python-dotenv>=1.0.0
+pydantic>=2.6.0
+structlog>=24.1.0
+schedule>=1.2.0
+
+# === Windows 활성 창 추적 (Linux/macOS에서는 선택) ===
+pywin32>=306; platform_system=="Windows"
+
+# === 스크린 캡처 ===
+mss>=9.0.0
+Pillow>=10.2.0
+
+# === Firebase REST API ===
+requests>=2.31.0
+
+# === 로컬 HTTP 서버 (server.py) ===
+flask>=3.0.0
+flask-cors>=4.0.0
+
+# === 시스템 트레이 아이콘 (선택) ===
+pystray>=0.19.0

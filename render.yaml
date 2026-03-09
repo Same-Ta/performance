@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: proofwork-agent
+    env: python
+    region: oregon
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python on-device-agent/server.py
+    envVars:
+      - key: PYTHONIOENCODING
+        value: utf-8
+      - key: PYTHONUTF8
+        value: "1"
+      - key: PORT
+        value: "5001"
