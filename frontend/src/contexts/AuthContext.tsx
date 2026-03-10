@@ -116,11 +116,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         .single();
 
       if (error || !data) {
-        const { data: authUser } = await supabase.auth.getUser();
+        // 프로필이 없으면 실제 유저 정보로 생성
+        let userEmail = '';
+        let userName = '사용자';
+        try {
+          const { data: authUser } = await supabase.auth.getUser();
+          userEmail = authUser.user?.email || '';
+          userName = authUser.user?.user_metadata?.display_name || '사용자';
+        } catch {
+          // auth 조회 실패해도 진행
+        }
         const newProfile: UserProfile = {
           uid,
-          email: authUser.user?.email || '',
-          displayName: authUser.user?.user_metadata?.display_name || '사용자',
+          email: userEmail,
+          displayName: userName,
           role: 'employee',
           department: '',
           teamId: '',
@@ -128,13 +137,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           joinDate: new Date().toISOString().split('T')[0],
           agentConnected: false,
         };
-        await supabase.from('profiles').upsert(newProfile);
+        try {
+          await supabase.from('profiles').upsert(newProfile);
+        } catch {
+          // upsert 실패해도 로컬 프로필은 사용
+        }
         setProfile(newProfile);
       } else {
         setProfile(data as UserProfile);
       }
     } catch {
-      setProfile(createDemoProfile('employee'));
+      // 프로필 로딩 실패 시 null 유지 (데모 프로필 폴백 제거)
+      setProfile(null);
     } finally {
       setLoading(false);
     }
