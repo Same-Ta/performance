@@ -84,16 +84,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      const appUser = toAppUser(session?.user ?? null);
-      setUser(appUser);
-      if (appUser) {
-        loadProfile(appUser.id);
-      } else {
-        setLoading(false);
-      }
-    });
-
+    // onAuthStateChange 가 INITIAL_SESSION 이벤트로 초기 세션을 즉시 전달하므로
+    // getSession() 중복 호출 없이 이것만 사용
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
       const appUser = toAppUser(session?.user ?? null);
       setUser(appUser);
@@ -105,7 +97,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     });
 
-    const timeout = setTimeout(() => setLoading(false), 3000);
+    // Supabase 연결 실패 / 환경변수 미설정 대비 안전망 (2초)
+    const timeout = setTimeout(() => setLoading(false), 2000);
 
     return () => {
       subscription.unsubscribe();
