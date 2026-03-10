@@ -89,8 +89,17 @@ export default function Login() {
     try {
       await signIn(email, password);
       navigate('/dashboard', { replace: true });
-    } catch {
-      setError('이메일 또는 비밀번호를 확인해주세요.');
+    } catch (err: unknown) {
+      const msg = (err as { message?: string })?.message || '';
+      if (msg.toLowerCase().includes('email not confirmed')) {
+        setError('이메일 인증이 필요합니다. 가입 시 받은 인증 메일을 확인해주세요.');
+      } else if (msg.toLowerCase().includes('invalid login credentials') || msg.toLowerCase().includes('invalid email or password')) {
+        setError('이메일 또는 비밀번호가 올바르지 않습니다.');
+      } else if (msg) {
+        setError(msg);
+      } else {
+        setError('로그인에 실패했습니다. 잠시 후 다시 시도해주세요.');
+      }
     } finally {
       setLoading(false);
     }
@@ -110,15 +119,16 @@ export default function Login() {
     try {
       await signUp(email, password, displayName.trim(), department.trim());
       setSignupSuccess(true);
-      setTimeout(() => navigate('/dashboard', { replace: true }), 2000);
     } catch (err: unknown) {
-      const firebaseError = err as { code?: string };
-      if (firebaseError.code === 'auth/email-already-in-use') {
+      const msg = (err as { message?: string })?.message || '';
+      if (msg.toLowerCase().includes('already registered') || msg.toLowerCase().includes('already been registered')) {
         setError('이미 가입된 이메일입니다. 로그인해주세요.');
-      } else if (firebaseError.code === 'auth/weak-password') {
-        setError('비밀번호가 너무 약합니다. 8자 이상으로 설정해주세요.');
-      } else if (firebaseError.code === 'auth/invalid-email') {
+      } else if (msg.toLowerCase().includes('password')) {
+        setError('비밀번호가 너무 약합니다. 영문+숫자 조합 8자 이상으로 설정해주세요.');
+      } else if (msg.toLowerCase().includes('email')) {
         setError('올바른 이메일 형식을 입력해주세요.');
+      } else if (msg) {
+        setError(msg);
       } else {
         setError('회원가입에 실패했습니다. 잠시 후 다시 시도해주세요.');
       }
@@ -141,18 +151,22 @@ export default function Login() {
         <div className="w-full max-w-md">
           <div className="card text-center py-10">
             <h2 className="text-xl font-bold text-gray-900 mb-2">가입이 완료되었습니다!</h2>
-            <p className="text-sm text-gray-500 mb-6">
+            <p className="text-sm text-gray-500 mb-4">
               <span className="font-medium text-brand-600">{displayName}</span>님, ProofWork에 오신 것을 환영합니다.
             </p>
-            <p className="text-xs text-gray-400 mb-8">
-              잠시 후 자동으로 대시보드로 이동합니다.
-              <br />이동하지 않으면 아래 버튼을 클릭해주세요.
-            </p>
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6 text-left">
+              <p className="text-sm font-medium text-blue-800 mb-1">📧 이메일 인증 안내</p>
+              <p className="text-xs text-blue-700">
+                <span className="font-semibold">{email}</span>로 인증 메일을 발송했습니다.<br />
+                메일함에서 인증 링크를 클릭한 후 로그인해주세요.<br />
+                <span className="text-blue-500">(스팸 메일함도 확인해보세요)</span>
+              </p>
+            </div>
             <button
               onClick={() => switchMode('login')}
               className="btn-primary w-full"
             >
-              시작하기
+              로그인하러 가기
             </button>
           </div>
         </div>
