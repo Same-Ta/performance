@@ -1,10 +1,85 @@
 # ProofWork — On-Device AI 기반 자율 성과 증명 및 관리 솔루션
 
-## 아키텍처 개요
+## 배포 아키텍처 (Production)
 
 ```mermaid
 graph TB
-    subgraph "On-Device Agent (Python)"
+    subgraph "사용자 PC (Windows)"
+        EXE[ProofWorkAgent.exe<br/>Python 실행파일]
+        AGENT[Flask HTTP Server<br/>localhost:5001]
+        TRACKER[Activity Tracker<br/>Windows API]
+        
+        EXE --> AGENT
+        AGENT --> TRACKER
+    end
+    
+    subgraph "Vercel (Frontend)"
+        WEB[React SPA<br/>performance-one-plum.vercel.app]
+    end
+    
+    subgraph "Firebase (Backend)"
+        AUTH[Firebase Auth<br/>인증]
+        STORE[(Firestore<br/>데이터베이스)]
+        FN[Cloud Functions<br/>서버 로직]
+        HOSTING[Firebase Hosting<br/>정적 호스팅]
+        
+        FN --> STORE
+        AUTH --> STORE
+    end
+    
+    subgraph "외부 API"
+        GEMINI[Gemini 2.0 Flash<br/>AI 분석]
+        JIRA[Jira]
+        SLACK[Slack]
+        NOTION[Notion]
+    end
+    
+    WEB -->|HTTPS| AUTH
+    WEB -->|HTTPS| FN
+    WEB -->|로컬 HTTP| AGENT
+    AGENT -->|Firebase Admin SDK| STORE
+    FN --> GEMINI
+    FN --> JIRA
+    FN --> SLACK
+    FN --> NOTION
+```
+
+## 배포 전략
+
+| 컴포넌트 | 플랫폼 | 배포 방법 | URL |
+|---------|-------|---------|-----|
+| **Frontend** | Vercel | Git push (자동 배포) | https://performance-one-plum.vercel.app |
+| **Backend API** | Firebase Functions | `firebase deploy --only functions` | asia-northeast3-performance-fefc0.cloudfunctions.net |
+| **Database** | Firestore | 자동 동기화 | Firebase 콘솔 |
+| **Auth** | Firebase Auth | 자동 동기화 | Firebase 콘솔 |
+| **On-Device Agent** | 사용자 PC | .exe 다운로드 → 실행 | localhost:5001 |
+
+## On-Device Agent 배포 흐름
+
+```
+1. 개발
+   └─> Python 코드 작성 (on-device-agent/)
+
+2. 빌드
+   └─> python build_exe.py
+   └─> PyInstaller → ProofWorkAgent.exe
+
+3. 배포
+   └─> GitHub Releases 업로드
+   └─> 사용자 다운로드
+   └─> .exe 실행 (Python 설치 불필요)
+
+4. 실행
+   └─> Flask 서버 시작 (localhost:5001)
+   └─> Windows 트레이 아이콘
+   └─> 대시보드에서 [추적 시작] 버튼 클릭
+```
+
+## 아키텍처 개요 (Technical)
+
+```mermaid
+graph TB
+    subgraph "On-Device Agent (Python → .exe)"
         SC[Screen Capture<br/>mss + secure memory]
         VE[Vision Engine<br/>ONNX Runtime]
         CA[Context Analyzer<br/>활동 추적 / 딥포커스]
@@ -55,8 +130,8 @@ graph TB
 ## 프로젝트 구조
 
 ```
-Performance/
-├── frontend/                       # Vite + React 프론트엔드
+ProofWork/
+├── frontend/                       # Vite + React 프론트엔드 (Vercel)
 │   ├── src/
 │   │   ├── components/             # 재사용 UI 컴포넌트
 │   │   │   ├── dashboard/          # MetricCard, TeamOverview, BottleneckAlert
@@ -76,12 +151,18 @@ Performance/
 │
 ├── backend/                        # Firebase 백엔드
 │   ├── functions/
-│   │   └── src/index.ts            # Cloud Functions (5개)
+│   │   └── src/index.ts            # Cloud Functions (6개)
+│   │       ├── onPerformanceSubmit      # 성과 제출 시 팀 집계
+│   │       ├── aggregateTeamDashboard   # 팀 대시보드 갱신
+│   │       ├── syncJira                 # Jira 웹훅
+│   │       ├── sendSlackNotification    # Slack 웹훅
+│   │       ├── mapMetricsToGoals        # 목표 매핑
+│   │       └── notionProxy              # Notion API 프록시
 │   ├── firebase.json
 │   ├── firestore.rules
 │   └── firestore.indexes.json
 │
-├── on-device-agent/                # On-Device Python Agent
+├── on-device-agent/                # On-Device Python Agent (.exe 배포)
 │   ├── capture/                    # 스크린 캡처 모듈
 │   │   └── screen_capture.py
 │   ├── analyzer/                   # 비전/컨텍스트 분석
@@ -93,12 +174,19 @@ Performance/
 │   ├── sync/                       # Firebase 동기화
 │   │   └── firebase_sync.py
 │   ├── models/                     # ONNX 모델 디렉토리
-│   ├── config.py
-│   ├── main.py                     # 에이전트 엔트리포인트
-│   └── requirements.txt
+│   ├── config.py                   # 설정
+│   ├── server.py                   # Flask HTTP 서버
+│   ├── tracker.py                  # Windows 활동 추적
+│   ├── firebase_client.py          # Firebase Admin SDK
+│   ├── metrics_engine.py           # 메트릭 계산 엔진
+│   ├── requirements.txt            # Python 패키지
+│   ├── agent.spec                  # PyInstaller 빌드 설정
+│   └── build_exe.py                # 실행파일 빌드 스크립트
 │
 └── docs/
-    └── ARCHITECTURE.md             # 이 문서
+    ├── ARCHITECTURE.md             # 이 문서
+    ├── PROJECT_REVIEW.md           # 프로젝트 리뷰
+    └── DEPLOYMENT.md               # 배포 가이드
 ```
 
 ## 데이터 파이프라인
