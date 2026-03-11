@@ -382,7 +382,7 @@ export default function Settings() {
         </div>
       )}
 
-      {/* 프라이버시 설정 */
+      {/* 프라이버시 설정 */}
       {activeTab === 'privacy' && (
         <div className="card space-y-6">
           <div className="p-4 bg-success-50 rounded-xl border border-success-200">
