@@ -82,25 +82,6 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
             </h2>
           </div>
 
-          {/* 데모 모드 버튼 */}
-          <button
-            onClick={() => handleDemo('employee')}
-            className="w-full flex items-center justify-center gap-2.5 py-3 rounded-xl border-2 border-brand-200 bg-brand-50 text-brand-700 font-semibold hover:bg-brand-100 hover:border-brand-300 transition-all mb-6"
-          >
-            <span className="text-lg">🚀</span>
-            데모 모드로 바로 시작하기
-          </button>
-
-          {/* Divider */}
-          <div className="relative mb-6">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-200" />
-            </div>
-            <div className="relative flex justify-center text-xs">
-              <span className="bg-white px-3 text-gray-400">또는</span>
-            </div>
-          </div>
-
           {/* Login form */}
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
@@ -169,26 +150,34 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
             </button>
           </p>
 
-          {/* Demo roles (collapsed) */}
-          <details className="mt-4">
-            <summary className="text-xs text-gray-400 text-center cursor-pointer hover:text-gray-500">
-              다른 데모 역할로 체험하기
-            </summary>
-            <div className="grid grid-cols-2 gap-2 mt-3">
-              {([
-                { role: 'manager' as UserRole, emoji: '👩‍💼', label: '관리자 모드' },
-                { role: 'hr_admin' as UserRole, emoji: '📋', label: 'HR 모드' },
-              ]).map((d) => (
-                <button
-                  key={d.role}
-                  onClick={() => handleDemo(d.role)}
-                  className="p-2 rounded-lg border border-gray-200 hover:border-brand-300 hover:bg-brand-50 transition-all text-center text-xs"
-                >
-                  <span>{d.emoji}</span> {d.label}
-                </button>
-              ))}
+          {/* Divider */}
+          <div className="relative my-5">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-200" />
             </div>
-          </details>
+            <div className="relative flex justify-center text-xs">
+              <span className="bg-white px-3 text-gray-400">데모 모드로 체험하기</span>
+            </div>
+          </div>
+
+          {/* 데모 로그인 */}
+          <div className="grid grid-cols-2 gap-2">
+            {([
+              { role: 'employee' as UserRole, emoji: '👨‍💻', label: '직원 모드' },
+              { role: 'manager' as UserRole, emoji: '👩‍💼', label: '관리자 모드' },
+              { role: 'hr_admin' as UserRole, emoji: '📋', label: 'HR 모드' },
+              { role: 'super_admin' as UserRole, emoji: '⚙️', label: '관리 모드' },
+            ]).map((d) => (
+              <button
+                key={d.role}
+                onClick={() => handleDemo(d.role)}
+                className="p-2.5 rounded-xl border border-gray-200 hover:border-brand-300 hover:bg-brand-50 transition-all text-center text-xs font-medium text-gray-600"
+              >
+                <span className="block text-base mb-0.5">{d.emoji}</span>
+                {d.label}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
     </div>

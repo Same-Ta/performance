@@ -285,7 +285,8 @@ export default function Settings() {
                 </div>
                 <a
                   href={AGENT_DOWNLOAD_URL}
-                  download="ProofWorkAgent.exe"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="btn-primary flex items-center justify-center gap-2 w-full"
                 >
                   <Download className="w-4 h-4" />
