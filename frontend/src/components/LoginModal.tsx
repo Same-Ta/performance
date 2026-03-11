@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { X, Eye, EyeOff } from 'lucide-react';
-import type { UserRole } from '../types';
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -10,7 +9,7 @@ interface LoginModalProps {
 }
 
 export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
-  const { signIn, demoLogin } = useAuth();
+  const { signIn } = useAuth();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState('');
@@ -38,12 +37,6 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleDemo = (role: UserRole) => {
-    demoLogin(role);
-    onClose();
-    navigate('/activities/dashboard', { replace: true });
   };
 
   const handleSignupClick = () => {
@@ -150,34 +143,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
             </button>
           </p>
 
-          {/* Divider */}
-          <div className="relative my-5">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-200" />
-            </div>
-            <div className="relative flex justify-center text-xs">
-              <span className="bg-white px-3 text-gray-400">데모 모드로 체험하기</span>
-            </div>
-          </div>
 
-          {/* 데모 로그인 */}
-          <div className="grid grid-cols-2 gap-2">
-            {([
-              { role: 'employee' as UserRole, emoji: '👨‍💻', label: '직원 모드' },
-              { role: 'manager' as UserRole, emoji: '👩‍💼', label: '관리자 모드' },
-              { role: 'hr_admin' as UserRole, emoji: '📋', label: 'HR 모드' },
-              { role: 'super_admin' as UserRole, emoji: '⚙️', label: '관리 모드' },
-            ]).map((d) => (
-              <button
-                key={d.role}
-                onClick={() => handleDemo(d.role)}
-                className="p-2.5 rounded-xl border border-gray-200 hover:border-brand-300 hover:bg-brand-50 transition-all text-center text-xs font-medium text-gray-600"
-              >
-                <span className="block text-base mb-0.5">{d.emoji}</span>
-                {d.label}
-              </button>
-            ))}
-          </div>
         </div>
       </div>
     </div>

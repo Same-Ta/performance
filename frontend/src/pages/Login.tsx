@@ -2,12 +2,11 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { Eye, EyeOff } from 'lucide-react';
-import type { UserRole } from '../types';
 
 type AuthMode = 'login' | 'signup';
 
 export default function Login() {
-  const { signIn, signUp, demoLogin } = useAuth();
+  const { signIn, signUp } = useAuth();
   const navigate = useNavigate();
   const [mode, setMode] = useState<AuthMode>('login');
 
@@ -126,11 +125,6 @@ export default function Login() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleDemo = (role: UserRole) => {
-    demoLogin(role);
-    navigate('/dashboard', { replace: true });
   };
 
   const pwStrength = getPasswordStrength();
@@ -257,47 +251,7 @@ export default function Login() {
               </button>
             </p>
 
-            {/* 구분선 */}
-            <div className="relative my-6">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-200" />
-              </div>
-              <div className="relative flex justify-center text-xs">
-                <span className="bg-white px-3 text-gray-400">데모 모드로 체험하기</span>
-              </div>
-            </div>
 
-            {/* 데모 로그인 */}
-            <div className="grid grid-cols-2 gap-3">
-              <button
-                onClick={() => handleDemo('employee')}
-                className="p-3 rounded-xl border border-gray-200 hover:border-brand-300 hover:bg-brand-50 transition-all text-center"
-              >
-                <span className="text-lg">👨‍💻</span>
-                <p className="text-xs font-medium text-gray-700 mt-1">직원 모드</p>
-              </button>
-              <button
-                onClick={() => handleDemo('manager')}
-                className="p-3 rounded-xl border border-gray-200 hover:border-brand-300 hover:bg-brand-50 transition-all text-center"
-              >
-                <span className="text-lg">👩‍💼</span>
-                <p className="text-xs font-medium text-gray-700 mt-1">관리자 모드</p>
-              </button>
-              <button
-                onClick={() => handleDemo('hr_admin')}
-                className="p-3 rounded-xl border border-gray-200 hover:border-brand-300 hover:bg-brand-50 transition-all text-center"
-              >
-                <span className="text-lg">📋</span>
-                <p className="text-xs font-medium text-gray-700 mt-1">HR 모드</p>
-              </button>
-              <button
-                onClick={() => handleDemo('super_admin')}
-                className="p-3 rounded-xl border border-gray-200 hover:border-brand-300 hover:bg-brand-50 transition-all text-center"
-              >
-                <span className="text-lg">⚙️</span>
-                <p className="text-xs font-medium text-gray-700 mt-1">관리 모드</p>
-              </button>
-            </div>
           </div>
         )}
 

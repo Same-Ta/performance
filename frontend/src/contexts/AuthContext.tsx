@@ -1,7 +1,7 @@
 ﻿import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import type { User } from '@supabase/supabase-js';
 import { supabase } from '../config/supabase';
-import type { UserProfile, UserRole } from '../types';
+import type { UserProfile } from '../types';
 
 // Supabase user.id 를 uid 별칭으로 유지하는 호환 타입
 export interface AppUser extends User {
@@ -20,63 +20,10 @@ interface AuthContextType {
   signIn: (email: string, password: string) => Promise<void>;
   signUp: (email: string, password: string, displayName: string, department: string) => Promise<void>;
   signOut: () => Promise<void>;
-  demoLogin: (role: UserRole) => void;
   updateProfileData: (data: Partial<Pick<UserProfile, 'displayName' | 'department' | 'position'>>) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
-
-function createDemoProfile(role: UserRole): UserProfile {
-  const profiles: Record<UserRole, UserProfile> = {
-    employee: {
-      uid: 'demo-employee-001',
-      email: 'employee@proofwork.io',
-      displayName: '김민수',
-      role: 'employee',
-      department: '프론트엔드 개발팀',
-      teamId: 'team-frontend',
-      position: '시니어 개발자',
-      joinDate: '2024-03-15',
-      agentConnected: true,
-      lastAgentSync: new Date().toISOString(),
-    },
-    manager: {
-      uid: 'demo-manager-001',
-      email: 'manager@proofwork.io',
-      displayName: '이서현',
-      role: 'manager',
-      department: '프론트엔드 개발팀',
-      teamId: 'team-frontend',
-      position: '팀장',
-      joinDate: '2022-01-10',
-      agentConnected: true,
-      lastAgentSync: new Date().toISOString(),
-    },
-    hr_admin: {
-      uid: 'demo-hr-001',
-      email: 'hr@proofwork.io',
-      displayName: '박지영',
-      role: 'hr_admin',
-      department: '인사팀',
-      teamId: 'team-hr',
-      position: '인사매니저',
-      joinDate: '2023-06-01',
-      agentConnected: false,
-    },
-    super_admin: {
-      uid: 'demo-admin-001',
-      email: 'admin@proofwork.io',
-      displayName: '관리자',
-      role: 'super_admin',
-      department: '경영지원',
-      teamId: 'team-admin',
-      position: 'CTO',
-      joinDate: '2021-01-01',
-      agentConnected: false,
-    },
-  };
-  return profiles[role];
-}
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<AppUser | null>(null);
@@ -206,7 +153,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const updateProfileData = async (data: Partial<Pick<UserProfile, 'displayName' | 'department' | 'position'>>) => {
     setProfile((prev) => prev ? { ...prev, ...data } : prev);
-    if (!user || user.uid.startsWith('demo-')) return;
+    if (!user) return;
     try {
       if (data.displayName) {
         await supabase.auth.updateUser({ data: { display_name: data.displayName } });
@@ -223,19 +170,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setProfile(null);
   };
 
-  const demoLogin = (role: UserRole) => {
-    const demoProfile = createDemoProfile(role);
-    setProfile(demoProfile);
-    setUser({
-      id: demoProfile.uid,
-      uid: demoProfile.uid,
-      email: demoProfile.email,
-    } as AppUser);
-    setLoading(false);
-  };
-
   return (
-    <AuthContext.Provider value={{ user, profile, loading, signIn, signUp, signOut, demoLogin, updateProfileData }}>
+    <AuthContext.Provider value={{ user, profile, loading, signIn, signUp, signOut, updateProfileData }}>
       {children}
     </AuthContext.Provider>
   );
