@@ -55,11 +55,11 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
       />
 
       {/* Modal */}
-      <div className="relative w-full max-w-md mx-4 bg-white rounded-2xl shadow-2xl animate-in fade-in zoom-in">
+      <div className="relative w-full max-w-md mx-4 bg-dark-800 rounded-2xl shadow-2xl animate-in fade-in zoom-in border border-dark-600">
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 p-1.5 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors"
+          className="absolute top-4 right-4 p-1.5 rounded-lg text-dark-400 hover:text-white hover:bg-dark-700 transition-colors"
         >
           <X className="w-5 h-5" />
         </button>
@@ -70,19 +70,19 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
             <div className="inline-flex items-center justify-center w-14 h-14 bg-brand-600 rounded-2xl shadow-lg mb-3">
               <span className="text-xl font-bold text-white">P</span>
             </div>
-            <h2 className="text-xl font-bold text-gray-900">
-              Proof<span className="text-brand-600">Work</span>
+            <h2 className="text-xl font-bold text-white">
+              Proof<span className="text-brand-400">Work</span>
             </h2>
           </div>
 
           {/* Login form */}
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-1.5">이메일</label>
+              <label className="block text-sm font-semibold text-dark-200 mb-1.5">이메일</label>
               <div className="relative">
                 <input
                   type="email"
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-300 focus:border-brand-400 placeholder-gray-400 transition-all"
+                  className="w-full px-4 py-3 border border-dark-600 bg-dark-700 text-white rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 placeholder-dark-400 transition-all"
                   placeholder="이메일 주소를 입력하세요"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -92,11 +92,11 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-1.5">비밀번호</label>
+              <label className="block text-sm font-semibold text-dark-200 mb-1.5">비밀번호</label>
               <div className="relative">
                 <input
                   type={showPw ? 'text' : 'password'}
-                  className="w-full px-4 py-3 pr-10 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-300 focus:border-brand-400 placeholder-gray-400 transition-all"
+                  className="w-full px-4 py-3 pr-10 border border-dark-600 bg-dark-700 text-white rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 placeholder-dark-400 transition-all"
                   placeholder="비밀번호를 입력하세요"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -104,21 +104,21 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
                 />
                 <button
                   type="button"
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-dark-400 hover:text-white"
                   onClick={() => setShowPw(!showPw)}
                 >
                   {showPw ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
               <div className="text-right mt-1.5">
-                <button type="button" className="text-xs text-brand-600 font-medium hover:underline">
+                <button type="button" className="text-xs text-brand-400 font-medium hover:underline">
                   비밀번호 찾기
                 </button>
               </div>
             </div>
 
             {error && (
-              <div className="text-sm text-danger-600 bg-danger-50 p-3 rounded-xl">
+              <div className="text-sm text-red-400 bg-red-500/10 p-3 rounded-xl">
                 {error}
               </div>
             )}
@@ -133,11 +133,11 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
           </form>
 
           {/* Signup link */}
-          <p className="text-center text-sm text-gray-500 mt-6">
+          <p className="text-center text-sm text-dark-400 mt-6">
             아직 계정이 없으신가요?{' '}
             <button
               onClick={handleSignupClick}
-              className="text-brand-600 font-semibold hover:underline"
+              className="text-brand-400 font-semibold hover:underline"
             >
               회원가입
             </button>

@@ -132,14 +132,14 @@ export default function Login() {
   // 회원가입 성공 화면
   if (signupSuccess) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-brand-50 via-white to-purple-50 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-dark-950 flex items-center justify-center p-4">
         <div className="w-full max-w-md">
           <div className="card text-center py-10">
-            <h2 className="text-xl font-bold text-gray-900 mb-2">가입이 완료되었습니다!</h2>
-            <p className="text-sm text-gray-500 mb-6">
-              <span className="font-medium text-brand-600">{displayName}</span>님, ProofWork에 오신 것을 환영합니다.
+            <h2 className="text-xl font-bold text-white mb-2">가입이 완료되었습니다!</h2>
+            <p className="text-sm text-dark-300 mb-6">
+              <span className="font-medium text-brand-400">{displayName}</span>님, ProofWork에 오신 것을 환영합니다.
             </p>
-            <p className="text-xs text-gray-400 mb-8">
+            <p className="text-xs text-dark-400 mb-8">
               잠시 후 자동으로 대시보드로 이동합니다.
               <br />이동하지 않으면 아래 버튼을 클릭해주세요.
             </p>
@@ -156,25 +156,25 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-brand-50 via-white to-purple-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-dark-950 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         {/* 로고 */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-brand-600 rounded-2xl shadow-lg mb-4">
             <span className="text-2xl font-bold text-white">P</span>
           </div>
-          <h1 className="text-2xl font-bold text-gray-900">ProofWork</h1>
-          <p className="text-sm text-gray-500 mt-1">나의 가치를 증명하는 AI 파트너</p>
+          <h1 className="text-2xl font-bold text-white">ProofWork</h1>
+          <p className="text-sm text-dark-300 mt-1">나의 가치를 증명하는 AI 파트너</p>
         </div>
 
         {/* 탭 전환 */}
-        <div className="flex bg-gray-100 rounded-xl p-1 mb-6">
+        <div className="flex bg-dark-800 rounded-xl p-1 mb-6">
           <button
             onClick={() => switchMode('login')}
             className={`flex-1 py-2.5 text-sm font-medium rounded-lg transition-all ${
               mode === 'login'
-                ? 'bg-white text-brand-600 shadow-sm'
-                : 'text-gray-500 hover:text-gray-700'
+                ? 'bg-dark-700 text-brand-400 shadow-sm'
+                : 'text-dark-400 hover:text-dark-200'
             }`}
           >
             로그인
@@ -183,8 +183,8 @@ export default function Login() {
             onClick={() => switchMode('signup')}
             className={`flex-1 py-2.5 text-sm font-medium rounded-lg transition-all ${
               mode === 'signup'
-                ? 'bg-white text-brand-600 shadow-sm'
-                : 'text-gray-500 hover:text-gray-700'
+                ? 'bg-dark-700 text-brand-400 shadow-sm'
+                : 'text-dark-400 hover:text-dark-200'
             }`}
           >
             회원가입
@@ -196,7 +196,7 @@ export default function Login() {
           <div className="card">
             <form onSubmit={handleLogin} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1.5">이메일</label>
+                <label className="block text-sm font-medium text-dark-200 mb-1.5">이메일</label>
                 <div className="relative">
                   <input
                     type="email"
@@ -209,7 +209,7 @@ export default function Login() {
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1.5">비밀번호</label>
+                <label className="block text-sm font-medium text-dark-200 mb-1.5">비밀번호</label>
                 <div className="relative">
                   <input
                     type={showPw ? 'text' : 'password'}
@@ -230,7 +230,7 @@ export default function Login() {
               </div>
 
               {error && (
-                <div className="text-sm text-danger-600 bg-danger-50 p-3 rounded-lg">
+                <div className="text-sm text-red-400 bg-red-500/10 p-3 rounded-lg border border-red-500/20">
                   {error}
                 </div>
               )}
@@ -244,9 +244,9 @@ export default function Login() {
               </button>
             </form>
 
-            <p className="text-center text-xs text-gray-400 mt-4">
+            <p className="text-center text-xs text-dark-400 mt-4">
               계정이 없으신가요?{' '}
-              <button onClick={() => switchMode('signup')} className="text-brand-600 font-medium hover:underline">
+              <button onClick={() => switchMode('signup')} className="text-brand-400 font-medium hover:underline">
                 회원가입
               </button>
             </p>
@@ -261,7 +261,7 @@ export default function Login() {
             <form onSubmit={handleSignup} className="space-y-4">
               {/* 이름 */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1.5">이름 <span className="text-danger-500">*</span></label>
+                <label className="block text-sm font-medium text-dark-200 mb-1.5">이름 <span className="text-danger-500">*</span></label>
                 <div className="relative">
                   <input
                     type="text"
@@ -277,7 +277,7 @@ export default function Login() {
 
               {/* 이메일 */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1.5">회사 이메일 <span className="text-danger-500">*</span></label>
+                <label className="block text-sm font-medium text-dark-200 mb-1.5">회사 이메일 <span className="text-danger-500">*</span></label>
                 <div className="relative">
                   <input
                     type="email"
@@ -292,7 +292,7 @@ export default function Login() {
 
               {/* 소속 부서 */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1.5">소속 부서 <span className="text-danger-500">*</span></label>
+                <label className="block text-sm font-medium text-dark-200 mb-1.5">소속 부서 <span className="text-danger-500">*</span></label>
                 <div className="relative">
                   <input
                     type="text"
@@ -307,7 +307,7 @@ export default function Login() {
 
               {/* 비밀번호 */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1.5">비밀번호 <span className="text-danger-500">*</span></label>
+                <label className="block text-sm font-medium text-dark-200 mb-1.5">비밀번호 <span className="text-danger-500">*</span></label>
                 <div className="relative">
                   <input
                     type={showPw ? 'text' : 'password'}
@@ -333,7 +333,7 @@ export default function Login() {
                         <div
                           key={i}
                           className={`h-1 flex-1 rounded-full transition-colors ${
-                            i <= pwStrength.level ? pwStrength.color : 'bg-gray-200'
+                            i <= pwStrength.level ? pwStrength.color : 'bg-dark-600'
                           }`}
                         />
                       ))}
@@ -351,7 +351,7 @@ export default function Login() {
 
               {/* 비밀번호 확인 */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1.5">비밀번호 확인 <span className="text-danger-500">*</span></label>
+                <label className="block text-sm font-medium text-dark-200 mb-1.5">비밀번호 확인 <span className="text-danger-500">*</span></label>
                 <div className="relative">
                   <input
                     type={showConfirmPw ? 'text' : 'password'}
@@ -424,7 +424,7 @@ export default function Login() {
               </div>
 
               {error && (
-                <div className="text-sm text-danger-600 bg-danger-50 p-3 rounded-lg">
+                <div className="text-sm text-red-400 bg-red-500/10 p-3 rounded-lg border border-red-500/20">
                   {error}
                 </div>
               )}
@@ -438,9 +438,9 @@ export default function Login() {
               </button>
             </form>
 
-            <p className="text-center text-xs text-gray-400 mt-4">
+            <p className="text-center text-xs text-dark-400 mt-4">
               이미 계정이 있으신가요?{' '}
-              <button onClick={() => switchMode('login')} className="text-brand-600 font-medium hover:underline">
+              <button onClick={() => switchMode('login')} className="text-brand-400 font-medium hover:underline">
                 로그인
               </button>
             </p>
@@ -449,7 +449,7 @@ export default function Login() {
 
         {/* 보안 라벨 */}
         <div className="text-center mt-6">
-          <p className="text-xs text-gray-400">
+          <p className="text-xs text-dark-400">
             영상 데이터는 로컬에서만 처리되며, 외부 서버로 전송되지 않습니다.
           </p>
         </div>

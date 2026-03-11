@@ -175,20 +175,20 @@ const MARQUEE_TEXT = '모 든  업 무  성 과  관 리 는  P r o o f W o r k 
 function FAQItem({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className="border-b border-gray-200 last:border-0">
+    <div className="border-b border-dark-700 last:border-0">
       <button
         onClick={() => setOpen(!open)}
         className="w-full flex items-center justify-between py-6 text-left group"
       >
-        <span className="font-semibold text-gray-900 text-lg pr-4 group-hover:text-brand-600 transition-colors">{q}</span>
+        <span className="font-semibold text-white text-lg pr-4 group-hover:text-brand-400 transition-colors">{q}</span>
         {open ? (
-          <ChevronUp className="w-5 h-5 text-brand-600 shrink-0" />
+          <ChevronUp className="w-5 h-5 text-brand-400 shrink-0" />
         ) : (
-          <ChevronDown className="w-5 h-5 text-gray-400 shrink-0 group-hover:text-brand-600 transition-colors" />
+          <ChevronDown className="w-5 h-5 text-dark-400 shrink-0 group-hover:text-brand-400 transition-colors" />
         )}
       </button>
       <div className={clsx('overflow-hidden transition-all duration-300', open ? 'max-h-96 pb-6' : 'max-h-0')}>
-        <p className="text-gray-500 leading-relaxed">{a}</p>
+        <p className="text-dark-300 leading-relaxed">{a}</p>
       </div>
     </div>
   );
@@ -210,27 +210,27 @@ export default function LandingPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white text-gray-900 overflow-x-hidden">
+    <div className="min-h-screen bg-dark-950 text-white overflow-x-hidden">
 
       {/* Navbar */}
       <nav className={clsx(
         'fixed top-0 inset-x-0 z-50 transition-all duration-300',
-        scrolled ? 'bg-white/90 backdrop-blur-xl shadow-sm' : 'bg-transparent',
+        scrolled ? 'bg-dark-900/90 backdrop-blur-xl shadow-sm' : 'bg-transparent',
       )}>
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <a href="#" className="flex items-center gap-2.5">
             <span className="w-8 h-8 rounded-lg bg-brand-600 text-white font-bold flex items-center justify-center text-sm">P</span>
-            <span className="text-xl font-bold text-gray-900">Proof<span className="text-brand-600">Work</span></span>
+            <span className="text-xl font-bold text-white">Proof<span className="text-brand-400">Work</span></span>
           </a>
 
           <div className="hidden lg:flex items-center gap-8">
             {NAV_LINKS.map((l) => (
-              <a key={l.href} href={l.href} className="text-sm font-medium text-gray-600 hover:text-brand-600 transition-colors">{l.label}</a>
+              <a key={l.href} href={l.href} className="text-sm font-medium text-dark-300 hover:text-brand-400 transition-colors">{l.label}</a>
             ))}
           </div>
 
           <div className="hidden lg:flex items-center gap-3">
-            <button onClick={openLogin} className="text-sm font-semibold text-gray-600 hover:text-brand-600 transition-colors">로그인</button>
+            <button onClick={openLogin} className="text-sm font-semibold text-dark-300 hover:text-brand-400 transition-colors">로그인</button>
             <button onClick={openLogin} className="px-5 py-2.5 bg-brand-600 text-white text-sm font-semibold rounded-full hover:bg-brand-700 transition-colors">무료로 시작</button>
           </div>
 
@@ -240,12 +240,12 @@ export default function LandingPage() {
         </div>
 
         {mobileMenuOpen && (
-          <div className="lg:hidden bg-white border-t border-gray-100 px-6 pb-6 pt-4 space-y-4 animate-fade-in">
+          <div className="lg:hidden bg-dark-900 border-t border-dark-700 px-6 pb-6 pt-4 space-y-4 animate-fade-in">
             {NAV_LINKS.map((l) => (
-              <a key={l.href} href={l.href} className="block text-sm font-medium text-gray-700 hover:text-brand-600" onClick={() => setMobileMenuOpen(false)}>{l.label}</a>
+              <a key={l.href} href={l.href} className="block text-sm font-medium text-dark-200 hover:text-brand-400" onClick={() => setMobileMenuOpen(false)}>{l.label}</a>
             ))}
-            <div className="pt-4 border-t border-gray-100 flex flex-col gap-3">
-              <button onClick={() => { setMobileMenuOpen(false); openLogin(); }} className="text-sm font-semibold text-brand-600 text-left">로그인</button>
+            <div className="pt-4 border-t border-dark-700 flex flex-col gap-3">
+              <button onClick={() => { setMobileMenuOpen(false); openLogin(); }} className="text-sm font-semibold text-brand-400 text-left">로그인</button>
               <button onClick={() => { setMobileMenuOpen(false); openLogin(); }} className="px-5 py-2.5 bg-brand-600 text-white text-sm font-semibold rounded-full text-center hover:bg-brand-700">무료로 시작</button>
             </div>
           </div>
@@ -268,7 +268,7 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="max-w-4xl mx-auto text-center">
             <Reveal>
-              <div className="inline-flex items-center gap-2 px-5 py-2 bg-brand-50 text-brand-700 text-sm font-semibold rounded-full mb-8 border border-brand-100">
+              <div className="inline-flex items-center gap-2 px-5 py-2 bg-brand-500/15 text-brand-300 text-sm font-semibold rounded-full mb-8 border border-brand-500/30">
                 On-Device AI 기반 · 프라이버시 최우선
               </div>
             </Reveal>
@@ -277,12 +277,12 @@ export default function LandingPage() {
               <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.1] mb-8">
                 업무 성과를
                 <br />
-                <span className="text-brand-600">AI로 자동 증명</span>합니다
+                <span className="text-brand-400">AI로 자동 증명</span>합니다
               </h1>
             </Reveal>
 
             <Reveal>
-              <p className="text-lg sm:text-xl text-gray-500 max-w-2xl mx-auto mb-12 leading-relaxed">
+              <p className="text-lg sm:text-xl text-dark-300 max-w-2xl mx-auto mb-12 leading-relaxed">
                 On-Device AI가 업무 활동을 실시간으로 분석하고,
                 <br className="hidden sm:block" />
                 몰입도 · 효율성 · 목표 정렬도를 자동 스코어링합니다.
@@ -294,7 +294,7 @@ export default function LandingPage() {
                 <button onClick={openLogin} className="w-full sm:w-auto px-10 py-4 bg-brand-600 text-white font-semibold rounded-full hover:bg-brand-700 transition-all text-base shadow-xl shadow-brand-600/20">
                   무료 체험하기
                 </button>
-                <a href="#features" className="w-full sm:w-auto px-10 py-4 bg-white text-gray-700 font-semibold rounded-full border border-gray-200 hover:border-brand-300 hover:text-brand-700 transition-all text-base">
+                <a href="#features" className="w-full sm:w-auto px-10 py-4 bg-dark-800 text-dark-200 font-semibold rounded-full border border-dark-600 hover:border-brand-500 hover:text-brand-300 transition-all text-base">
                   기능 살펴보기
                 </a>
               </div>
@@ -304,7 +304,7 @@ export default function LandingPage() {
       </section>
 
       {/* Problem Statement */}
-      <section className="py-24 lg:py-32 bg-gray-50">
+      <section className="py-24 lg:py-32 bg-dark-900">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <Reveal>
             <h2 className="text-3xl sm:text-4xl lg:text-[2.75rem] font-extrabold tracking-tight leading-[1.25] mb-8">
@@ -314,14 +314,14 @@ export default function LandingPage() {
             </h2>
           </Reveal>
           <Reveal>
-            <p className="text-gray-500 text-lg leading-relaxed max-w-2xl mx-auto mb-6">
+            <p className="text-dark-300 text-lg leading-relaxed max-w-2xl mx-auto mb-6">
               스프레드시트와 추정치로는 정확한 성과 평가가 어렵습니다.
               <br className="hidden sm:block" />
               AI가 자동으로 분석한 실제 데이터로 성과를 증명하세요.
             </p>
           </Reveal>
           <Reveal>
-            <p className="text-gray-400 text-base leading-relaxed max-w-xl mx-auto">
+            <p className="text-dark-400 text-base leading-relaxed max-w-xl mx-auto">
               이제 기록을 넘어, 업무 성과의 가치를 높이는 관리 방식이 필요합니다.
             </p>
           </Reveal>
@@ -329,7 +329,7 @@ export default function LandingPage() {
       </section>
 
       {/* Solution Statement (full-width dark) */}
-      <section className="py-20 lg:py-24 bg-gray-900 text-white">
+      <section className="py-20 lg:py-24 bg-dark-950 text-white">
         <div className="max-w-5xl mx-auto px-6 text-center">
           <Reveal>
             <h2 className="text-3xl sm:text-4xl lg:text-[2.75rem] font-extrabold tracking-tight leading-[1.25]">
@@ -355,20 +355,20 @@ export default function LandingPage() {
           <div className="grid sm:grid-cols-2 gap-5">
             {FEATURES.map((f, i) => {
               const colorMap: Record<string, { bg: string; border: string; tag: string }> = {
-                brand: { bg: 'hover:bg-brand-50/50', border: 'hover:border-brand-200', tag: 'bg-brand-50 text-brand-600' },
-                green: { bg: 'hover:bg-green-50/50', border: 'hover:border-green-200', tag: 'bg-green-50 text-green-600' },
-                purple: { bg: 'hover:bg-purple-50/50', border: 'hover:border-purple-200', tag: 'bg-purple-50 text-purple-600' },
-                amber: { bg: 'hover:bg-amber-50/50', border: 'hover:border-amber-200', tag: 'bg-amber-50 text-amber-600' },
+                brand: { bg: 'hover:bg-brand-500/10', border: 'hover:border-brand-500/40', tag: 'bg-brand-500/15 text-brand-300' },
+                green: { bg: 'hover:bg-green-500/10', border: 'hover:border-green-500/40', tag: 'bg-green-500/15 text-green-300' },
+                purple: { bg: 'hover:bg-purple-500/10', border: 'hover:border-purple-500/40', tag: 'bg-purple-500/15 text-purple-300' },
+                amber: { bg: 'hover:bg-amber-500/10', border: 'hover:border-amber-500/40', tag: 'bg-amber-500/15 text-amber-300' },
               };
               const c = colorMap[f.color];
               return (
                 <Reveal key={i} delay={Math.min(i + 1, 4) as 1 | 2 | 3 | 4}>
                   <div className={clsx(
-                    'group rounded-2xl border border-gray-200 p-8 lg:p-10 transition-all duration-300 cursor-default',
+                    'group rounded-2xl border border-dark-600 p-8 lg:p-10 transition-all duration-300 cursor-default',
                     c.bg, c.border, 'hover:shadow-xl',
                   )}>
-                    <h3 className="text-xl font-bold mb-3 group-hover:text-brand-700 transition-colors">{f.title}</h3>
-                    <p className="text-gray-500 leading-relaxed mb-5">{f.desc}</p>
+                    <h3 className="text-xl font-bold mb-3 group-hover:text-brand-400 transition-colors">{f.title}</h3>
+                    <p className="text-dark-300 leading-relaxed mb-5">{f.desc}</p>
                     <span className={clsx('inline-block text-xs font-semibold px-3 py-1 rounded-full', c.tag)}>{f.detail}</span>
                   </div>
                 </Reveal>
@@ -379,7 +379,7 @@ export default function LandingPage() {
       </section>
 
       {/* Process Steps (STEP 01 / 02 / 03) */}
-      <section id="process" className="py-24 lg:py-32 bg-gray-50">
+      <section id="process" className="py-24 lg:py-32 bg-dark-900">
         <div className="max-w-7xl mx-auto px-6">
           <Reveal>
             <div className="text-center max-w-2xl mx-auto mb-20">
@@ -395,12 +395,12 @@ export default function LandingPage() {
                 {/* Text side */}
                 <Reveal className={i % 2 === 1 ? 'lg:[direction:ltr]' : ''}>
                   <div>
-                    <span className="inline-block text-xs font-bold text-brand-600 tracking-wider mb-4">{s.step}</span>
+                    <span className="inline-block text-xs font-bold text-brand-400 tracking-wider mb-4">{s.step}</span>
                     <h3 className="text-2xl sm:text-3xl font-extrabold mb-4">{s.title}</h3>
-                    <p className="text-gray-500 text-lg leading-relaxed mb-6">{s.desc}</p>
+                    <p className="text-dark-300 text-lg leading-relaxed mb-6">{s.desc}</p>
                     <div className="flex flex-wrap gap-2">
                       {s.tags.map(tag => (
-                        <span key={tag} className="px-3.5 py-1.5 bg-brand-50 text-brand-700 text-xs font-semibold rounded-full border border-brand-100">{tag}</span>
+                        <span key={tag} className="px-3.5 py-1.5 bg-brand-500/15 text-brand-300 text-xs font-semibold rounded-full border border-brand-500/30">{tag}</span>
                       ))}
                     </div>
                   </div>
@@ -423,7 +423,7 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-6">
           <Reveal>
             <div className="text-center max-w-3xl mx-auto mb-16">
-              <p className="text-sm font-semibold text-brand-600 mb-4">ProofWork는 자율 성과 관리에 집중합니다</p>
+              <p className="text-sm font-semibold text-brand-400 mb-4">ProofWork는 자율 성과 관리에 집중합니다</p>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-[1.2]">
                 진짜 효율을 끌어올리는
                 <br />
@@ -436,14 +436,14 @@ export default function LandingPage() {
           <Reveal>
             <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] items-center gap-6 lg:gap-0 mb-8">
               <div className="flex items-center justify-center lg:justify-start gap-3">
-                <span className="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center text-gray-400 text-lg shrink-0">✓</span>
-                <span className="text-lg font-bold text-gray-500">수작업으로 성과를 관리하면?</span>
+                <span className="w-9 h-9 rounded-full bg-dark-700 flex items-center justify-center text-dark-400 text-lg shrink-0">✓</span>
+                <span className="text-lg font-bold text-dark-400">수작업으로 성과를 관리하면?</span>
               </div>
-              <span className="hidden lg:block text-2xl font-extrabold text-gray-300 mx-8">vs</span>
-              <span className="lg:hidden text-xl font-extrabold text-gray-300 text-center">vs</span>
+              <span className="hidden lg:block text-2xl font-extrabold text-dark-600 mx-8">vs</span>
+              <span className="lg:hidden text-xl font-extrabold text-dark-600 text-center">vs</span>
               <div className="flex items-center justify-center lg:justify-start gap-3">
                 <span className="w-9 h-9 rounded-full bg-brand-600 flex items-center justify-center text-white text-lg shrink-0">✓</span>
-                <span className="text-lg font-bold text-gray-900">ProofWork AI를 더하면?</span>
+                <span className="text-lg font-bold text-white">ProofWork AI를 더하면?</span>
               </div>
             </div>
           </Reveal>
@@ -458,7 +458,7 @@ export default function LandingPage() {
       </section>
 
       {/* Benefits */}
-      <section className="py-24 lg:py-32 bg-gray-50">
+      <section className="py-24 lg:py-32 bg-dark-900">
         <div className="max-w-7xl mx-auto px-6">
           <Reveal>
             <div className="text-center max-w-2xl mx-auto mb-16">
@@ -471,9 +471,9 @@ export default function LandingPage() {
           <div className="grid md:grid-cols-3 gap-6">
             {BENEFITS.map((b, i) => (
               <Reveal key={i} delay={Math.min(i + 1, 3) as 1 | 2 | 3}>
-                <div className="bg-white rounded-2xl border border-gray-200 p-8 lg:p-10 hover:shadow-xl hover:border-brand-200 transition-all duration-300 h-full">
+                <div className="bg-dark-800 rounded-2xl border border-dark-600 p-8 lg:p-10 hover:shadow-xl hover:border-brand-500/40 transition-all duration-300 h-full">
                   <h3 className="text-xl font-bold mb-4">{b.title}</h3>
-                  <p className="text-gray-500 leading-relaxed whitespace-pre-line">{b.desc}</p>
+                  <p className="text-dark-300 leading-relaxed whitespace-pre-line">{b.desc}</p>
                 </div>
               </Reveal>
             ))}
@@ -495,15 +495,15 @@ export default function LandingPage() {
           <div className="grid md:grid-cols-3 gap-6">
             {USE_CASES.map((uc, i) => (
               <Reveal key={i} delay={Math.min(i + 1, 3) as 1 | 2 | 3}>
-                <div className="group bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-xl hover:border-brand-200 transition-all duration-300">
-                  <div className="h-48 bg-gradient-to-br from-brand-50 to-gray-50 flex items-center justify-center">
-                    <div className="w-16 h-16 bg-white rounded-2xl shadow-lg flex items-center justify-center text-3xl">
+                <div className="group bg-dark-800 rounded-2xl border border-dark-600 overflow-hidden hover:shadow-xl hover:border-brand-500/40 transition-all duration-300">
+                  <div className="h-48 bg-gradient-to-br from-dark-700 to-dark-900 flex items-center justify-center">
+                    <div className="w-16 h-16 bg-dark-600 rounded-2xl shadow-lg flex items-center justify-center text-3xl">
                       {i === 0 ? '💻' : i === 1 ? '🎨' : '📊'}
                     </div>
                   </div>
                   <div className="p-8">
                     <h3 className="text-xl font-bold mb-3">{uc.title}</h3>
-                    <p className="text-gray-500 leading-relaxed">{uc.desc}</p>
+                    <p className="text-dark-300 leading-relaxed">{uc.desc}</p>
                   </div>
                 </div>
               </Reveal>
@@ -534,12 +534,12 @@ export default function LandingPage() {
       </section>
 
       {/* Pricing */}
-      <section id="pricing" className="py-24 lg:py-32 bg-gray-50">
+      <section id="pricing" className="py-24 lg:py-32 bg-dark-900">
         <div className="max-w-7xl mx-auto px-6">
           <Reveal>
             <div className="text-center max-w-2xl mx-auto mb-16">
               <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">팀 규모에 맞는 플랜을 선택하세요</h2>
-              <p className="text-gray-500 text-lg">모든 유료 플랜은 14일 무료 체험이 가능합니다.</p>
+              <p className="text-dark-300 text-lg">모든 유료 플랜은 14일 무료 체험이 가능합니다.</p>
             </div>
           </Reveal>
 
@@ -548,22 +548,22 @@ export default function LandingPage() {
               <Reveal key={i} delay={Math.min(i + 1, 4) as 1 | 2 | 3 | 4}>
                 <div className={clsx(
                   'relative rounded-2xl border p-7 flex flex-col transition-all h-full',
-                  p.highlight ? 'border-brand-600 bg-white shadow-xl shadow-brand-600/10 ring-1 ring-brand-600' : 'border-gray-200 bg-white hover:shadow-lg',
+                  p.highlight ? 'border-brand-500 bg-dark-800 shadow-xl shadow-brand-600/10 ring-1 ring-brand-500' : 'border-dark-600 bg-dark-800 hover:shadow-lg',
                 )}>
                   {p.highlight && <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-brand-600 text-white text-xs font-semibold rounded-full">가장 인기</div>}
                   <div className="mb-6">
-                    <p className="text-sm font-semibold text-brand-600">{p.name}</p>
-                    <p className="text-xs text-gray-500 mb-3">{p.subtitle}</p>
-                    <span className="text-3xl font-extrabold text-gray-900">{p.price}</span>
-                    <p className="text-sm text-gray-500">{p.period}</p>
+                    <p className="text-sm font-semibold text-brand-400">{p.name}</p>
+                    <p className="text-xs text-dark-400 mb-3">{p.subtitle}</p>
+                    <span className="text-3xl font-extrabold text-white">{p.price}</span>
+                    <p className="text-sm text-dark-400">{p.period}</p>
                   </div>
                   <button onClick={openLogin} className={clsx(
                     'w-full py-2.5 rounded-full text-sm font-semibold transition-colors mb-6',
-                    p.highlight ? 'bg-brand-600 text-white hover:bg-brand-700' : 'bg-white text-brand-700 border border-brand-200 hover:bg-brand-50',
+                    p.highlight ? 'bg-brand-600 text-white hover:bg-brand-700' : 'bg-dark-700 text-brand-300 border border-dark-500 hover:bg-dark-600',
                   )}>{p.cta}</button>
                   <ul className="space-y-2.5 flex-1">
                     {p.features.map((f, j) => (
-                      <li key={j} className="flex items-start gap-2 text-sm text-gray-600">
+                      <li key={j} className="flex items-start gap-2 text-sm text-dark-300">
                         <span className="text-brand-500 shrink-0 mt-0.5">✓</span>{f}
                       </li>
                     ))}
@@ -591,8 +591,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Final CTA Banner */}
-      <section className="py-24 lg:py-32 bg-gray-900 text-white relative overflow-hidden">
+      <section className="py-24 lg:py-32 bg-dark-950 text-white relative overflow-hidden">
         <div className="absolute inset-0 -z-0 opacity-30">
           <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-600 rounded-full blur-[120px]" />
           <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-brand-800 rounded-full blur-[100px]" />
@@ -606,7 +605,7 @@ export default function LandingPage() {
             </h2>
           </Reveal>
           <Reveal>
-            <p className="text-gray-400 text-lg mb-10 leading-relaxed max-w-xl mx-auto">
+            <p className="text-dark-300 text-lg mb-10 leading-relaxed max-w-xl mx-auto">
               복잡한 설정 없이 5분 안에 On-Device AI 기반 성과 관리를 시작할 수 있습니다.
             </p>
           </Reveal>
@@ -629,7 +628,7 @@ export default function LandingPage() {
           <Reveal>
             <div className="text-center mb-12">
               <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">솔루션 문의</h2>
-              <p className="text-gray-500 text-lg leading-relaxed">
+              <p className="text-dark-300 text-lg leading-relaxed">
                 도입을 고려 중이신가요?<br />궁금하신 점이 있다면 언제든 편하게 연락해 주세요.
               </p>
             </div>
@@ -638,21 +637,21 @@ export default function LandingPage() {
             <form onSubmit={e => e.preventDefault()} className="space-y-5">
               <div className="grid sm:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1.5">회사명</label>
-                  <input type="text" className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-300 focus:border-brand-400 transition-all" />
+                  <label className="block text-sm font-medium text-dark-200 mb-1.5">회사명</label>
+                  <input type="text" className="w-full px-4 py-3 border border-dark-600 bg-dark-800 text-white rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1.5">담당자명</label>
-                  <input type="text" className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-300 focus:border-brand-400 transition-all" />
+                  <label className="block text-sm font-medium text-dark-200 mb-1.5">담당자명</label>
+                  <input type="text" className="w-full px-4 py-3 border border-dark-600 bg-dark-800 text-white rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all" />
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1.5">이메일</label>
-                <input type="email" className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-300 focus:border-brand-400 transition-all" />
+                <label className="block text-sm font-medium text-dark-200 mb-1.5">이메일</label>
+                <input type="email" className="w-full px-4 py-3 border border-dark-600 bg-dark-800 text-white rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all" />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1.5">문의내용</label>
-                <textarea rows={4} className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-300 focus:border-brand-400 transition-all resize-none" />
+                <label className="block text-sm font-medium text-dark-200 mb-1.5">문의내용</label>
+                <textarea rows={4} className="w-full px-4 py-3 border border-dark-600 bg-dark-800 text-white rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all resize-none" />
               </div>
               <button type="submit" className="w-full py-3.5 bg-brand-600 text-white font-semibold rounded-xl hover:bg-brand-700 transition-colors">
                 제출하기
@@ -663,7 +662,7 @@ export default function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="py-16 bg-gray-900 text-gray-400">
+      <footer className="py-16 bg-dark-950 text-dark-400">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
             <div>
@@ -699,11 +698,11 @@ export default function LandingPage() {
               </ul>
             </div>
           </div>
-          <div className="pt-8 border-t border-gray-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="pt-8 border-t border-dark-700 flex flex-col sm:flex-row items-center justify-between gap-4">
             <p className="text-sm">&copy; 2026 ProofWork. All rights reserved.</p>
             <div className="flex items-center gap-3 text-xs">
               <span>GDPR Compliant</span>
-              <span className="text-gray-700">·</span>
+              <span className="text-dark-600">·</span>
               <span>End-to-End Encrypted</span>
             </div>
           </div>
@@ -719,39 +718,39 @@ export default function LandingPage() {
 /* --- Comparison Cards --- */
 function ComparisonCardLeft() {
   return (
-    <div className="rounded-2xl border border-gray-200 bg-white shadow-lg overflow-hidden">
-      <div className="flex items-center gap-2 px-4 py-3 border-b border-gray-100 bg-gray-50/80">
+    <div className="rounded-2xl border border-dark-600 bg-dark-800 shadow-lg overflow-hidden">
+      <div className="flex items-center gap-2 px-4 py-3 border-b border-dark-700 bg-dark-900/80">
         <div className="flex gap-1.5">
-          <div className="w-2.5 h-2.5 rounded-full bg-gray-300" />
-          <div className="w-2.5 h-2.5 rounded-full bg-gray-300" />
-          <div className="w-2.5 h-2.5 rounded-full bg-gray-300" />
+          <div className="w-2.5 h-2.5 rounded-full bg-dark-500" />
+          <div className="w-2.5 h-2.5 rounded-full bg-dark-500" />
+          <div className="w-2.5 h-2.5 rounded-full bg-dark-500" />
         </div>
         <div className="flex-1 flex justify-center">
-          <div className="px-3 py-0.5 bg-white rounded text-[10px] text-gray-400 border border-gray-200">spreadsheet.example.com</div>
+          <div className="px-3 py-0.5 bg-dark-700 rounded text-[10px] text-dark-400 border border-dark-600">spreadsheet.example.com</div>
         </div>
       </div>
       <div className="p-5 sm:p-6">
         <div className="flex items-center gap-2 mb-5">
-          <div className="w-5 h-5 bg-gray-200 rounded" />
-          <span className="text-sm font-bold text-gray-600">업무 현황 보고서</span>
+          <div className="w-5 h-5 bg-dark-600 rounded" />
+          <span className="text-sm font-bold text-dark-300">업무 현황 보고서</span>
         </div>
-        <p className="text-[11px] text-gray-400 mb-4">수작업으로 기록하는 업무 일지</p>
-        <div className="border border-gray-200 rounded-lg overflow-hidden text-[11px]">
-          <div className="grid grid-cols-4 bg-gray-50 border-b border-gray-200">
-            {['날짜', '업무 내용', '시간', '비고'].map(h => <div key={h} className="px-3 py-2 font-semibold text-gray-500 border-r border-gray-200 last:border-0">{h}</div>)}
+        <p className="text-[11px] text-dark-400 mb-4">수작업으로 기록하는 업무 일지</p>
+        <div className="border border-dark-600 rounded-lg overflow-hidden text-[11px]">
+          <div className="grid grid-cols-4 bg-dark-700 border-b border-dark-600">
+            {['날짜', '업무 내용', '시간', '비고'].map(h => <div key={h} className="px-3 py-2 font-semibold text-dark-300 border-r border-dark-600 last:border-0">{h}</div>)}
           </div>
           {[['03/07', '프론트엔드 개발', '8h', ''], ['03/06', '미팅 + 문서 작성', '6h', '추정치'], ['03/05', 'API 연동 작업', '7h', ''], ['03/04', '디버깅', '5h', '추정치'], ['03/03', '기획 회의', '3h', '기억 안남']].map(([d, t, h, n], i) => (
-            <div key={i} className={clsx('grid grid-cols-4', i < 4 && 'border-b border-gray-100')}>
-              <div className="px-3 py-2.5 text-gray-500 border-r border-gray-100">{d}</div>
-              <div className="px-3 py-2.5 text-gray-700 border-r border-gray-100">{t}</div>
-              <div className="px-3 py-2.5 text-gray-500 border-r border-gray-100">{h}</div>
+            <div key={i} className={clsx('grid grid-cols-4', i < 4 && 'border-b border-dark-700')}>
+              <div className="px-3 py-2.5 text-dark-400 border-r border-dark-700">{d}</div>
+              <div className="px-3 py-2.5 text-dark-200 border-r border-dark-700">{t}</div>
+              <div className="px-3 py-2.5 text-dark-400 border-r border-dark-700">{h}</div>
               <div className="px-3 py-2.5 text-red-400 italic">{n}</div>
             </div>
           ))}
         </div>
         <div className="mt-5 space-y-2">
           {['매일 수동으로 기록해야 함', '추정치 기반 — 정확도 낮음', '성과 분석 불가능'].map((t, i) => (
-            <div key={i} className="flex items-center gap-2 text-xs text-gray-400"><span className="text-red-300">✕</span><span>{t}</span></div>
+            <div key={i} className="flex items-center gap-2 text-xs text-dark-400"><span className="text-red-400">✕</span><span>{t}</span></div>
           ))}
         </div>
       </div>
@@ -761,49 +760,49 @@ function ComparisonCardLeft() {
 
 function ComparisonCardRight() {
   return (
-    <div className="rounded-2xl border border-brand-200 bg-white shadow-lg shadow-brand-600/10 ring-1 ring-brand-100 overflow-hidden">
-      <div className="flex items-center gap-2 px-4 py-3 border-b border-brand-50 bg-brand-50/50">
+    <div className="rounded-2xl border border-brand-500/40 bg-dark-800 shadow-lg shadow-brand-600/10 ring-1 ring-brand-500/30 overflow-hidden">
+      <div className="flex items-center gap-2 px-4 py-3 border-b border-brand-500/20 bg-brand-500/5">
         <div className="flex gap-1.5">
           <div className="w-2.5 h-2.5 rounded-full bg-red-400" />
           <div className="w-2.5 h-2.5 rounded-full bg-yellow-400" />
           <div className="w-2.5 h-2.5 rounded-full bg-green-400" />
         </div>
         <div className="flex-1 flex justify-center">
-          <div className="px-3 py-0.5 bg-white rounded text-[10px] text-brand-500 border border-brand-100">proofwork.app/dashboard</div>
+          <div className="px-3 py-0.5 bg-dark-700 rounded text-[10px] text-brand-400 border border-brand-500/30">proofwork.app/dashboard</div>
         </div>
       </div>
       <div className="p-5 sm:p-6">
         <div className="flex items-center justify-between mb-5">
           <div className="flex items-center gap-2">
             <span className="w-5 h-5 rounded bg-brand-600 text-white text-[10px] font-bold flex items-center justify-center">P</span>
-            <span className="text-sm font-bold text-gray-800">오늘의 성과 리포트</span>
+            <span className="text-sm font-bold text-white">오늘의 성과 리포트</span>
           </div>
-          <span className="text-[10px] text-brand-500 bg-brand-50 px-2 py-0.5 rounded-full font-medium">AI 자동 분석</span>
+          <span className="text-[10px] text-brand-400 bg-brand-500/15 px-2 py-0.5 rounded-full font-medium">AI 자동 분석</span>
         </div>
         <div className="grid grid-cols-3 gap-2.5 mb-4">
-          {[{ l: '몰입도', v: '87', c: 'text-brand-600', b: 'bg-brand-50' }, { l: '효율성', v: '92', c: 'text-green-600', b: 'bg-green-50' }, { l: '목표정렬', v: '78', c: 'text-amber-600', b: 'bg-amber-50' }].map(k => (
+          {[{ l: '몰입도', v: '87', c: 'text-brand-400', b: 'bg-brand-500/15' }, { l: '효율성', v: '92', c: 'text-green-400', b: 'bg-green-500/15' }, { l: '목표정렬', v: '78', c: 'text-amber-400', b: 'bg-amber-500/15' }].map(k => (
             <div key={k.l} className={clsx('rounded-xl p-3 text-center', k.b)}>
-              <p className="text-[10px] text-gray-500">{k.l}</p>
+              <p className="text-[10px] text-dark-400">{k.l}</p>
               <p className={clsx('text-xl font-extrabold', k.c)}>{k.v}</p>
             </div>
           ))}
         </div>
-        <div className="bg-gray-50 rounded-xl p-3.5 mb-4">
-          <p className="text-[10px] font-semibold text-brand-600 mb-1.5">AI 업무 요약</p>
-          <p className="text-[11px] text-gray-600 leading-relaxed">VS Code에서 프론트엔드 컴포넌트 개발에 3.2시간 집중, Figma 디자인 리뷰 45분. 전일 대비 몰입도 12% 향상.</p>
+        <div className="bg-dark-700 rounded-xl p-3.5 mb-4">
+          <p className="text-[10px] font-semibold text-brand-400 mb-1.5">AI 업무 요약</p>
+          <p className="text-[11px] text-dark-200 leading-relaxed">VS Code에서 프론트엔드 컴포넌트 개발에 3.2시간 집중, Figma 디자인 리뷰 45분. 전일 대비 몰입도 12% 향상.</p>
         </div>
         <div className="space-y-2">
           {[{ a: 'VS Code', w: '55%', c: 'bg-brand-500' }, { a: 'Figma', w: '20%', c: 'bg-purple-500' }, { a: 'Slack', w: '12%', c: 'bg-amber-500' }].map(b => (
             <div key={b.a} className="flex items-center gap-2.5">
-              <span className="text-[10px] text-gray-500 w-12 shrink-0">{b.a}</span>
-              <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden"><div className={clsx('h-full rounded-full', b.c)} style={{ width: b.w }} /></div>
-              <span className="text-[10px] text-gray-400 w-8 text-right">{b.w}</span>
+              <span className="text-[10px] text-dark-400 w-12 shrink-0">{b.a}</span>
+              <div className="flex-1 h-2 bg-dark-600 rounded-full overflow-hidden"><div className={clsx('h-full rounded-full', b.c)} style={{ width: b.w }} /></div>
+              <span className="text-[10px] text-dark-400 w-8 text-right">{b.w}</span>
             </div>
           ))}
         </div>
         <div className="mt-5 space-y-2">
           {['AI가 자동으로 활동 분석 & 리포트', '정확한 수치 기반 성과 증명', '실시간 몰입도·효율성 대시보드'].map((t, i) => (
-            <div key={i} className="flex items-center gap-2 text-xs text-gray-600"><span className="text-brand-500 font-bold">✓</span><span>{t}</span></div>
+            <div key={i} className="flex items-center gap-2 text-xs text-dark-200"><span className="text-brand-500 font-bold">✓</span><span>{t}</span></div>
           ))}
         </div>
       </div>
@@ -814,27 +813,27 @@ function ComparisonCardRight() {
 /* --- Step Mockups --- */
 function StepMockup1() {
   return (
-    <div className="rounded-2xl border border-gray-200 bg-white shadow-xl overflow-hidden">
-      <div className="flex items-center gap-2 px-4 py-3 border-b border-gray-100 bg-gray-50/80">
+    <div className="rounded-2xl border border-dark-600 bg-dark-800 shadow-xl overflow-hidden">
+      <div className="flex items-center gap-2 px-4 py-3 border-b border-dark-700 bg-dark-900/80">
         <div className="flex gap-1.5"><div className="w-2.5 h-2.5 rounded-full bg-red-400" /><div className="w-2.5 h-2.5 rounded-full bg-yellow-400" /><div className="w-2.5 h-2.5 rounded-full bg-green-400" /></div>
-        <div className="flex-1 flex justify-center"><div className="px-3 py-0.5 bg-white rounded text-[10px] text-gray-400 border border-gray-200">ProofWork Agent</div></div>
+        <div className="flex-1 flex justify-center"><div className="px-3 py-0.5 bg-dark-700 rounded text-[10px] text-dark-400 border border-dark-600">ProofWork Agent</div></div>
       </div>
       <div className="p-6 space-y-4">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2"><div className="w-2.5 h-2.5 rounded-full bg-green-400 animate-pulse" /><span className="text-xs font-medium text-green-600">분석 중</span></div>
-          <span className="text-[10px] text-gray-400">CPU 2.1% · RAM 48MB</span>
+          <div className="flex items-center gap-2"><div className="w-2.5 h-2.5 rounded-full bg-green-400 animate-pulse" /><span className="text-xs font-medium text-green-400">분석 중</span></div>
+          <span className="text-[10px] text-dark-400">CPU 2.1% · RAM 48MB</span>
         </div>
         <div className="space-y-3">
           {[{ app: 'VS Code', cat: '개발', min: '142분', pct: 68 }, { app: 'Chrome', cat: '브라우저', min: '45분', pct: 22 }, { app: 'Slack', cat: '커뮤니케이션', min: '23분', pct: 10 }].map(a => (
             <div key={a.app} className="flex items-center gap-3">
-              <span className="text-xs text-gray-600 w-16 shrink-0">{a.app}</span>
-              <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden"><div className="h-full bg-brand-400 rounded-full" style={{ width: `${a.pct}%` }} /></div>
-              <span className="text-[10px] text-gray-400 w-10 text-right">{a.min}</span>
+              <span className="text-xs text-dark-300 w-16 shrink-0">{a.app}</span>
+              <div className="flex-1 h-2 bg-dark-600 rounded-full overflow-hidden"><div className="h-full bg-brand-400 rounded-full" style={{ width: `${a.pct}%` }} /></div>
+              <span className="text-[10px] text-dark-400 w-10 text-right">{a.min}</span>
             </div>
           ))}
         </div>
         <div className="flex gap-2">
-          {['AI 분석', 'On-Device', 'PII 제거'].map(t => <span key={t} className="text-[10px] bg-brand-50 text-brand-600 px-2 py-0.5 rounded-full font-medium">{t}</span>)}
+          {['AI 분석', 'On-Device', 'PII 제거'].map(t => <span key={t} className="text-[10px] bg-brand-500/15 text-brand-400 px-2 py-0.5 rounded-full font-medium">{t}</span>)}
         </div>
       </div>
     </div>
@@ -843,28 +842,28 @@ function StepMockup1() {
 
 function StepMockup2() {
   return (
-    <div className="rounded-2xl border border-gray-200 bg-white shadow-xl overflow-hidden">
-      <div className="flex items-center gap-2 px-4 py-3 border-b border-gray-100 bg-gray-50/80">
+    <div className="rounded-2xl border border-dark-600 bg-dark-800 shadow-xl overflow-hidden">
+      <div className="flex items-center gap-2 px-4 py-3 border-b border-dark-700 bg-dark-900/80">
         <div className="flex gap-1.5"><div className="w-2.5 h-2.5 rounded-full bg-red-400" /><div className="w-2.5 h-2.5 rounded-full bg-yellow-400" /><div className="w-2.5 h-2.5 rounded-full bg-green-400" /></div>
-        <div className="flex-1 flex justify-center"><div className="px-3 py-0.5 bg-white rounded text-[10px] text-gray-400 border border-gray-200">데이터 리뷰</div></div>
+        <div className="flex-1 flex justify-center"><div className="px-3 py-0.5 bg-dark-700 rounded text-[10px] text-dark-400 border border-dark-600">데이터 리뷰</div></div>
       </div>
       <div className="p-6 space-y-4">
-        <p className="text-xs font-semibold text-gray-500">2026년 3월 7일 업무 데이터</p>
+        <p className="text-xs font-semibold text-dark-400">2026년 3월 7일 업무 데이터</p>
         <div className="grid grid-cols-3 gap-2.5">
-          {[{ l: '몰입도', v: '87', c: 'text-brand-600 bg-brand-50' }, { l: '효율성', v: '92', c: 'text-green-600 bg-green-50' }, { l: '정렬도', v: '78', c: 'text-amber-600 bg-amber-50' }].map(k => (
+          {[{ l: '몰입도', v: '87', c: 'text-brand-400 bg-brand-500/15' }, { l: '효율성', v: '92', c: 'text-green-400 bg-green-500/15' }, { l: '정렬도', v: '78', c: 'text-amber-400 bg-amber-500/15' }].map(k => (
             <div key={k.l} className={clsx('rounded-xl p-3 text-center', k.c.split(' ')[1])}>
-              <p className="text-[10px] text-gray-500">{k.l}</p>
+              <p className="text-[10px] text-dark-400">{k.l}</p>
               <p className={clsx('text-lg font-bold', k.c.split(' ')[0])}>{k.v}</p>
             </div>
           ))}
         </div>
-        <div className="bg-green-50 rounded-xl p-3 border border-green-100">
-          <p className="text-[10px] text-green-700 font-semibold mb-1">PII 자동 제거 완료</p>
-          <p className="text-[10px] text-green-600">3건의 개인정보가 자동 필터링되었습니다.</p>
+        <div className="bg-green-500/15 rounded-xl p-3 border border-green-500/30">
+          <p className="text-[10px] text-green-400 font-semibold mb-1">PII 자동 제거 완료</p>
+          <p className="text-[10px] text-green-300">3건의 개인정보가 자동 필터링되었습니다.</p>
         </div>
         <div className="flex gap-3">
           <button className="flex-1 py-2 bg-brand-600 text-white text-xs font-semibold rounded-lg">승인</button>
-          <button className="flex-1 py-2 bg-white text-gray-600 text-xs font-semibold rounded-lg border border-gray-200">수정</button>
+          <button className="flex-1 py-2 bg-dark-700 text-dark-200 text-xs font-semibold rounded-lg border border-dark-600">수정</button>
         </div>
       </div>
     </div>
@@ -873,30 +872,30 @@ function StepMockup2() {
 
 function StepMockup3() {
   return (
-    <div className="rounded-2xl border border-gray-200 bg-white shadow-xl overflow-hidden">
-      <div className="flex items-center gap-2 px-4 py-3 border-b border-gray-100 bg-gray-50/80">
+    <div className="rounded-2xl border border-dark-600 bg-dark-800 shadow-xl overflow-hidden">
+      <div className="flex items-center gap-2 px-4 py-3 border-b border-dark-700 bg-dark-900/80">
         <div className="flex gap-1.5"><div className="w-2.5 h-2.5 rounded-full bg-red-400" /><div className="w-2.5 h-2.5 rounded-full bg-yellow-400" /><div className="w-2.5 h-2.5 rounded-full bg-green-400" /></div>
-        <div className="flex-1 flex justify-center"><div className="px-3 py-0.5 bg-white rounded text-[10px] text-gray-400 border border-gray-200">proofwork.app/dashboard</div></div>
+        <div className="flex-1 flex justify-center"><div className="px-3 py-0.5 bg-dark-700 rounded text-[10px] text-dark-400 border border-dark-600">proofwork.app/dashboard</div></div>
       </div>
       <div className="p-6 space-y-4">
         <div className="flex items-center justify-between">
-          <p className="text-sm font-bold text-gray-800">주간 리포트</p>
-          <span className="text-[10px] text-brand-500 bg-brand-50 px-2 py-0.5 rounded-full font-medium">Gemini AI</span>
+          <p className="text-sm font-bold text-white">주간 리포트</p>
+          <span className="text-[10px] text-brand-400 bg-brand-500/15 px-2 py-0.5 rounded-full font-medium">Gemini AI</span>
         </div>
-        <div className="bg-brand-50 rounded-xl p-3.5">
-          <p className="text-[10px] font-semibold text-brand-600 mb-1">AI 인사이트</p>
-          <p className="text-[11px] text-gray-600 leading-relaxed">이번 주 평균 몰입도 85점으로 전주 대비 8% 상승했습니다. 오전 10시~12시 딥포커스 구간이 가장 효율적입니다.</p>
+        <div className="bg-brand-500/15 rounded-xl p-3.5">
+          <p className="text-[10px] font-semibold text-brand-400 mb-1">AI 인사이트</p>
+          <p className="text-[11px] text-dark-200 leading-relaxed">이번 주 평균 몰입도 85점으로 전주 대비 8% 상승했습니다. 오전 10시~12시 딥포커스 구간이 가장 효율적입니다.</p>
         </div>
         <div className="space-y-2">
-          <p className="text-[10px] font-semibold text-gray-500">효율성 추이</p>
+          <p className="text-[10px] font-semibold text-dark-400">효율성 추이</p>
           <div className="flex items-end gap-1 h-16">
             {[60, 72, 65, 88, 92, 85, 90].map((v, i) => (
-              <div key={i} className="flex-1 bg-brand-100 rounded-t" style={{ height: `${v}%` }}>
+              <div key={i} className="flex-1 bg-dark-600 rounded-t" style={{ height: `${v}%` }}>
                 <div className="w-full bg-brand-400 rounded-t" style={{ height: `${v}%` }} />
               </div>
             ))}
           </div>
-          <div className="flex justify-between text-[9px] text-gray-400">
+          <div className="flex justify-between text-[9px] text-dark-400">
             <span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span><span>일</span>
           </div>
         </div>

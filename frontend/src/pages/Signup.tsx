@@ -112,26 +112,26 @@ export default function Signup() {
   /* ── 성공 화면 ── */
   if (success) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center p-4">
+      <div className="min-h-screen bg-dark-950 flex items-center justify-center p-4">
         <div className="w-full max-w-sm text-center">
-          <h2 className="text-xl font-bold text-gray-900 mb-2">가입이 완료되었습니다!</h2>
-          <p className="text-sm text-gray-500 mb-6">
-            <span className="font-semibold text-brand-600">{displayName}</span>님, 환영합니다.
+          <h2 className="text-xl font-bold text-white mb-2">가입이 완료되었습니다!</h2>
+          <p className="text-sm text-dark-300 mb-6">
+            <span className="font-semibold text-brand-400">{displayName}</span>님, 환영합니다.
           </p>
-          <p className="text-xs text-gray-400">잠시 후 대시보드로 이동합니다...</p>
+          <p className="text-xs text-dark-400">잠시 후 대시보드로 이동합니다...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-white flex flex-col">
+    <div className="min-h-screen bg-dark-950 flex flex-col">
       {/* ── Header ── */}
-      <header className="sticky top-0 z-10 bg-white border-b border-gray-100">
+      <header className="sticky top-0 z-10 bg-dark-900 border-b border-dark-700">
         <div className="max-w-lg mx-auto px-6 h-14 flex items-center">
           <button
             onClick={() => navigate('/landing')}
-            className="p-1.5 -ml-1.5 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors"
+            className="p-1.5 -ml-1.5 rounded-lg text-dark-400 hover:text-dark-200 hover:bg-dark-700 transition-colors"
           >
             <ArrowLeft className="w-5 h-5" />
           </button>
@@ -145,8 +145,8 @@ export default function Signup() {
           <div className="text-center mb-8">
             <div className="inline-flex items-center gap-2">
               <span className="w-9 h-9 rounded-xl bg-brand-600 text-white font-bold flex items-center justify-center text-sm">P</span>
-              <span className="text-xl font-bold text-gray-900">
-                Proof<span className="text-brand-600">Work</span>
+              <span className="text-xl font-bold text-white">
+                Proof<span className="text-brand-400">Work</span>
               </span>
             </div>
           </div>
@@ -154,10 +154,10 @@ export default function Signup() {
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* ── 이름 ── */}
             <div>
-              <label className="block text-sm font-semibold text-gray-800 mb-2">이름</label>
+              <label className="block text-sm font-semibold text-dark-200 mb-2">이름</label>
               <input
                 type="text"
-                className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400 placeholder-gray-400 transition-all"
+                className="w-full px-4 py-3 border border-dark-600 rounded-xl text-sm bg-dark-800 text-white focus:outline-none focus:ring-2 focus:ring-brand-500/40 focus:border-brand-500 placeholder-dark-400 transition-all"
                 placeholder="이름"
                 value={displayName}
                 onChange={(e) => setDisplayName(e.target.value)}
@@ -168,10 +168,10 @@ export default function Signup() {
 
             {/* ── 전화번호 (선택) ── */}
             <div>
-              <label className="block text-sm font-semibold text-gray-800 mb-2">전화번호</label>
+              <label className="block text-sm font-semibold text-dark-200 mb-2">전화번호</label>
               <input
                 type="tel"
-                className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400 placeholder-gray-400 transition-all"
+                className="w-full px-4 py-3 border border-dark-600 rounded-xl text-sm bg-dark-800 text-white focus:outline-none focus:ring-2 focus:ring-brand-500/40 focus:border-brand-500 placeholder-dark-400 transition-all"
                 placeholder="전화번호"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
@@ -181,10 +181,10 @@ export default function Signup() {
 
             {/* ── 소속 부서 ── */}
             <div>
-              <label className="block text-sm font-semibold text-gray-800 mb-2">소속 부서</label>
+              <label className="block text-sm font-semibold text-dark-200 mb-2">소속 부서</label>
               <input
                 type="text"
-                className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400 placeholder-gray-400 transition-all"
+                className="w-full px-4 py-3 border border-dark-600 rounded-xl text-sm bg-dark-800 text-white focus:outline-none focus:ring-2 focus:ring-brand-500/40 focus:border-brand-500 placeholder-dark-400 transition-all"
                 placeholder="소속 부서"
                 value={department}
                 onChange={(e) => setDepartment(e.target.value)}
@@ -194,7 +194,7 @@ export default function Signup() {
 
             {/* ── 이메일 ── */}
             <div>
-              <label className="block text-sm font-semibold text-gray-800 mb-2">이메일</label>
+              <label className="block text-sm font-semibold text-dark-200 mb-2">이메일</label>
               <input
                 type="email"
                 className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400 placeholder-gray-400 transition-all"
@@ -207,11 +207,11 @@ export default function Signup() {
 
             {/* ── 비밀번호 ── */}
             <div>
-              <label className="block text-sm font-semibold text-gray-800 mb-2">비밀번호</label>
+              <label className="block text-sm font-semibold text-dark-200 mb-2">비밀번호</label>
               <div className="relative">
                 <input
                   type={showPw ? 'text' : 'password'}
-                  className="w-full px-4 py-3 pr-10 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400 placeholder-gray-400 transition-all"
+                  className="w-full px-4 py-3 pr-10 border border-dark-600 rounded-xl text-sm bg-dark-800 text-white focus:outline-none focus:ring-2 focus:ring-brand-500/40 focus:border-brand-500 placeholder-dark-400 transition-all"
                   placeholder="비밀번호를 입력해주세요"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -219,7 +219,7 @@ export default function Signup() {
                 />
                 <button
                   type="button"
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-dark-400 hover:text-dark-200"
                   onClick={() => setShowPw(!showPw)}
                 >
                   {showPw ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -232,7 +232,7 @@ export default function Signup() {
                       <div
                         key={i}
                         className={`h-1 flex-1 rounded-full transition-colors ${
-                          i <= pwStrength.level ? pwStrength.color : 'bg-gray-200'
+                          i <= pwStrength.level ? pwStrength.color : 'bg-dark-600'
                         }`}
                       />
                     ))}
@@ -249,12 +249,12 @@ export default function Signup() {
 
             {/* ── 비밀번호 확인 ── */}
             <div>
-              <label className="block text-sm font-semibold text-gray-800 mb-2">비밀번호 확인</label>
+              <label className="block text-sm font-semibold text-dark-200 mb-2">비밀번호 확인</label>
               <div className="relative">
                 <input
                   type={showConfirmPw ? 'text' : 'password'}
-                  className={`w-full px-4 py-3 pr-10 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400 placeholder-gray-400 transition-all ${
-                    confirmPw && confirmPw !== password ? 'border-danger-300' : 'border-gray-200'
+                  className={`w-full px-4 py-3 pr-10 border rounded-xl text-sm bg-dark-800 text-white focus:outline-none focus:ring-2 focus:ring-brand-500/40 focus:border-brand-500 placeholder-dark-400 transition-all ${
+                    confirmPw && confirmPw !== password ? 'border-danger-300' : 'border-dark-600'
                   }`}
                   placeholder="다시 한번 입력해주세요"
                   value={confirmPw}
@@ -263,7 +263,7 @@ export default function Signup() {
                 />
                 <button
                   type="button"
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-dark-400 hover:text-dark-200"
                   onClick={() => setShowConfirmPw(!showConfirmPw)}
                 >
                   {showConfirmPw ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -280,16 +280,16 @@ export default function Signup() {
             </div>
 
             {/* ── 약관 동의 ── */}
-            <div className="pt-2 border-t border-gray-100">
+            <div className="pt-2 border-t border-dark-700">
               {/* 전체 동의 */}
               <label className="flex items-center gap-3 cursor-pointer py-3">
                 <input
                   type="checkbox"
                   checked={agreeAll}
                   onChange={(e) => handleAgreeAll(e.target.checked)}
-                  className="h-5 w-5 rounded border-gray-300 text-brand-600 focus:ring-brand-500"
+                  className="h-5 w-5 rounded border-dark-500 text-brand-600 focus:ring-brand-500 bg-dark-700"
                 />
-                <span className="text-sm font-bold text-gray-900">전체 약관에 동의합니다.</span>
+                <span className="text-sm font-bold text-white">전체 약관에 동의합니다.</span>
               </label>
 
               <div className="space-y-2 ml-1 mb-2">
@@ -302,8 +302,8 @@ export default function Signup() {
                     }
                     className="h-4 w-4 rounded border-gray-300 text-brand-600 focus:ring-brand-500"
                   />
-                  <span className="text-sm text-gray-600">
-                    ProofWork <button type="button" className="text-brand-600 font-medium hover:underline">이용 약관</button>에 동의합니다. <span className="text-danger-500 text-xs font-medium ml-1">필수</span>
+                  <span className="text-sm text-dark-300">
+                    ProofWork <button type="button" className="text-brand-400 font-medium hover:underline">이용 약관</button>에 동의합니다. <span className="text-danger-500 text-xs font-medium ml-1">필수</span>
                   </span>
                 </label>
 
@@ -316,8 +316,8 @@ export default function Signup() {
                     }
                     className="h-4 w-4 rounded border-gray-300 text-brand-600 focus:ring-brand-500"
                   />
-                  <span className="text-sm text-gray-600">
-                    <button type="button" className="text-brand-600 font-medium hover:underline">개인정보 수집 및 이용</button>에 동의합니다. <span className="text-danger-500 text-xs font-medium ml-1">필수</span>
+                  <span className="text-sm text-dark-300">
+                    <button type="button" className="text-brand-400 font-medium hover:underline">개인정보 수집 및 이용</button>에 동의합니다. <span className="text-danger-500 text-xs font-medium ml-1">필수</span>
                   </span>
                 </label>
 
@@ -330,8 +330,8 @@ export default function Signup() {
                     }
                     className="h-4 w-4 rounded border-gray-300 text-brand-600 focus:ring-brand-500"
                   />
-                  <span className="text-sm text-gray-600">
-                    마케팅 정보 수신 및 선택적 개인정보 제공에 동의합니다. <span className="text-gray-400 text-xs">(선택)</span>
+                  <span className="text-sm text-dark-300">
+                    마케팅 정보 수신 및 선택적 개인정보 제공에 동의합니다. <span className="text-dark-500 text-xs">(선택)</span>
                   </span>
                 </label>
               </div>
@@ -355,11 +355,11 @@ export default function Signup() {
           </form>
 
           {/* ── 로그인 링크 ── */}
-          <p className="text-center text-sm text-gray-500 mt-6">
+          <p className="text-center text-sm text-dark-400 mt-6">
             이미 계정이 있으신가요?{' '}
             <button
               onClick={() => navigate('/landing')}
-              className="text-brand-600 font-semibold hover:underline"
+              className="text-brand-400 font-semibold hover:underline"
             >
               로그인
             </button>
@@ -367,7 +367,7 @@ export default function Signup() {
 
           {/* Security badge */}
           <div className="text-center mt-8 pb-4">
-            <p className="text-xs text-gray-400">
+            <p className="text-xs text-dark-400">
               모든 데이터는 암호화되어 안전하게 보호됩니다.
             </p>
           </div>

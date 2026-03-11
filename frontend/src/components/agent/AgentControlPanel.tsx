@@ -14,16 +14,16 @@ type AgentState = 'offline' | 'idle' | 'running';
 type TrackMode = 'agent' | 'browser';
 
 const TASK_TYPES = [
-  { value: 'general', label: '일반 업무', color: 'bg-gray-100 text-gray-700' },
-  { value: 'frontend', label: '프론트엔드 개발', color: 'bg-blue-100 text-blue-700' },
-  { value: 'backend', label: '백엔드 개발', color: 'bg-green-100 text-green-700' },
-  { value: 'design', label: '디자인', color: 'bg-pink-100 text-pink-700' },
-  { value: 'documentation', label: '문서 작업', color: 'bg-yellow-100 text-yellow-700' },
-  { value: 'meeting', label: '회의', color: 'bg-purple-100 text-purple-700' },
-  { value: 'planning', label: '기획/계획', color: 'bg-indigo-100 text-indigo-700' },
-  { value: 'review', label: '코드 리뷰', color: 'bg-orange-100 text-orange-700' },
-  { value: 'research', label: '리서치/조사', color: 'bg-teal-100 text-teal-700' },
-  { value: 'bug_fix', label: '버그 수정', color: 'bg-red-100 text-red-700' },
+  { value: 'general', label: '일반 업무', color: 'bg-dark-600 text-dark-200' },
+  { value: 'frontend', label: '프론트엔드 개발', color: 'bg-blue-500/20 text-blue-300' },
+  { value: 'backend', label: '백엔드 개발', color: 'bg-green-500/20 text-green-300' },
+  { value: 'design', label: '디자인', color: 'bg-pink-500/20 text-pink-300' },
+  { value: 'documentation', label: '문서 작업', color: 'bg-yellow-500/20 text-yellow-300' },
+  { value: 'meeting', label: '회의', color: 'bg-purple-500/20 text-purple-300' },
+  { value: 'planning', label: '기획/계획', color: 'bg-indigo-500/20 text-indigo-300' },
+  { value: 'review', label: '코드 리뷰', color: 'bg-orange-500/20 text-orange-300' },
+  { value: 'research', label: '리서치/조사', color: 'bg-teal-500/20 text-teal-300' },
+  { value: 'bug_fix', label: '버그 수정', color: 'bg-red-500/20 text-red-300' },
 ] as const;
 
 // ── 브라우저 모드: 업무 유형 → 활동 카테고리 매핑 ──────────
@@ -415,230 +415,169 @@ export default function AgentControlPanel({ onSessionEnd }: Props) {
     ? (customTaskInput.trim() || '직접 입력')
     : selectedTask;
   const currentTask = isCustom
-    ? { value: '__custom__', label: customTaskInput.trim() || '직접 입력', color: 'bg-violet-100 text-violet-700' }
+    ? { value: '__custom__', label: customTaskInput.trim() || '직접 입력', color: 'bg-violet-500/20 text-violet-300' }
     : TASK_TYPES.find(t => t.value === selectedTask);
 
-  const stateColor = browserRunning
-    ? 'text-green-500'
-    : { offline: 'text-gray-400', idle: 'text-yellow-500', running: 'text-green-500' }[agentState];
-
-  const stateLabel = browserRunning
-    ? '추적 중 (브라우저)'
-    : { offline: '오프라인', idle: '대기 중', running: '추적 중' }[agentState];
-
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm">
-      {/* 상단 헤더 */}
-      <div className="flex items-center justify-between px-5 py-4 border-b border-gray-50">
-        <div className="flex items-center gap-2.5">
-          <span className="font-semibold text-gray-800">업무 추적 에이전트</span>
-        </div>
-        <div className="flex items-center gap-1.5">
-          <span className={`text-xs font-medium ${stateColor}`}>{stateLabel}</span>
-        </div>
-      </div>
+    <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 w-auto max-w-[720px]">
+      <div className="bg-gray-900 rounded-2xl shadow-2xl shadow-black/30 border border-gray-800 px-5 py-3 flex items-center gap-3">
 
-      <div className="px-5 py-4 space-y-4">
-        {/* 추적 모드 선택 (에이전트 연결됐을 때만) */}
-        {agentState !== 'offline' && !isTracking && (
-          <div className="flex gap-2">
-            <button
-              onClick={() => setTrackMode('browser')}
-              className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium border transition-colors ${
-                trackMode === 'browser'
-                  ? 'bg-brand-50 border-brand-300 text-brand-700'
-                  : 'bg-gray-50 border-gray-200 text-gray-500 hover:bg-gray-100'
-              }`}
-            >
-              브라우저 모드
-            </button>
-            <button
-              onClick={() => setTrackMode('agent')}
-              className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium border transition-colors ${
-                trackMode === 'agent'
-                  ? 'bg-brand-50 border-brand-300 text-brand-700'
-                  : 'bg-gray-50 border-gray-200 text-gray-500 hover:bg-gray-100'
-              }`}
-            >
-              로컬 에이전트
-            </button>
-          </div>
-        )}
-
-        {/* 에이전트 오프라인 시 브라우저 모드 안내 */}
-        {agentState === 'offline' && !browserRunning && (
-          <div className="bg-blue-50 rounded-xl px-4 py-3 border border-blue-100">
-            <p className="text-xs font-semibold text-blue-700 mb-0.5">브라우저 추적 모드</p>
-            <p className="text-xs text-blue-500">
-              로컬 에이전트 없이도 마우스·키보드 입력으로 업무 시간을 즉시 추적합니다.
-            </p>
-            <a
-              href="/settings"
-              className="text-xs font-medium text-blue-700 hover:text-blue-900 hover:underline mt-1.5 inline-block"
-            >
-              On-Device Agent 설치 →
-            </a>
-          </div>
-        )}
-
-        {/* 실시간 통계 */}
-        {isTracking && liveStats && (
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            <StatBadge label="경과" value={`${liveStats.elapsedMinutes}분`} />
-            <StatBadge label="활성" value={`${liveStats.activeMinutes}분`} />
-            <StatBadge label="딥포커스" value={`${liveStats.deepFocusMinutes}분`} />
-            <StatBadge label="전환" value={`${liveStats.contextSwitches}회`} />
-          </div>
-        )}
-
-        {/* AI 화면 분석 실시간 컨텍스트 */}
-        {isTracking && liveStats && 'screenAnalysis' in liveStats && (liveStats as AgentLiveStats).screenAnalysis?.hasContext && (
-          <div className="bg-gradient-to-r from-brand-50 to-blue-50 rounded-xl px-4 py-3 border border-brand-100">
-            <div className="flex items-center gap-2 mb-1.5">
-              <span className="text-[10px] font-semibold text-brand-600 uppercase tracking-wider">AI 화면 분석</span>
-              <span className="text-[10px] text-brand-400">
-                {(liveStats as AgentLiveStats).screenAnalysis?.currentApp} · {(liveStats as AgentLiveStats).screenAnalysis?.blockDurationMinutes}분째
-              </span>
-            </div>
-            {(liveStats as AgentLiveStats).screenAnalysis?.currentSummary && (
-              <p className="text-xs text-gray-700">
-                {(liveStats as AgentLiveStats).screenAnalysis?.currentSummary}
-              </p>
-            )}
-            {(liveStats as AgentLiveStats).screenAnalysis?.currentInference && (
-              <p className="text-xs text-brand-600 font-medium mt-1">
-                {(liveStats as AgentLiveStats).screenAnalysis?.currentInference}
-              </p>
-            )}
-          </div>
-        )}
-
-        {/* 직전 세션 결과 */}
-        {lastSession && (
-          <div className="bg-brand-50 rounded-xl px-4 py-3 border border-brand-100">
-            <p className="text-xs font-semibold text-brand-600 mb-2">방금 세션 결과</p>
-            <div className="flex items-center gap-4 flex-wrap">
-              <span className="text-2xl font-bold text-brand-700">{lastSession.score}점</span>
-              <div className="text-xs text-brand-600 space-y-0.5">
-                <p>집중 {lastSession.deepFocusMinutes}분 · 활성 {lastSession.activeMinutes}분</p>
-                <p>컨텍스트 전환 {lastSession.contextSwitches}회 · <span className="capitalize">{lastSession.topCategory}</span></p>
-                {lastSession.screenAnalysisCount != null && lastSession.screenAnalysisCount > 0 && (
-                  <p className="text-brand-500">AI 화면 분석 {lastSession.screenAnalysisCount}회 수행</p>
-                )}
+        {/* ── 추적 중이 아닐 때 ── */}
+        {!isTracking && (
+          <>
+            {/* 모드 표시 (에이전트/브라우저) */}
+            {agentState !== 'offline' && (
+              <div className="flex gap-1 mr-1">
+                <button
+                  onClick={() => setTrackMode('browser')}
+                  className={`px-2.5 py-1 rounded-lg text-[11px] font-medium transition-colors ${
+                    trackMode === 'browser'
+                      ? 'bg-brand-500/20 text-brand-400'
+                      : 'text-gray-500 hover:text-gray-300'
+                  }`}
+                >
+                  브라우저
+                </button>
+                <button
+                  onClick={() => setTrackMode('agent')}
+                  className={`px-2.5 py-1 rounded-lg text-[11px] font-medium transition-colors ${
+                    trackMode === 'agent'
+                      ? 'bg-brand-500/20 text-brand-400'
+                      : 'text-gray-500 hover:text-gray-300'
+                  }`}
+                >
+                  에이전트
+                </button>
               </div>
-            </div>
-            {lastSession.workNarrative && (
-              <p className="text-xs text-brand-600 mt-2 pt-2 border-t border-brand-100">
-                {lastSession.workNarrative}
-              </p>
             )}
-          </div>
-        )}
 
-        {/* 오류 메시지 */}
-        {error && (
-          <p className="text-xs text-red-500 bg-red-50 px-3 py-2 rounded-lg">{error}</p>
-        )}
-
-        {/* 업무 유형 선택 + 시작/중지 버튼 */}
-        <div className="flex items-center justify-between gap-3">
-          {/* 업무 유형 드롭다운 */}
-          {!isTracking && (
-            <div className="relative flex-1 max-w-xs" ref={dropdownRef}>
+            {/* 업무 유형 드롭다운 */}
+            <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setTaskDropdownOpen(!taskDropdownOpen)}
-                className="w-full flex items-center justify-between gap-2 px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm hover:bg-gray-100 transition-colors"
+                className="flex items-center gap-2 px-3 py-1.5 bg-gray-800 border border-gray-700 rounded-xl text-sm hover:bg-gray-700 transition-colors"
               >
-                <span className={`inline-block px-2 py-0.5 rounded-md text-xs font-medium ${currentTask?.color || ''}`}>
+                <span className="text-xs font-medium text-gray-200">
                   {isCustom
                     ? (customTaskInput.trim() || '직접 입력…')
                     : (currentTask?.label || '일반 업무')}
                 </span>
-                <ChevronDown className={`w-4 h-4 text-gray-400 shrink-0 transition-transform ${taskDropdownOpen ? 'rotate-180' : ''}`} />
+                <ChevronDown className={`w-3.5 h-3.5 text-gray-500 shrink-0 transition-transform ${taskDropdownOpen ? 'rotate-180' : ''}`} />
               </button>
               {taskDropdownOpen && (
-                <div className="absolute z-50 top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-xl shadow-xl py-1.5 max-h-60 overflow-y-auto">
+                <div className="absolute z-50 bottom-full left-0 mb-2 w-56 bg-gray-800 border border-gray-700 rounded-xl shadow-2xl py-1.5 max-h-60 overflow-y-auto">
                   {TASK_TYPES.map((t) => (
                     <button
                       key={t.value}
                       onClick={() => { setSelectedTask(t.value); setTaskDropdownOpen(false); }}
-                      className={`w-full text-left px-3 py-2 text-sm hover:bg-gray-50 flex items-center gap-2 ${selectedTask === t.value ? 'bg-brand-50' : ''}`}
+                      className={`w-full text-left px-3 py-2 text-sm text-gray-300 hover:bg-gray-700 flex items-center gap-2 ${selectedTask === t.value ? 'bg-brand-500/15 text-brand-300' : ''}`}
                     >
-                      <span className={`inline-block px-2 py-0.5 rounded-md text-xs font-medium ${t.color}`}>
-                        {t.label}
-                      </span>
+                      {t.label}
                     </button>
                   ))}
-                  {/* 직접 입력 항목 */}
                   <button
                     onClick={() => {
                       setSelectedTask('__custom__');
                       setTaskDropdownOpen(false);
                       setTimeout(() => customInputRef.current?.focus(), 50);
                     }}
-                    className={`w-full text-left px-3 py-2 text-sm hover:bg-gray-50 flex items-center gap-2 ${selectedTask === '__custom__' ? 'bg-brand-50' : ''}`}
+                    className={`w-full text-left px-3 py-2 text-sm text-gray-300 hover:bg-gray-700 flex items-center gap-2 ${selectedTask === '__custom__' ? 'bg-brand-500/15 text-brand-300' : ''}`}
                   >
-                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-medium bg-violet-100 text-violet-700">
-                      직접 입력
-                    </span>
+                    ✏️ 직접 입력
                   </button>
                 </div>
               )}
-              {/* 직접 입력 필드 */}
-              {isCustom && (
-                <input
-                  ref={customInputRef}
-                  type="text"
-                  value={customTaskInput}
-                  onChange={(e) => setCustomTaskInput(e.target.value)}
-                  placeholder="업무 이름 입력 (예: 신규 기능 설계)"
-                  className="mt-2 w-full px-3 py-2 border border-violet-200 rounded-xl text-sm bg-violet-50 placeholder-violet-300 text-violet-800 focus:outline-none focus:ring-2 focus:ring-violet-300"
-                  maxLength={40}
-                />
-              )}
             </div>
-          )}
 
-          {/* 추적 중일 때 현재 업무 유형 표시 */}
-          {isTracking && (
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-gray-500">현재 업무:</span>
-              <span className={`inline-block px-2.5 py-1 rounded-lg text-xs font-semibold ${currentTask?.color || 'bg-gray-100 text-gray-700'}`}>
-                {effectiveTask}
-              </span>
-            </div>
-          )}
+            {/* 직접 입력 필드 */}
+            {isCustom && (
+              <input
+                ref={customInputRef}
+                type="text"
+                value={customTaskInput}
+                onChange={(e) => setCustomTaskInput(e.target.value)}
+                placeholder="업무 이름 입력"
+                className="w-40 px-3 py-1.5 border border-gray-700 rounded-xl text-sm bg-gray-800 placeholder-gray-500 text-gray-200 focus:outline-none focus:ring-2 focus:ring-brand-500/40"
+                maxLength={40}
+              />
+            )}
 
-          {/* 시작/중지 버튼 */}
-          {isTracking ? (
-            <button
-              onClick={handleStop}
-              disabled={loading}
-              className="flex items-center gap-2 px-5 py-2.5 bg-red-500 hover:bg-red-600 disabled:opacity-50 text-white text-sm font-semibold rounded-xl transition-colors"
-            >
-              {loading ? '종료 중…' : '추적 중지'}
-            </button>
-          ) : (
+            {/* 추적 시작 버튼 */}
             <button
               onClick={handleStart}
               disabled={loading || !user}
-              className="flex items-center gap-2 px-5 py-2.5 bg-brand-600 hover:bg-brand-700 disabled:opacity-40 disabled:cursor-not-allowed text-white text-sm font-semibold rounded-xl transition-colors"
+              className="flex items-center gap-1.5 px-5 py-1.5 bg-brand-600 hover:bg-brand-700 disabled:opacity-40 disabled:cursor-not-allowed text-white text-sm font-semibold rounded-xl transition-colors"
             >
               {loading ? '시작 중…' : '추적 시작'}
             </button>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-}
+          </>
+        )}
 
-function StatBadge({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="flex items-center gap-2 bg-gray-50 rounded-xl px-3 py-2.5">
-      <div>
-        <p className="text-[10px] text-gray-400 leading-none">{label}</p>
-        <p className="text-sm font-semibold text-gray-700 mt-0.5">{value}</p>
+        {/* ── 추적 중일 때 ── */}
+        {isTracking && (
+          <>
+            {/* 녹색 펄스 인디케이터 */}
+            <div className="w-8 h-8 rounded-lg bg-green-500/20 flex items-center justify-center shrink-0">
+              <span className="w-2.5 h-2.5 rounded-full bg-green-400 animate-pulse" />
+            </div>
+
+            {/* 현재 업무 + 경과시간 */}
+            <div className="flex items-center gap-2.5 min-w-0">
+              <span className="text-sm font-semibold text-white truncate max-w-[120px]">
+                {currentTask?.label || effectiveTask}
+              </span>
+              {liveStats && (
+                <span className="text-xs text-gray-400 whitespace-nowrap">
+                  추적 중 {liveStats.elapsedMinutes}분
+                </span>
+              )}
+            </div>
+
+            {/* 구분선 */}
+            <div className="w-px h-5 bg-gray-700 shrink-0" />
+
+            {/* 실시간 통계 (간소화) */}
+            {liveStats && (
+              <div className="flex items-center gap-3 text-xs text-gray-400 whitespace-nowrap">
+                <span>활성 <span className="text-gray-200 font-medium">{liveStats.activeMinutes}분</span></span>
+                <span>딥포커스 <span className="text-gray-200 font-medium">{liveStats.deepFocusMinutes}분</span></span>
+                <span>전환 <span className="text-gray-200 font-medium">{liveStats.contextSwitches}회</span></span>
+              </div>
+            )}
+
+            {/* 구분선 */}
+            <div className="w-px h-5 bg-gray-700 shrink-0" />
+
+            {/* 종료 버튼 */}
+            <button
+              onClick={handleStop}
+              disabled={loading}
+              className="px-4 py-1.5 bg-red-500 hover:bg-red-600 disabled:opacity-50 text-white text-sm font-semibold rounded-xl transition-colors shrink-0"
+            >
+              {loading ? '종료 중…' : '종료'}
+            </button>
+          </>
+        )}
+
+        {/* 에러 표시 (바 위에 팝업) */}
+        {error && (
+          <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-red-900/90 text-red-200 text-xs px-4 py-2 rounded-xl border border-red-700 shadow-lg whitespace-nowrap">
+            {error}
+          </div>
+        )}
+
+        {/* 직전 세션 결과 (바 위에 팝업) */}
+        {lastSession && (
+          <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-gray-800 text-gray-200 text-xs px-4 py-3 rounded-xl border border-gray-700 shadow-lg">
+            <p className="font-semibold text-brand-400 mb-1">방금 세션 결과</p>
+            <div className="flex items-center gap-3">
+              <span className="text-lg font-bold text-brand-300">{lastSession.score}점</span>
+              <div className="text-gray-400">
+                <p>집중 {lastSession.deepFocusMinutes}분 · 활성 {lastSession.activeMinutes}분 · 전환 {lastSession.contextSwitches}회</p>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
