@@ -33,27 +33,30 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     let isMounted = true;
 
-    // ① getSession(): localStorage에서 즉시 읽으므로 네트워크 불요 → 빠름
-    //    배포 환경에서 onAuthStateChange INITIAL_SESSION이 늦게/미발화 시에도 안전하게 loading 해제
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (!isMounted) return;
-      const appUser = toAppUser(session?.user ?? null);
-      setUser(appUser);
-      if (appUser) {
-        loadProfile(appUser.id);   // loading은 loadProfile finally에서 해제
-      } else {
-        setProfile(null);
-        setLoading(false);
+    // ① getSession → loadProfile 을 순차 실행, profile 로드 완료까지 loading 유지
+    async function initAuth() {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (!isMounted) return;
+        const appUser = toAppUser(session?.user ?? null);
+        setUser(appUser);
+        if (appUser) {
+          await loadProfile(appUser.id);   // 프로필 로드 완료 후 loading 해제 (finally)
+        } else {
+          setProfile(null);
+          setLoading(false);
+        }
+      } catch {
+        if (isMounted) setLoading(false);
       }
-    }).catch(() => {
-      if (isMounted) setLoading(false);
-    });
+    }
+
+    initAuth();
 
     // ② onAuthStateChange: 로그인/로그아웃/토큰 갱신 등 이후 변경만 처리
-    //    INITIAL_SESSION은 getSession()으로 이미 처리했으므로 skip
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (!isMounted) return;
-      if (event === 'INITIAL_SESSION') return; // getSession()이 처리함
+      if (event === 'INITIAL_SESSION') return;
       const appUser = toAppUser(session?.user ?? null);
       setUser(appUser);
       if (appUser) {
@@ -64,8 +67,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     });
 
-    // ③ 극단적 안전망: getSession/loadProfile 모두 실패해도 1초 후 loading 해제
-    const timeout = setTimeout(() => { if (isMounted) setLoading(false); }, 1000);
+    // ③ 극단적 안전망: initAuth + loadProfile 모두 무응답 시 8초 후 loading 해제
+    const timeout = setTimeout(() => { if (isMounted) setLoading(false); }, 8000);
 
     return () => {
       isMounted = false;
