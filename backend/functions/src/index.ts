@@ -584,7 +584,7 @@ export const notionProxy = onRequest(
 
       while (hasMore) {
         try {
-          const response = await notion.databases.query({
+          const response: Awaited<ReturnType<typeof notion.databases.query>> = await notion.databases.query({
             database_id: cleanDatabaseId,
             start_cursor: cursor,
             page_size: 100,
